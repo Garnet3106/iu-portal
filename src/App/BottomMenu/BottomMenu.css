@@ -1,0 +1,5 @@
+.BottomMenu {
+    background-color: var(--sub-color);
+    height: var(--bottom-menu-height);
+    width: 100%;
+}

@@ -1,13 +1,25 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+    font-family: 'HP Simplified';
+    src: url('../public/fonts/HP Simplified.ttf');
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+    font-family: 'HP Simplified Light';
+    src: url('../public/fonts/HP Simplified Light.ttf');
+}
+
+:root {
+    --main-color: #60c45e;
+    --sub-color: #68a353;
+
+    --header-height: 40px;
+    --bottom-menu-height: 50px;
+
+    --header-logo-width: 100px;
+}
+
+body {
+    color: #ffffff;
+    font-family: 'HP Simplified', 'sans-serif';
+    margin: 0;
 }

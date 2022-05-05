@@ -1,0 +1,5 @@
+.AssignmentList {
+    background-color: var(--main-color);
+    height: calc(100vh - var(--header-height) - var(--bottom-menu-height));
+    width: 100%;
+}
