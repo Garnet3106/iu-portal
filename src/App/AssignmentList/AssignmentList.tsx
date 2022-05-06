@@ -20,7 +20,7 @@ function AssignmentList() {
                     <div className="assignment-group-title">
                         提出期限切れ
                     </div>
-                    <div className="assignment-group-content">
+                    <div>
                         <div className="assignment-item">
                             <div>
                                 <div className="assignment-item-operation" />
@@ -33,7 +33,7 @@ function AssignmentList() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="assignment-item-button-list">
+                            <div>
                                 <div className="assignment-item-button-item" />
                                 <div className="assignment-item-button-item" />
                             </div>

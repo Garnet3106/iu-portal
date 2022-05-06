@@ -71,8 +71,6 @@
     user-select: none;
 }
 
-.assignment-group-content {}
-
 .assignment-item {
     --back-color: var(--light-back-color);
     align-items: center;
@@ -117,9 +115,6 @@
 .assignment-item-deadline {
     color: var(--accent-color);
     font-size: 70%;
-}
-
-.assignment-item-button-list {
 }
 
 .assignment-item-button-item {
