@@ -1,5 +1,30 @@
 .BottomMenu {
     background-color: var(--sub-back-color);
+    display: flex;
+    flex-direction: column;
     height: var(--bottom-menu-height);
     width: 100%;
+}
+
+.menu {
+    align-items: center;
+    display: flex;
+    height: calc(var(--bottom-menu-height) - 2px);
+    justify-content: space-around;
+    width: 100%;
+}
+
+.menu-item {
+    background-color: gray;
+    height: 30px;
+    width: 30px;
+}
+
+.menu-bar {
+    background-color: var(--light-back-color);
+    border-radius: 1px;
+    height: 2px;
+    transition: all 200ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    width: 30px;
+    margin-left: 100px;
 }
