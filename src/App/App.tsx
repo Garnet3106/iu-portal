@@ -1,14 +1,15 @@
 // import logo from './logo.svg';
 
 import Header from './Header/Header';
-import AssignmentList from './AssignmentList/AssignmentList';
+import Body from './Body/Body';
 import BottomMenu from './BottomMenu/BottomMenu';
 import './App.css';
 
 function App() {
     return (
         <div className="App">
-            <AssignmentList />
+            <Header />
+            <Body />
             <BottomMenu />
         </div>
     );

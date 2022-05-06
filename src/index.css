@@ -29,10 +29,12 @@
     --display-order-bottom-margin: 5px;
 
     --header-height: 45px;
+    --body-height: calc(100vh - var(--header-height) - var(--bottom-menu-height));
     --bottom-menu-height: 50px;
 
     --header-logo-width: 100px;
 
+    --transition-cubic-bezier: cubic-bezier(0.075, 0.82, 0.165, 1);
     --transition-duration: 80ms;
 }
 
@@ -40,4 +42,13 @@ body {
     color: var(--light-font-color);
     font-family: 'HP Simplified', 'sans-serif';
     margin: 0;
+}
+
+.body-component {
+    background-color: var(--main-back-color);
+    height: var(--body-height);
+    overflow-x: hidden;
+    position: absolute;
+    transition: left 350ms var(--transition-cubic-bezier);
+    width: 100%;
 }

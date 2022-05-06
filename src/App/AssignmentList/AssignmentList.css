@@ -1,15 +1,14 @@
 .AssignmentList {
     align-items: center;
-    background-color: var(--main-back-color);
     display: flex;
     flex-direction: column;
-    height: calc(100vh - var(--header-height) - var(--bottom-menu-height));
-    width: 100%;
+
+    left: -50vw;
 }
 
 .display-order {
     margin: var(--layout-margin) 0 calc(var(--layout-margin) - var(--display-order-bottom-margin)) 0;
-    width: 90%;
+    width: 90vw;
 }
 
 .display-order-item {
@@ -42,7 +41,7 @@
 .division-line {
     border: 1px solid var(--border-color);
     margin: 0;
-    width: 90%;
+    width: 90vw;
 }
 
 .assignment-list {
@@ -53,7 +52,7 @@
     overflow-y: scroll;
     scrollbar-width: none;
     /* change width to justify the scrollbar position */
-    width: 90%;
+    width: 90vw;
 }
 
 .assignment-list::-webkit-scrollbar {
@@ -61,7 +60,7 @@
 }
 
 .assignment-group {
-    width: 90%;
+    width: 90vw;
 }
 
 .assignment-group-title {
