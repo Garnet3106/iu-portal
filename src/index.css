@@ -9,17 +9,35 @@
 }
 
 :root {
-    --main-color: #60c45e;
-    --sub-color: #68a353;
+    --main-back-color: #60c45e;
+    --main-back-color-2: #d2f3d2;
+    --sub-back-color: #68a353;
+    --light-back-color: #ffffff;
 
-    --header-height: 40px;
+    --accent-color: #f1d44e;
+
+    --warning-color: #e25868;
+    --warning-color-2: #f8e8ea;
+
+    --border-color: #c1ebc1;
+
+    --light-font-color: #ffffff;
+    --dark-font-color: #333333;
+    --dark-font-color-2: #888888;
+
+    --layout-margin: 13px;
+    --display-order-bottom-margin: 5px;
+
+    --header-height: 45px;
     --bottom-menu-height: 50px;
 
     --header-logo-width: 100px;
+
+    --transition-duration: 80ms;
 }
 
 body {
-    color: #ffffff;
+    color: var(--light-font-color);
     font-family: 'HP Simplified', 'sans-serif';
     margin: 0;
 }
