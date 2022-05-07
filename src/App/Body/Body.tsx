@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import AssignmentList from './AssignmentList/AssignmentList';
-import Statistics from '../Statistics/Statistics';
+import Statistics from './Statistics/Statistics';
 import UiStore from '../../flux/UiStore';
 import './Body.css';
 

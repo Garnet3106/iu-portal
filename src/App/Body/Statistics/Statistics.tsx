@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { BodyProps } from '../Body/Body';
+import { BodyProps } from '../Body';
 import './Statistics.css';
 
 class Statistics extends Component<BodyProps> {

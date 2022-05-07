@@ -1,7 +1,7 @@
 import React from 'react';
-import AppDispatcher from '../../../flux/AppDispatcher';
-import { ActionKind } from "../../../flux/AppConstants";
-import { ComponentSwitch } from '../../../flux/UiStore';
+import AppDispatcher from '../flux/AppDispatcher';
+import { ActionKind } from "../flux/AppConstants";
+import { ComponentSwitch } from '../flux/UiStore';
 import './BottomMenu.css';
 
 class BottomMenu extends React.Component<any, { latestComponent: number }> {
