@@ -1,17 +1,15 @@
 import React from "react";
+import { BodyProps } from '../Body';
 import './AssignmentList.css';
 
-class AssignmentList extends React.Component {
-    myRef: React.RefObject<HTMLDivElement>;
-
-    constructor(props: any) {
+class AssignmentList extends React.Component<BodyProps> {
+    constructor(props: BodyProps) {
         super(props);
-        this.myRef = React.createRef();
     }
 
     render() {
         return (
-            <div className="AssignmentList body-component" ref={this.myRef} onClick={()=>{console.log(this.myRef)}}>
+            <div className="AssignmentList body-component" id={'component' + this.props.pageNumber} style={this.props.style}>
                 <div className="display-order">
                     <div className="display-order-item">
                         期限が早い順

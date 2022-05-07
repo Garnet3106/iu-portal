@@ -24,7 +24,7 @@
     background-color: var(--light-back-color);
     border-radius: 1px;
     height: 2px;
-    transition: all 200ms var(--transition-cubic-bezier);
+    transition: all 200ms var(--basic-transition-cubic-bezier);
     width: 30px;
     margin-left: 100px;
 }

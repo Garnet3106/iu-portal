@@ -34,8 +34,9 @@
 
     --header-logo-width: 100px;
 
-    --transition-cubic-bezier: cubic-bezier(0.075, 0.82, 0.165, 1);
-    --transition-duration: 80ms;
+    --basic-transition-cubic-bezier: cubic-bezier(0.075, 0.82, 0.165, 1);
+    --basic-transition-duration: 80ms;
+    --page-switch-transition-duration: 300ms;
 }
 
 body {
@@ -46,9 +47,12 @@ body {
 
 .body-component {
     background-color: var(--main-back-color);
+    display: flex;
     height: var(--body-height);
+    /* set the initial position for transition effect */
+    left: 0;
     overflow-x: hidden;
     position: absolute;
-    transition: left 350ms var(--transition-cubic-bezier);
+    transition: left var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier), width var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier);
     width: 100%;
 }

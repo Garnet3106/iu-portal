@@ -39,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/flux": "^3.1.11",
+    "flux": "^4.0.3"
   }
 }
