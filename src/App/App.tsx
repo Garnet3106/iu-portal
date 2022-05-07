@@ -3,7 +3,7 @@
 import React from 'react';
 import Header from './Header/Header';
 import Body from './Body/Body';
-import BottomMenu from '../BottomMenu/BottomMenu';
+import BottomMenu from './BottomMenu/BottomMenu';
 import './App.css';
 
 const clickComponentIconEvent = new CustomEvent('clickComponentIconEvent');
