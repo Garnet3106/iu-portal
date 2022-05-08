@@ -3,11 +3,11 @@ import AppDispatcher from "./AppDispatcher";
 import { ActionKind, Actions } from "./AppConstants";
 import { Assignment } from "../App/Body/AssignmentList/AssignmentList";
 
-export class ComponentSwitch {
-    from: number;
-    to: number;
+export class PageSwitch {
+    from: string;
+    to: string;
 
-    constructor(from: number, to: number) {
+    constructor(from: string, to: string) {
         this.from = from;
         this.to = to;
     }
@@ -18,7 +18,7 @@ export class ComponentSwitch {
 }
 
 type UiState = {
-    componentSwitch: ComponentSwitch | null,
+    pageSwitch: PageSwitch | null,
     hasAssignmentsUpdated: boolean,
     assignments: Assignment[],
 };
@@ -26,7 +26,7 @@ type UiState = {
 class UiStore extends ReduceStore<UiState, Actions> {
     getInitialState() {
         return {
-            componentSwitch: null,
+            pageSwitch: null,
             hasAssignmentsUpdated: false,
             assignments: [],
         };
@@ -34,9 +34,9 @@ class UiStore extends ReduceStore<UiState, Actions> {
 
     reduce(state: UiState, action: Actions) {
         switch (action.type) {
-            case ActionKind.ComponentSwitch: {
+            case ActionKind.PageSwitch: {
                 return {
-                    componentSwitch: action.data.componentSwitch,
+                    pageSwitch: action.data.pageSwitch,
                     hasAssignmentsUpdated: action.data.hasAssignmentsUpdated,
                     assignments: action.data.assignments,
                 };

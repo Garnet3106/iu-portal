@@ -7,7 +7,7 @@ import './Body.css';
 
 export type BodyProps = {
     style: object,
-    pageNumber: number,
+    pageName: string,
 };
 
 const newBodyComponentStyle = {
@@ -16,20 +16,20 @@ const newBodyComponentStyle = {
 };
 
 UiStore.addListener(() => {
-    let componentSwitch = UiStore.getState().componentSwitch;
+    let pageSwitch = UiStore.getState().pageSwitch;
 
-    if (componentSwitch === null) {
+    if (pageSwitch === null) {
         return;
     }
 
-    let currentComponent = document.getElementById("component" + componentSwitch.from);
-    let newComponent = document.getElementById("component" + componentSwitch.to);
+    let currentComponent = document.getElementById('page_' + pageSwitch.from);
+    let newComponent = document.getElementById('page_' + pageSwitch.to);
 
     if (currentComponent === null || newComponent === null) {
         return;
     }
 
-    if (componentSwitch.isToRight()) {
+    if (pageSwitch.isToRight()) {
         currentComponent.style.left = '-100%';
         newComponent.style.left = '0';
         newComponent.style.width = '100%';
@@ -51,17 +51,17 @@ class Body extends Component {
     render() {
         return (
             <div className="Body">
-                <AssignmentList pageNumber={0} style={{}} />
+                <AssignmentList pageName="AssignmentList" style={{}} />
                 <AssignmentDetail bodyProps={
                     {
-                        pageNumber: 1,
+                        pageName: 'AssignmentDetail',
                         style: newBodyComponentStyle,
                     }
                 } subjectName="教科名" teacherName="AA BB 教員" />
-                {/* <Statistics pageNumber={1} style={newBodyComponentStyle} /> */}
-                <Statistics pageNumber={2} style={newBodyComponentStyle} />
-                <Statistics pageNumber={3} style={newBodyComponentStyle} />
-                <Statistics pageNumber={4} style={newBodyComponentStyle} />
+                <Statistics pageName="Notification" style={newBodyComponentStyle} />
+                <Statistics pageName="Statistics" style={newBodyComponentStyle} />
+                <Statistics pageName="Settings" style={newBodyComponentStyle} />
+                <Statistics pageName="Report" style={newBodyComponentStyle} />
             </div>
         );
     }

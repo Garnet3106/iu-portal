@@ -1,13 +1,13 @@
 import AppDispatcher from "./AppDispatcher";
 import { ActionKind } from "./AppConstants";
-import { ComponentSwitch } from './UiStore';
+import { PageSwitch } from './UiStore';
 import { Assignment } from "../App/Body/AssignmentList/AssignmentList";
 
-const getComponentSwitch = () => {
+const getPageSwitch = () => {
     return {
-        type: ActionKind.ComponentSwitch as ActionKind.ComponentSwitch,
+        type: ActionKind.PageSwitch as ActionKind.PageSwitch,
         data: {
-            componentSwitch: null as ComponentSwitch | null,
+            pageSwitch: null as PageSwitch | null,
             hasAssignmentsUpdated: false,
             assignments: [] as Assignment[],
         },
@@ -15,11 +15,11 @@ const getComponentSwitch = () => {
 };
 
 export type UiActions = ReturnType<
-    typeof getComponentSwitch
+    typeof getPageSwitch
 >;
 
 export const UiActionCreators = {
     actionCreator001() {
-        AppDispatcher.dispatch(getComponentSwitch());
+        AppDispatcher.dispatch(getPageSwitch());
     },
 };

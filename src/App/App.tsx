@@ -6,7 +6,6 @@ import Body from './Body/Body';
 import BottomMenu from './BottomMenu/BottomMenu';
 import './App.css';
 
-const clickComponentIconEvent = new CustomEvent('clickComponentIconEvent');
 const eventElem = document.createElement('div');
 
 class App extends React.Component {
@@ -15,15 +14,9 @@ class App extends React.Component {
             <div className="App">
                 <Header />
                 <Body props={{elem: eventElem}}/>
-                <BottomMenu props={this.onClickComponentIcon} />
+                <BottomMenu defaultPageName="AssignmentList" />
             </div>
         );
-    }
-
-    onClickComponentIcon(e: any) {
-        console.log("click");
-        console.log(this);
-        eventElem.dispatchEvent(clickComponentIconEvent);
     }
 }
 

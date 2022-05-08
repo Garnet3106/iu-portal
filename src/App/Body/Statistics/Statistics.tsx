@@ -9,7 +9,7 @@ class Statistics extends Component<BodyProps> {
 
     render() {
         return (
-            <div className="Statistics body-component" id={'component' + this.props.pageNumber} style={this.props.style}>
+            <div className="Statistics body-component" id={'page_' + this.props.pageName} style={this.props.style}>
                 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
             </div>
         );
