@@ -1,18 +1,32 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
 import UiStore from "../../../flux/UiStore";
+import { root } from "../../../index";
 import { BodyProps } from '../Body';
 import AssignmentGroup from './AssignmentGroup/AssignmentGroup';
 import './AssignmentList.css';
 
 export type Assignment = {
+    id: string,
     subjectName: string,
     deadline: string,
 };
 
-class AssignmentList extends React.Component<BodyProps> {
+type AssignmentListState = {
+    assignments: Assignment[],
+}
+
+class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
+    private _isMounted: boolean;
+
     constructor(props: BodyProps) {
         super(props);
+
+        this.state = {
+            assignments: [],
+        };
+
+        this._isMounted = false;
 
         UiStore.addListener(() => {
             const uiState = UiStore.getState();
@@ -24,6 +38,10 @@ class AssignmentList extends React.Component<BodyProps> {
     }
 
     render() {
+        const assignmentGroup = (
+            <AssignmentGroup assignments={this.state.assignments} title="すべて" />
+        );
+
         return (
             <div className="AssignmentList body-component" id={'page_' + this.props.pageName} style={this.props.style}>
                 <div className="display-order">
@@ -38,24 +56,23 @@ class AssignmentList extends React.Component<BodyProps> {
                     </div>
                 </div>
                 <hr className="division-line" />
-                <div className="assignment-list" id="assignmentList" />
+                <div className="assignment-list" id="assignmentList">
+                    {assignmentGroup}
+                </div>
             </div>
         );
     }
 
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
     updateAssignmentList(assignments: Assignment[]) {
-        const assignmentList = document.getElementById('assignmentList');
-
-        if (assignmentList === null) {
-            return;
+        if (this._isMounted) {
+            this.setState({
+                assignments: assignments,
+            });
         }
-
-        const newGroup = (
-            <AssignmentGroup assignments={assignments} title="すべて" />
-        );
-
-        const newGroupRoot = ReactDOM.createRoot(assignmentList!);
-        newGroupRoot.render(newGroup);
     }
 }
 

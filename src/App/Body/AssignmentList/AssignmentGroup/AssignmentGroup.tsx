@@ -18,16 +18,18 @@ class AssignmentGroup extends React.Component<AssignmentGroupProps> {
         let items: JSX.Element[] = [];
 
         this.props.assignments.forEach((eachAssignment) => {
-            items.push((<AssignmentItem deadline={eachAssignment.deadline} subjectName={eachAssignment.subjectName} />));
+            items.push((<AssignmentItem key={'assignmentItem_' + eachAssignment.id} deadline={eachAssignment.deadline} subjectName={eachAssignment.subjectName} />));
         });
 
         return (
-            <div className="assignment-group">
-                <div className="assignment-group-title">
-                    {this.props.title}
-                </div>
-                <div className="assignment-group-items">
-                    {items}
+            <div className="AssignmentGroup">
+                <div className="assignment-group">
+                    <div className="assignment-group-title">
+                        {this.props.title}
+                    </div>
+                    <div className="assignment-group-items">
+                        {items}
+                    </div>
                 </div>
             </div>
         );

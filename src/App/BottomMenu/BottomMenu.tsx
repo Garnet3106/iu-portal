@@ -71,6 +71,7 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
                 hasAssignmentsUpdated: true,
                 assignments: [
                     {
+                        id: 'aid',
                         subjectName: '科目',
                         deadline: '今週金曜日まで',
                     }

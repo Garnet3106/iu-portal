@@ -15,6 +15,7 @@ const newBodyComponentStyle = {
     width: '0',
 };
 
+// page sliding procedure
 UiStore.addListener(() => {
     let pageSwitch = UiStore.getState().pageSwitch;
 
@@ -42,12 +43,6 @@ UiStore.addListener(() => {
 });
 
 class Body extends Component {
-    props: any;
-
-    constructor(props: any) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="Body">
