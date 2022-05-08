@@ -1,0 +1,12 @@
+.assignment-group {
+    width: 90vw;
+}
+
+.assignment-group-title {
+    font-size: 85%;
+    margin: var(--layout-margin) auto;
+    text-align: center;
+    user-select: none;
+}
+
+.assignment-group-items {}

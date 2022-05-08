@@ -1,7 +1,7 @@
 import React from 'react';
 import AppDispatcher from '../../flux/AppDispatcher';
 import { ActionKind } from "../../flux/AppConstants";
-import { ComponentSwitch } from '../../flux/UiStore';
+import UiStore, { ComponentSwitch } from '../../flux/UiStore';
 import './BottomMenu.css';
 
 class BottomMenu extends React.Component<any, { latestComponent: number }> {
@@ -32,10 +32,9 @@ class BottomMenu extends React.Component<any, { latestComponent: number }> {
             return;
         }
 
-        let target = event.target as HTMLElement;
-        let index = ([].slice.call(target.parentNode?.children) as HTMLElement[]).indexOf(target);
-
-        let componentSwitch = BottomMenu.getComponentSwitch(this.state.latestComponent, index);
+        const target = event.target as HTMLElement;
+        const index = ([].slice.call(target.parentNode?.children) as HTMLElement[]).indexOf(target);
+        const componentSwitch = BottomMenu.getComponentSwitch(this.state.latestComponent, index);
 
         if (this.state.latestComponent !== index) {
             this.setState({
@@ -43,10 +42,28 @@ class BottomMenu extends React.Component<any, { latestComponent: number }> {
             });
         }
 
+        const uiState = UiStore.getState();
+
+        // todo: create dispatchComponentSwitch()
         AppDispatcher.dispatch({
             type: ActionKind.ComponentSwitch as ActionKind.ComponentSwitch,
             data: {
                 componentSwitch: componentSwitch,
+                hasAssignmentsUpdated: false,
+                assignments: uiState.assignments,
+            },
+        });
+        AppDispatcher.dispatch({
+            type: ActionKind.ComponentSwitch as ActionKind.ComponentSwitch,
+            data: {
+                componentSwitch: null,
+                hasAssignmentsUpdated: true,
+                assignments: [
+                    {
+                        subjectName: '科目',
+                        deadline: '今週金曜日まで',
+                    }
+                ],
             },
         });
     }

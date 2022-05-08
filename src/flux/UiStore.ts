@@ -1,7 +1,7 @@
 import { ReduceStore } from "flux/utils";
 import AppDispatcher from "./AppDispatcher";
-
 import { ActionKind, Actions } from "./AppConstants";
+import { Assignment } from "../App/Body/AssignmentList/AssignmentList";
 
 export class ComponentSwitch {
     from: number;
@@ -19,19 +19,16 @@ export class ComponentSwitch {
 
 type UiState = {
     componentSwitch: ComponentSwitch | null,
+    hasAssignmentsUpdated: boolean,
+    assignments: Assignment[],
 };
 
 class UiStore extends ReduceStore<UiState, Actions> {
-    latestComponent: number;
-
-    constructor(dispatcher: typeof AppDispatcher) {
-        super(dispatcher);
-        this.latestComponent = 0;
-    }
-
     getInitialState() {
         return {
             componentSwitch: null,
+            hasAssignmentsUpdated: false,
+            assignments: [],
         };
     }
 
@@ -40,6 +37,8 @@ class UiStore extends ReduceStore<UiState, Actions> {
             case ActionKind.ComponentSwitch: {
                 return {
                     componentSwitch: action.data.componentSwitch,
+                    hasAssignmentsUpdated: action.data.hasAssignmentsUpdated,
+                    assignments: action.data.assignments,
                 };
             }
             default: {
