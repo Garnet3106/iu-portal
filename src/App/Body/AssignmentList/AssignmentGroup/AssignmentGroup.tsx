@@ -18,7 +18,7 @@ class AssignmentGroup extends React.Component<AssignmentGroupProps> {
         let items: JSX.Element[] = [];
 
         this.props.assignments.forEach((eachAssignment) => {
-            items.push((<AssignmentItem key={'assignmentItem_' + eachAssignment.id} deadline={eachAssignment.deadline} subjectName={eachAssignment.subjectName} />));
+            items.push((<AssignmentItem key={'assignmentItem_' + eachAssignment.id} assignment={eachAssignment} />));
         });
 
         return (

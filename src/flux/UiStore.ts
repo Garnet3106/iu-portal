@@ -3,22 +3,37 @@ import AppDispatcher from "./AppDispatcher";
 import { ActionKind, Actions } from "./AppConstants";
 import { Assignment } from "../App/Body/AssignmentList/AssignmentList";
 
-export class PageSwitch {
-    from: string;
-    to: string;
+export class Page {
+    index: number;
+    name: string;
 
-    constructor(from: string, to: string) {
+    constructor(index: number, name: string) {
+        this.index = index;
+        this.name = name;
+    }
+
+    toId(): string {
+        return `page_${this.name}_${this.index}`;
+    }
+}
+
+export class PageSwitch {
+    from: Page;
+    to: Page;
+
+    constructor(from: Page, to: Page) {
         this.from = from;
         this.to = to;
     }
 
-    isToRight(): boolean {
-        return this.from < this.to;
+    isToRight() {
+        return this.from.index < this.to.index;
     }
 }
 
-type UiState = {
-    pageSwitch: PageSwitch | null,
+export type UiState = {
+    currentPage: Page,
+    switchPageTo: Page | null,
     hasAssignmentsUpdated: boolean,
     assignments: Assignment[],
 };
@@ -26,7 +41,8 @@ type UiState = {
 class UiStore extends ReduceStore<UiState, Actions> {
     getInitialState() {
         return {
-            pageSwitch: null,
+            currentPage: new Page(0, 'AssignmentList'),
+            switchPageTo: null,
             hasAssignmentsUpdated: false,
             assignments: [],
         };
@@ -36,7 +52,8 @@ class UiStore extends ReduceStore<UiState, Actions> {
         switch (action.type) {
             case ActionKind.PageSwitch: {
                 return {
-                    pageSwitch: action.data.pageSwitch,
+                    currentPage: action.data.currentPage,
+                    switchPageTo: action.data.switchPageTo,
                     hasAssignmentsUpdated: action.data.hasAssignmentsUpdated,
                     assignments: action.data.assignments,
                 };

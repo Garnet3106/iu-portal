@@ -1,11 +1,14 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
+import { ActionKind } from "../../../../flux/AppConstants";
+import AppDispatcher from "../../../../flux/AppDispatcher";
+import UiStore, { Page, PageSwitch } from "../../../../flux/UiStore";
 import { BodyProps } from '../../Body';
+import { Assignment } from "../AssignmentList";
 import './AssignmentItem.css';
 
 type AssignmentItemProps = {
-    subjectName: string,
-    deadline: string,
+    assignment: Assignment,
 }
 
 class AssignmentItem extends React.Component<AssignmentItemProps> {
@@ -15,15 +18,15 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
 
     render() {
         return (
-            <div className="assignment-item">
+            <div className="assignment-item" id={'assignmentItem_' + this.props.assignment.id} onClick={this.onClickItem}>
                 <div>
                     <div className="assignment-item-operation" />
                     <div className="assignment-item-content">
                         <div className="assignment-item-subject">
-                            {this.props.subjectName}
+                            {this.props.assignment.subjectName}
                         </div>
                         <div className="assignment-item-deadline">
-                            {this.props.deadline}
+                            {this.props.assignment.deadline}
                         </div>
                     </div>
                 </div>
@@ -33,6 +36,22 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
                 </div>
             </div>
         );
+    }
+
+    onClickItem(event: React.MouseEvent) {
+        const target = event.target as HTMLElement;
+        const assignmentId = target.id.split('_')[1];
+        const uiState = UiStore.getState();
+
+        AppDispatcher.dispatch({
+            type: ActionKind.PageSwitch as ActionKind.PageSwitch,
+            data: {
+                currentPage: uiState.currentPage,
+                switchPageTo: new Page(1, 'AssignmentDetail'),
+                hasAssignmentsUpdated: false,
+                assignments: uiState.assignments,
+            },
+        });
     }
 }
 

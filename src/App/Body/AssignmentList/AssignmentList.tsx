@@ -43,7 +43,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
         );
 
         return (
-            <div className="AssignmentList body-component" id={'page_' + this.props.pageName} style={this.props.style}>
+            <div className="AssignmentList body-component" id={this.props.page.toId()} style={this.props.style}>
                 <div className="display-order">
                     <div className="display-order-item">
                         すべて

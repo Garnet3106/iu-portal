@@ -16,7 +16,7 @@ class AssignmentDetail extends Component<HorizontalSwitcherProps> {
 
     render() {
         return (
-            <div className="AssignmentDetail body-component" id={'page_' + this.props.bodyProps.pageName} style={this.props.bodyProps.style}>
+            <div className="AssignmentDetail body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
                 <HorizontalSwitcher title={this.props.subjectName} description={this.props.teacherName} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
             </div>
         );

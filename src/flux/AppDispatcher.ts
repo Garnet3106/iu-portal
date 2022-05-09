@@ -3,7 +3,9 @@ import { Actions } from "./AppConstants";
 
 class AppDispatcher extends Dispatcher<Actions> {
     dispatch(action: Actions) {
-        super.dispatch(action);
+        setTimeout(() => {
+            super.dispatch(action);
+        }, 0);
     }
 }
 

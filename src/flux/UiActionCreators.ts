@@ -1,13 +1,14 @@
 import AppDispatcher from "./AppDispatcher";
 import { ActionKind } from "./AppConstants";
-import { PageSwitch } from './UiStore';
+import { Page } from './UiStore';
 import { Assignment } from "../App/Body/AssignmentList/AssignmentList";
 
 const getPageSwitch = () => {
     return {
         type: ActionKind.PageSwitch as ActionKind.PageSwitch,
         data: {
-            pageSwitch: null as PageSwitch | null,
+            currentPage: new Page(0, 'AssignmentList'),
+            switchPageTo: null as Page | null,
             hasAssignmentsUpdated: false,
             assignments: [] as Assignment[],
         },

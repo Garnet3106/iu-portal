@@ -2,12 +2,15 @@ import { Component } from 'react';
 import AssignmentDetail from './AssignmentDetail/AssignmentDetail';
 import AssignmentList from './AssignmentList/AssignmentList';
 import Statistics from './Statistics/Statistics';
-import UiStore from '../../flux/UiStore';
+import { EventSubscription } from 'fbemitter';
+import AppDispatcher from '../../flux/AppDispatcher';
+import { ActionKind } from '../../flux/AppConstants';
+import UiStore, { Page, PageSwitch, UiState } from '../../flux/UiStore';
 import './Body.css';
 
 export type BodyProps = {
     style: object,
-    pageName: string,
+    page: Page,
 };
 
 const newBodyComponentStyle = {
@@ -15,50 +18,74 @@ const newBodyComponentStyle = {
     width: '0',
 };
 
-// page sliding procedure
-UiStore.addListener(() => {
-    let pageSwitch = UiStore.getState().pageSwitch;
-
-    if (pageSwitch === null) {
-        return;
-    }
-
-    let currentComponent = document.getElementById('page_' + pageSwitch.from);
-    let newComponent = document.getElementById('page_' + pageSwitch.to);
-
-    if (currentComponent === null || newComponent === null) {
-        return;
-    }
-
-    if (pageSwitch.isToRight()) {
-        currentComponent.style.left = '-100%';
-        newComponent.style.left = '0';
-        newComponent.style.width = '100%';
-    } else {
-        currentComponent.style.left = '100%';
-        currentComponent.style.width = '0';
-        newComponent.style.left = '0';
-        newComponent.style.width = '100%';
-    }
-});
-
 class Body extends Component {
+    uiStoreListener: EventSubscription;
+
+    constructor(props: {}) {
+        super(props);
+
+        this.uiStoreListener = UiStore.addListener(() => {
+            const uiState = UiStore.getState();
+
+            if (uiState.switchPageTo !== null) {
+                const pageSwitch = new PageSwitch(uiState.currentPage, uiState.switchPageTo);
+                this.switchPage(uiState, pageSwitch);
+            }
+        });
+    }
+
     render() {
         return (
             <div className="Body">
-                <AssignmentList pageName="AssignmentList" style={{}} />
+                <AssignmentList page={new Page(0, 'AssignmentList')} style={{}} />
                 <AssignmentDetail bodyProps={
                     {
-                        pageName: 'AssignmentDetail',
+                        page: new Page(1, 'AssignmentDetail'),
                         style: newBodyComponentStyle,
                     }
                 } subjectName="教科名" teacherName="AA BB 教員" />
-                <Statistics pageName="Notification" style={newBodyComponentStyle} />
-                <Statistics pageName="Statistics" style={newBodyComponentStyle} />
-                <Statistics pageName="Settings" style={newBodyComponentStyle} />
-                <Statistics pageName="Report" style={newBodyComponentStyle} />
+                <Statistics page={new Page(2, 'Notification')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(3, 'Statistics')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(4, 'Settings')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(5, 'Report')} style={newBodyComponentStyle} />
             </div>
         );
+    }
+
+    componentWillUnmount() {
+        this.uiStoreListener.remove();
+    }
+
+    switchPage(uiState: UiState, pageSwitch: PageSwitch) {
+        let currentComponent = document.getElementById(pageSwitch.from.toId());
+        let newComponent = document.getElementById(pageSwitch.to.toId());
+
+        if (currentComponent === null || newComponent === null) {
+            console.error('Page Switch Error: Page element not found.');
+            return;
+        }
+
+        if (pageSwitch.isToRight()) {
+            currentComponent.style.left = '-100%';
+            newComponent.style.left = '0';
+            newComponent.style.width = '100%';
+        } else {
+            currentComponent.style.left = '100%';
+            currentComponent.style.width = '0';
+            newComponent.style.left = '0';
+            newComponent.style.width = '100%';
+        }
+
+        // update currentPage
+        AppDispatcher.dispatch({
+            type: ActionKind.PageSwitch as ActionKind.PageSwitch,
+            data: {
+                currentPage: pageSwitch.to,
+                switchPageTo: null,
+                hasAssignmentsUpdated: false,
+                assignments: uiState.assignments,
+            },
+        });
     }
 }
 
