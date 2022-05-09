@@ -18,20 +18,12 @@ const newBodyComponentStyle = {
     width: '0',
 };
 
-class Body extends Component {
+class Body extends Component<{}> {
     uiStoreListener: EventSubscription;
 
     constructor(props: {}) {
         super(props);
-
-        this.uiStoreListener = UiStore.addListener(() => {
-            const uiState = UiStore.getState();
-
-            if (uiState.switchPageTo !== null) {
-                const pageSwitch = new PageSwitch(uiState.currentPage, uiState.switchPageTo);
-                this.switchPage(uiState, pageSwitch);
-            }
-        });
+        this.uiStoreListener = UiStore.addListener(this.onUpdateUiState.bind(this));
     }
 
     render() {
@@ -43,7 +35,7 @@ class Body extends Component {
                         page: new Page(1, 'AssignmentDetail'),
                         style: newBodyComponentStyle,
                     }
-                } subjectName="教科名" teacherName="AA BB 教員" />
+                } />
                 <Statistics page={new Page(2, 'Notification')} style={newBodyComponentStyle} />
                 <Statistics page={new Page(3, 'Statistics')} style={newBodyComponentStyle} />
                 <Statistics page={new Page(4, 'Settings')} style={newBodyComponentStyle} />
@@ -52,8 +44,13 @@ class Body extends Component {
         );
     }
 
-    componentWillUnmount() {
-        this.uiStoreListener.remove();
+    onUpdateUiState() {
+        const uiState = UiStore.getState();
+
+        if (uiState.switchPageTo !== null) {
+            const pageSwitch = new PageSwitch(uiState.currentPage, uiState.switchPageTo);
+            this.switchPage(uiState, pageSwitch);
+        }
     }
 
     switchPage(uiState: UiState, pageSwitch: PageSwitch) {
@@ -61,7 +58,7 @@ class Body extends Component {
         let newComponent = document.getElementById(pageSwitch.to.toId());
 
         if (currentComponent === null || newComponent === null) {
-            console.error('Page Switch Error: Page element not found.');
+            console.error('Page Switch Error: Page element is not found.');
             return;
         }
 
@@ -84,6 +81,7 @@ class Body extends Component {
                 switchPageTo: null,
                 hasAssignmentsUpdated: false,
                 assignments: uiState.assignments,
+                previewingAssignmentId: uiState.previewingAssignmentId,
             },
         });
     }

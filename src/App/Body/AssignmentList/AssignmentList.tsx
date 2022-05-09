@@ -9,6 +9,7 @@ import './AssignmentList.css';
 export type Assignment = {
     id: string,
     subjectName: string,
+    teacherName: string,
     deadline: string,
 };
 

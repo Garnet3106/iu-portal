@@ -39,7 +39,7 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
     }
 
     onClickItem(event: React.MouseEvent) {
-        const target = event.target as HTMLElement;
+        const target = event.currentTarget as HTMLElement;
         const assignmentId = target.id.split('_')[1];
         const uiState = UiStore.getState();
 
@@ -50,6 +50,7 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
                 switchPageTo: new Page(1, 'AssignmentDetail'),
                 hasAssignmentsUpdated: false,
                 assignments: uiState.assignments,
+                previewingAssignmentId: assignmentId,
             },
         });
     }

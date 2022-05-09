@@ -50,33 +50,23 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
         const nextPage = new Page(nextPageIndex, nextPageName);
 
         const uiState = UiStore.getState();
-
-        if (uiState.currentPage !== nextPage) {
-            // todo: create dispatchPageSwitch()
-            AppDispatcher.dispatch({
-                type: ActionKind.PageSwitch as ActionKind.PageSwitch,
-                data: {
-                    currentPage: uiState.currentPage,
-                    switchPageTo: nextPage,
-                    hasAssignmentsUpdated: false,
-                    assignments: uiState.assignments,
-                },
-            });
-        }
+        const switchPageTo = uiState.currentPage === nextPage ? null : nextPage;
 
         AppDispatcher.dispatch({
             type: ActionKind.PageSwitch as ActionKind.PageSwitch,
             data: {
                 currentPage: uiState.currentPage,
-                switchPageTo: null,
+                switchPageTo: switchPageTo,
                 hasAssignmentsUpdated: true,
                 assignments: [
                     {
                         id: 'aid',
-                        subjectName: '科目',
+                        subjectName: '経営a学a',
+                        teacherName: '〇〇教員',
                         deadline: '今週金曜日まで',
                     }
                 ],
+                previewingAssignmentId: uiState.previewingAssignmentId,
             },
         });
     }

@@ -36,6 +36,7 @@ export type UiState = {
     switchPageTo: Page | null,
     hasAssignmentsUpdated: boolean,
     assignments: Assignment[],
+    previewingAssignmentId: string | null,
 };
 
 class UiStore extends ReduceStore<UiState, Actions> {
@@ -45,6 +46,7 @@ class UiStore extends ReduceStore<UiState, Actions> {
             switchPageTo: null,
             hasAssignmentsUpdated: false,
             assignments: [],
+            previewingAssignmentId: null,
         };
     }
 
@@ -56,6 +58,7 @@ class UiStore extends ReduceStore<UiState, Actions> {
                     switchPageTo: action.data.switchPageTo,
                     hasAssignmentsUpdated: action.data.hasAssignmentsUpdated,
                     assignments: action.data.assignments,
+                    previewingAssignmentId: action.data.previewingAssignmentId,
                 };
             }
             default: {

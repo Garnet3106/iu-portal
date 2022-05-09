@@ -11,6 +11,7 @@ const getPageSwitch = () => {
             switchPageTo: null as Page | null,
             hasAssignmentsUpdated: false,
             assignments: [] as Assignment[],
+            previewingAssignmentId: null as string | null,
         },
     };
 };
