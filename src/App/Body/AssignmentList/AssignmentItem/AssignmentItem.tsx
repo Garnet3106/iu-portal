@@ -47,7 +47,7 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
             type: ActionKind.PageSwitch as ActionKind.PageSwitch,
             data: {
                 currentPage: uiState.currentPage,
-                switchPageTo: new Page(1, 'AssignmentDetail'),
+                switchPageTo: new Page(1, 'AssignmentPreview'),
                 hasAssignmentsUpdated: false,
                 assignments: uiState.assignments,
                 previewingAssignmentId: assignmentId,

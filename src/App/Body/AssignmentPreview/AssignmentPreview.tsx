@@ -3,7 +3,7 @@ import UiStore from '../../../flux/UiStore';
 import { Assignment } from '../AssignmentList/AssignmentList';
 import { BodyProps } from '../Body';
 import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
-import './AssignmentDetail.css';
+import './AssignmentPreview.css';
 
 export type HorizontalSwitcherProps = {
     bodyProps: BodyProps,
@@ -13,7 +13,7 @@ export type HorizontalSwitcherState = {
     assignmentId: string | null,
 };
 
-class AssignmentDetail extends Component<HorizontalSwitcherProps, HorizontalSwitcherState> {
+class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwitcherState> {
     _isMounted: boolean;
     // To complement unset assigment ID for state.
     _initialAssignmentId: string | null;
@@ -34,7 +34,7 @@ class AssignmentDetail extends Component<HorizontalSwitcherProps, HorizontalSwit
     render() {
         if (this.state.assignmentId === null) {
             return (
-                <div className="AssignmentDetail body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
+                <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
                     <HorizontalSwitcher title="課題がロードされていません" description="" onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 </div>
             );
@@ -48,7 +48,7 @@ class AssignmentDetail extends Component<HorizontalSwitcherProps, HorizontalSwit
         }
 
         return (
-            <div className="AssignmentDetail body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
+            <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
                 <HorizontalSwitcher title={assignment.subjectName} description={assignment.teacherName} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
             </div>
         );
@@ -91,4 +91,4 @@ class AssignmentDetail extends Component<HorizontalSwitcherProps, HorizontalSwit
     }
 }
 
-export default AssignmentDetail;
+export default AssignmentPreview;

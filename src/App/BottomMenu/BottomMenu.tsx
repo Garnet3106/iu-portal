@@ -52,6 +52,7 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
         const uiState = UiStore.getState();
         const switchPageTo = uiState.currentPage === nextPage ? null : nextPage;
 
+        // todo: remove `assignments` data
         AppDispatcher.dispatch({
             type: ActionKind.PageSwitch as ActionKind.PageSwitch,
             data: {
@@ -61,7 +62,7 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
                 assignments: [
                     {
                         id: 'aid',
-                        subjectName: '経営a学a',
+                        subjectName: '経営学',
                         teacherName: '〇〇教員',
                         deadline: '今週金曜日まで',
                     }

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import AssignmentDetail from './AssignmentDetail/AssignmentDetail';
+import AssignmentPreview from './AssignmentPreview/AssignmentPreview';
 import AssignmentList from './AssignmentList/AssignmentList';
 import Statistics from './Statistics/Statistics';
 import { EventSubscription } from 'fbemitter';
@@ -30,9 +30,9 @@ class Body extends Component<{}> {
         return (
             <div className="Body">
                 <AssignmentList page={new Page(0, 'AssignmentList')} style={{}} />
-                <AssignmentDetail bodyProps={
+                <AssignmentPreview bodyProps={
                     {
-                        page: new Page(1, 'AssignmentDetail'),
+                        page: new Page(1, 'AssignmentPreview'),
                         style: newBodyComponentStyle,
                     }
                 } />
