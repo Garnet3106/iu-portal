@@ -34,6 +34,8 @@
 
     --header-logo-width: 100px;
 
+    --basic-border-radius: 10px;
+
     --basic-transition-cubic-bezier: cubic-bezier(0.075, 0.82, 0.165, 1);
     --basic-transition-duration: 80ms;
     --page-switch-transition-duration: 300ms;

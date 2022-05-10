@@ -1,4 +1,77 @@
 .AssignmentPreview {
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
+.preview {
+    display: flex;
+    margin-top: var(--layout-margin);
+}
+
+.preview > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-left {
+    margin-left: var(--layout-margin);
+}
+
+.preview-left > div {
+    background-color: var(--light-back-color);
+    border-radius: var(--basic-border-radius);
+    font-size: 90%;
+    padding: 8px 15px;
+}
+
+.preview-description {
+    color: var(--dark-font-color);
+    font-size: 90%;
+    margin-bottom: 10px;
+    padding: 8px 15px;
+}
+
+.preview-note {
+    color: var(--dark-font-color-2);
+}
+
+.preview-detail {
+    align-items: center;
+    background-color: var(--light-back-color);
+    border-radius: var(--basic-border-radius);
+    color: var(--dark-font-color);
+    display: flex;
+    flex-direction: column;
+    margin: 0 var(--layout-margin);
+    padding: 0 10px;
+}
+
+.preview-detail-deadline {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin: 8px 0;
+    font-size: 80%;
+}
+
+.preview-detail-group {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.preview-detail-title {
+    font-size: 80%;
+    font-weight: bold;
+}
+
+.preview-detail-content {
+    font-size: 130%;
+}
+
+.preview-detail-arrow {
+    background-color: #aaa;
+    height: 30px;
+    margin-bottom: 8px;
+    width: 12px;
+}

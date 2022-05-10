@@ -50,6 +50,40 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
         return (
             <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
                 <HorizontalSwitcher title={assignment.subjectName} description={assignment.teacherName} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
+                <div className="preview">
+                    <div className="preview-left">
+                        <div className="preview-description">
+                            講義の感想と自分の考えを200 字以上で書く
+                        </div>
+                        <div className="preview-note">
+                            補足事項はありません
+                        </div>
+                    </div>
+                    <div>
+                        <div className="preview-detail">
+                            <div className="preview-detail-deadline">
+                                あと 5 日
+                            </div>
+                            <div className="preview-detail-group">
+                                <div className="preview-detail-title">
+                                    配布元
+                                </div>
+                                <div className="preview-detail-content">
+                                    Classroom
+                                </div>
+                            </div>
+                            <div className="preview-detail-arrow" />
+                            <div className="preview-detail-group">
+                                <div className="preview-detail-title">
+                                    配布先
+                                </div>
+                                <div className="preview-detail-content">
+                                    UNIPA
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -71,7 +105,6 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
     onUpdateUiState() {
         const uiState = UiStore.getState();
 
-        console.log(uiState)
         if (uiState.previewingAssignmentId !== this.state.assignmentId) {
             if (this._isMounted) {
                 this.setState({
