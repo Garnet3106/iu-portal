@@ -1,1 +1,26 @@
-.HorizontalSwitcher {}
+.HorizontalSwitcher {
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.switcher-top {
+    align-items: center;
+    display: flex;
+}
+
+.switcher-button {
+    background-color: #aaaaaa;
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+}
+
+.switcher-title {
+    font-size: 130%;
+    margin: 0 30px;
+}
+
+.switcher-description {
+    font-size: 90%;
+}

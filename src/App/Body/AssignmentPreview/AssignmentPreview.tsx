@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import UiStore from '../../../flux/UiStore';
 import { Assignment } from '../AssignmentList/AssignmentList';
 import { BodyProps } from '../Body';
@@ -82,11 +82,11 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
         }
     }
 
-    switchSubpageToBack() {
+    switchSubpageToBack(_event: React.MouseEvent) {
         alert('back');
     }
 
-    switchSubpageToForward() {
+    switchSubpageToForward(_event: React.MouseEvent) {
         alert('forward');
     }
 }

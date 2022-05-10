@@ -56,3 +56,7 @@ body {
     transition: left var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier), width var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier);
     width: 100%;
 }
+
+.body-subcomponent {
+    display: flex;
+}
