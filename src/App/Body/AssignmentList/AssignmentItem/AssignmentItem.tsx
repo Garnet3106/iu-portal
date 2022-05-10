@@ -1,9 +1,6 @@
 import React from "react";
-import ReactDOM from 'react-dom/client';
-import { ActionKind } from "../../../../flux/AppConstants";
 import AppDispatcher from "../../../../flux/AppDispatcher";
-import UiStore, { Page, PageSwitch } from "../../../../flux/UiStore";
-import { BodyProps } from '../../Body';
+import { UiActionCreators } from "../../../../flux/UiActionCreators";
 import { Assignment } from "../AssignmentList";
 import './AssignmentItem.css';
 
@@ -41,18 +38,7 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
     onClickItem(event: React.MouseEvent) {
         const target = event.currentTarget as HTMLElement;
         const assignmentId = target.id.split('_')[1];
-        const uiState = UiStore.getState();
-
-        AppDispatcher.dispatch({
-            type: ActionKind.PageSwitch as ActionKind.PageSwitch,
-            data: {
-                currentPage: uiState.currentPage,
-                switchPageTo: new Page(1, 'AssignmentPreview'),
-                hasAssignmentsUpdated: false,
-                assignments: uiState.assignments,
-                previewingAssignmentId: assignmentId,
-            },
-        });
+        AppDispatcher.dispatch(UiActionCreators.previewAssignment(assignmentId));
     }
 }
 

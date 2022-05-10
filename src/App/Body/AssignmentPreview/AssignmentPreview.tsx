@@ -71,6 +71,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
     onUpdateUiState() {
         const uiState = UiStore.getState();
 
+        console.log(uiState)
         if (uiState.previewingAssignmentId !== this.state.assignmentId) {
             if (this._isMounted) {
                 this.setState({

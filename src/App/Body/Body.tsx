@@ -4,8 +4,8 @@ import AssignmentList from './AssignmentList/AssignmentList';
 import Statistics from './Statistics/Statistics';
 import { EventSubscription } from 'fbemitter';
 import AppDispatcher from '../../flux/AppDispatcher';
-import { ActionKind } from '../../flux/AppConstants';
-import UiStore, { Page, PageSwitch, UiState } from '../../flux/UiStore';
+import UiStore, { Page, PageSwitch } from '../../flux/UiStore';
+import { UiActionCreators } from '../../flux/UiActionCreators';
 import './Body.css';
 
 export type BodyProps = {
@@ -49,11 +49,11 @@ class Body extends Component<{}> {
 
         if (uiState.switchPageTo !== null) {
             const pageSwitch = new PageSwitch(uiState.currentPage, uiState.switchPageTo);
-            this.switchPage(uiState, pageSwitch);
+            this.switchPage(pageSwitch);
         }
     }
 
-    switchPage(uiState: UiState, pageSwitch: PageSwitch) {
+    switchPage(pageSwitch: PageSwitch) {
         let currentComponent = document.getElementById(pageSwitch.from.toId());
         let newComponent = document.getElementById(pageSwitch.to.toId());
 
@@ -73,17 +73,7 @@ class Body extends Component<{}> {
             newComponent.style.width = '100%';
         }
 
-        // update currentPage
-        AppDispatcher.dispatch({
-            type: ActionKind.PageSwitch as ActionKind.PageSwitch,
-            data: {
-                currentPage: pageSwitch.to,
-                switchPageTo: null,
-                hasAssignmentsUpdated: false,
-                assignments: uiState.assignments,
-                previewingAssignmentId: uiState.previewingAssignmentId,
-            },
-        });
+        AppDispatcher.dispatch(UiActionCreators.updateCurrentPage(pageSwitch.to));
     }
 }
 

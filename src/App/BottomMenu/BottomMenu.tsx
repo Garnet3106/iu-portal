@@ -1,7 +1,7 @@
 import React from 'react';
 import AppDispatcher from '../../flux/AppDispatcher';
-import { ActionKind } from "../../flux/AppConstants";
 import UiStore, { PageSwitch, Page } from '../../flux/UiStore';
+import { UiActionCreators } from '../../flux/UiActionCreators';
 import './BottomMenu.css';
 
 type BottomMenuProps = {
@@ -52,24 +52,8 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
         const uiState = UiStore.getState();
         const switchPageTo = uiState.currentPage === nextPage ? null : nextPage;
 
-        // todo: remove `assignments` data
-        AppDispatcher.dispatch({
-            type: ActionKind.PageSwitch as ActionKind.PageSwitch,
-            data: {
-                currentPage: uiState.currentPage,
-                switchPageTo: switchPageTo,
-                hasAssignmentsUpdated: true,
-                assignments: [
-                    {
-                        id: 'aid',
-                        subjectName: '経営学',
-                        teacherName: '〇〇教員',
-                        deadline: '今週金曜日まで',
-                    }
-                ],
-                previewingAssignmentId: uiState.previewingAssignmentId,
-            },
-        });
+        // CurrentPage will be updated to the next page at Body.switchPage().
+        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(switchPageTo));
     }
 
     static getPageSwitch(from: Page, to: Page): PageSwitch | null {
