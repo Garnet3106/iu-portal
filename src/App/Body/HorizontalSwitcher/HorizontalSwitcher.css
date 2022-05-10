@@ -1,7 +1,7 @@
 .HorizontalSwitcher {
     align-items: center;
     flex-direction: column;
-    margin-top: 10px;
+    margin: var(--horizontal-switcher-margin) 0;
 }
 
 .switcher-top {

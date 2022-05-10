@@ -5,7 +5,6 @@
 
 .preview {
     display: flex;
-    margin-top: var(--layout-margin);
 }
 
 .preview > div {
