@@ -39,7 +39,7 @@
 .preview-management {
     margin-left: var(--basic-border-radius);
     margin-top: calc(var(--layout-margin) / 2);
-    font-size: 85%;
+    font-size: 80%;
 }
 
 .preview-detail {
