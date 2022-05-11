@@ -31,7 +31,7 @@ export const UiActionCreators = {
                         id: 'aida',
                         registrarName: '名字',
                         checkerNumber: 3,
-                        subjectName: '経営学',
+                        courseName: '経営学',
                         teacherName: '〇〇教員',
                         assignedFrom: 'Classroom',
                         submitTo: 'Eメール',

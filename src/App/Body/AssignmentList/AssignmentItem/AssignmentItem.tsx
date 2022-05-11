@@ -19,8 +19,8 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
                 <div>
                     <div className="assignment-item-operation" />
                     <div className="assignment-item-content">
-                        <div className="assignment-item-subject">
-                            {this.props.assignment.subjectName}
+                        <div className="assignment-item-course">
+                            {this.props.assignment.courseName}
                         </div>
                         <div className="assignment-item-deadline">
                             {this.props.assignment.deadline}

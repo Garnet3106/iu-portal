@@ -8,7 +8,7 @@ export type Assignment = {
     id: string,
     registrarName: string,
     checkerNumber: number,
-    subjectName: string,
+    courseName: string,
     teacherName: string,
     assignedFrom: string,
     submitTo: string,

@@ -49,7 +49,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
 
         return (
             <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
-                <HorizontalSwitcher title={assignment.subjectName} description={assignment.teacherName} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
+                <HorizontalSwitcher title={assignment.courseName} description={assignment.teacherName} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 <div className="preview">
                     <div className="preview-left">
                         <div className="preview-description">
