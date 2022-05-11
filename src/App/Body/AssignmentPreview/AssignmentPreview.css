@@ -1,10 +1,12 @@
 .AssignmentPreview {
     align-items: center;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .preview {
     display: flex;
+    width: 100vw;
 }
 
 .preview > div {
