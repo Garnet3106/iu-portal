@@ -53,32 +53,32 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
                 <div className="preview">
                     <div className="preview-left">
                         <div className="preview-description">
-                            講義の感想と自分の考えを200 字以上で書く
+                            {assignment.description}
                         </div>
                         <div className="preview-note">
-                            補足事項はありません
+                            {assignment.note}
                         </div>
                     </div>
                     <div>
                         <div className="preview-detail">
                             <div className="preview-detail-deadline">
-                                あと 5 日
+                                {assignment.deadline}
                             </div>
                             <div className="preview-detail-group">
                                 <div className="preview-detail-title">
                                     配布元
                                 </div>
                                 <div className="preview-detail-content">
-                                    Classroom
+                                    {assignment.assignedFrom}
                                 </div>
                             </div>
                             <div className="preview-detail-arrow" />
                             <div className="preview-detail-group">
                                 <div className="preview-detail-title">
-                                    配布先
+                                    提出先
                                 </div>
                                 <div className="preview-detail-content">
-                                    UNIPA
+                                    {assignment.submitTo}
                                 </div>
                             </div>
                         </div>

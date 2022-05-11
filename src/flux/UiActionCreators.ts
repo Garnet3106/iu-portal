@@ -19,31 +19,24 @@ export type UiActions = ReturnType<
 
 export const UiActionCreators = {
     getDefault(): UiActions {
-        /* This is hidden while debugging.
         return {
             type: ActionKind.PageSwitch,
             data: {
                 currentPage: new Page(0, 'AssignmentList'),
                 switchPageTo: null,
-                hasAssignmentsUpdated: false,
-                assignments: [],
-                previewingAssignmentId: null,
-            },
-        };
-        */
-
-        return {
-            type: ActionKind.PageSwitch,
-            data: {
-                currentPage: new Page(0, 'AssignmentList'),
-                switchPageTo: null,
+                // Change to false when set assinments empty array.
                 hasAssignmentsUpdated: true,
                 assignments: [
                     {
                         id: 'aida',
+                        checkerNumber: '3人',
                         subjectName: '経営学aa',
                         teacherName: '〇〇教員',
+                        assignedFrom: 'Classroom',
+                        submitTo: 'Eメール',
                         deadline: '今週金曜日まで',
+                        description: '講義の感想と自分の考えを 200 字以上で書く',
+                        note: '補足情報はありません',
                     },
                 ],
                 previewingAssignmentId: null,

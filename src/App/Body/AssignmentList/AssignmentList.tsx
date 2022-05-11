@@ -1,16 +1,19 @@
 import React from "react";
-import ReactDOM from 'react-dom/client';
 import UiStore from "../../../flux/UiStore";
-import { root } from "../../../index";
 import { BodyProps } from '../Body';
 import AssignmentGroup from './AssignmentGroup/AssignmentGroup';
 import './AssignmentList.css';
 
 export type Assignment = {
     id: string,
+    checkerNumber: string,
     subjectName: string,
     teacherName: string,
+    assignedFrom: string,
+    submitTo: string,
     deadline: string,
+    description: string,
+    note: string,
 };
 
 type AssignmentListState = {
