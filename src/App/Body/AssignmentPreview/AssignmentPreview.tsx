@@ -58,6 +58,9 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
                         <div className="preview-note">
                             {assignment.note}
                         </div>
+                        <div className="preview-management">
+                            登録者 {assignment.registrarName} ({assignment.checkerNumber} 人が照合)
+                        </div>
                     </div>
                     <div>
                         <div className="preview-detail">

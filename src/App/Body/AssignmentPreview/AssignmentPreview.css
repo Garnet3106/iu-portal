@@ -16,7 +16,7 @@
     margin-left: var(--layout-margin);
 }
 
-.preview-left > div {
+.preview-description, .preview-note {
     background-color: var(--light-back-color);
     border-radius: var(--basic-border-radius);
     font-size: 90%;
@@ -32,6 +32,12 @@
 
 .preview-note {
     color: var(--dark-font-color-2);
+}
+
+.preview-management {
+    margin-left: var(--basic-border-radius);
+    margin-top: calc(var(--layout-margin) / 2);
+    font-size: 85%;
 }
 
 .preview-detail {

@@ -6,7 +6,8 @@ import './AssignmentList.css';
 
 export type Assignment = {
     id: string,
-    checkerNumber: string,
+    registrarName: string,
+    checkerNumber: number,
     subjectName: string,
     teacherName: string,
     assignedFrom: string,
