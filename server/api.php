@@ -129,7 +129,6 @@ class AssignmentTable {
             $values_txt = $this->escapeQueryString(join(", ", $values_list));
             $stmt = $this->execute_query("INSERT INTO {$escaped_table_name} ({$escaped_column_names}) VALUES {$values_txt}", $bind_values);
         } catch(PDOException $e) {
-            echo $e->getMessage();
             throw $e;
         }
     }
@@ -149,47 +148,63 @@ class AssignmentTable {
             JsonApi::respond_error("Failed to register assignment data.");
         }
     }
+
+    public function register_courses($courses) {
+        if (count($courses) === 0) {
+            JsonApi::respond_error("No course provided.");
+        }
+
+        $column_names = ["id", "code", "name", "election_kind", "number_of_credit", "year", "grade", "semester", "teacher_ids"];
+        $binding_value_names = ["code", "name", "election_kind", "number_of_credit", "year", "grade", "semester", "teacher_ids"];
+        $get_each_values_callback = fn($i) => "(UUID(), :code_{$i}, :name_{$i}, :election_kind_{$i}, :number_of_credit_{$i}, :year_{$i}, :grade_{$i}, :semester_{$i}, :teacher_ids_{$i})";
+
+        try {
+            return $this->register("course", $column_names, $courses, $binding_value_names, $get_each_values_callback);
+        } catch(PDOException $e) {
+            JsonApi::respond_error("Failed to register course data.");
+        }
+    }
 }
 
-$req = [
-    "action" => "register_assignments",
-    "assignments" => [
-        [
-            "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
-            "description" => "desc",
-            "note" => "notes",
-        ],
-        [
-            "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
-            "description" => "desc",
-            "note" => "notes",
-        ],
-    ],
-];
-
 // $req = [
-//     "action" => "register_course",
-//     "courses" => [
+//     "action" => "register_assignments",
+//     "assignments" => [
 //         [
-//             "code" => "MK11220002",
-//             "name" => "マーケティング基礎",
-//             "election_kind" => "required",
-//             "number_of_credit" => 2,
-//             "year" => 2022,
-//             "grade" => 1,
-//             "semester" => "first",
-//             "teacher_ids" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
+//             "description" => "desc",
+//             "note" => "notes",
+//         ],
+//         [
+//             "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//             "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
+//             "description" => "desc",
+//             "note" => "notes",
 //         ],
 //     ],
 // ];
+
+$req = [
+    "action" => "register_course",
+    "courses" => [
+        [
+            "code" => "MK11220002",
+            "name" => "科目名",
+            "election_kind" => "required",
+            "number_of_credit" => 2,
+            "year" => 2022,
+            "grade" => 1,
+            "semester" => "first",
+            "teacher_ids" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+        ],
+    ],
+];
 
 run($req);
 
@@ -212,6 +227,11 @@ function run($req) {
         case "register_assignments": {
             $assignments = ensurePropertyExistence($req, "assignments");
             $assignment_table->register_assignments($assignments);
+            JsonApi::respond_ok();
+        } break;
+        case "register_course": {
+            $courses = ensurePropertyExistence($req, "courses");
+            $assignment_table->register_courses($courses);
             JsonApi::respond_ok();
         } break;
         default: {
