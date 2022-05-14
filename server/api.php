@@ -139,9 +139,9 @@ class AssignmentTable {
             JsonApi::respond_error("No assignment provided.");
         }
 
-        $column_names = ["id", "course_id", "lecture_id", "registration_time", "assigned_from", "submit_to", "deadline", "description", "note"];
+        $column_names = ["id", "registration_time", "course_id", "lecture_id", "assigned_from", "submit_to", "deadline", "description", "note"];
         $binding_value_names = ["course_id", "lecture_id", "assigned_from", "submit_to", "deadline", "description", "note"];
-        $get_each_values_callback = fn($i) => "(UUID(), :course_id_{$i}, :lecture_id_{$i}, NOW(), :assigned_from_{$i}, :submit_to_{$i}, :deadline_{$i}, :description_{$i}, :note_{$i})";
+        $get_each_values_callback = fn($i) => "(UUID(), NOW(), :course_id_{$i}, :lecture_id_{$i}, :assigned_from_{$i}, :submit_to_{$i}, :deadline_{$i}, :description_{$i}, :note_{$i})";
 
         try {
             return $this->register("assignment", $column_names, $assignments, $binding_value_names, $get_each_values_callback);
