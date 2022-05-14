@@ -10,7 +10,7 @@ Dotenv\Dotenv::createImmutable(__DIR__)->load();
 class JsonApi {
     public static function respond($json_obj) {
         var_dump($json_obj);
-        // todo: print(json_encode($json_obj));
+        // todo: header(json_encode($json_obj));
         exit();
     }
 
@@ -18,6 +18,12 @@ class JsonApi {
         JsonApi::respond([
             "status" => "error",
             "message" => $msg,
+        ]);
+    }
+
+    public static function respond_ok() {
+        JsonApi::respond([
+            "status" => "ok",
         ]);
     }
 
@@ -76,7 +82,7 @@ class AssignmentTable {
 
     public function get_assignment_by_id($id) {
         $stmt = $this->execute_query("SELECT * FROM assignment WHERE id = :id", [
-            'id' => $id,
+            "id" => $id,
         ]);
 
         $assignment = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -89,25 +95,64 @@ class AssignmentTable {
     }
 
     public function get_all_assignments() {
-        $stmt = $this->execute_query("SELECT * FROM assignment");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $this->execute_query("SELECT * FROM assignment");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch(PDOException $e) {
+            JsonApi::respond_error("Failed to get assignment data.");
+        }
+    }
+
+    public function register_assignments($assignments) {
+        if (count($assignments) === 0) {
+            JsonApi::respond_error("No assignment provided.");
+        }
+
+        $property_names = ["course_id", "lecture_id", "assigned_from", "submit_to", "description", "note"];
+
+        try {
+            $values_list = [];
+            $bind_values = [];
+
+            foreach ($assignments as $each_assignment_i => $each_assignment) {
+                $values_list[] = "(UUID(), :course_id_{$each_assignment_i}, :lecture_id_{$each_assignment_i}, NOW(), :assigned_from_{$each_assignment_i}, :submit_to_{$each_assignment_i}, NOW(), :description_{$each_assignment_i}, :note_{$each_assignment_i})";
+
+                foreach ($property_names as $each_property_name) {
+                    $bind_values["{$each_property_name}_{$each_assignment_i}"] = ensurePropertyExistence($each_assignment, $each_property_name);
+                };
+            }
+
+            $values_txt = join(", ", $values_list);
+            $stmt = $this->execute_query("INSERT INTO assignment (id, course_id, lecture_id, registration_time, assigned_from, submit_to, deadline, description, note) VALUES {$values_txt}", $bind_values);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch(PDOException $e) {
+            JsonApi::respond_error("Failed to register assignment data.");
+        }
     }
 }
 
 $req = [
-    "action" => "create_assignments",
-    "content" => [
-        "assignments" => [
-            [
-                "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-                "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-                "registration_time" => time(),
-                "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-                "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-                "deadline" => time(),
-                "description" => "desc",
-                "note" => "notes",
-            ],
+    "action" => "register_assignments",
+    "assignments" => [
+        [
+            "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "registration_time" => time(),
+            "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "deadline" => time(),
+            "description" => "desc",
+            "note" => "notes",
+        ],
+        [
+            "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "registration_time" => time(),
+            "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+            "deadline" => time(),
+            "description" => "desc",
+            "note" => "notes",
         ],
     ],
 ];
@@ -123,23 +168,30 @@ function run($req) {
         JsonApi::respond_error("Failed to connect to database server.");
     }
 
-    try {
-        if (!array_key_exists("action", $req)) {
-            JsonApi::respond_error("Property `action` is not defined.");
-        }
+    $action_kind = ensurePropertyExistence($req, "action");
 
-        switch ($req["action"]) {
-            case "create_assignments": {
-                $assignments = $assignment_table->get_all_assignments();
-                JsonApi::respond_assignments($assignments);
-            } break;
-            default: {
-                JsonApi::respond_error("Unknown action kind is provided.");
-            } break;
-        }
-    } catch(PDOException $e) {
-        JsonApi::respond_error("Failed to load assignment data.");
+    switch ($action_kind) {
+        case "get_assignments": {
+            $assignments = $assignment_table->get_all_assignments();
+            JsonApi::respond_assignments($assignments);
+        } break;
+        case "register_assignments": {
+            $assignments = ensurePropertyExistence($req, "assignments");
+            $assignment_table->register_assignments($assignments);
+            JsonApi::respond_ok();
+        } break;
+        default: {
+            JsonApi::respond_error("Unknown action kind is provided.");
+        } break;
     }
+}
+
+function ensurePropertyExistence($assoc, $key) {
+    if (!array_key_exists($key, $assoc)) {
+        JsonApi::respond_error("Property `{$key}` is not defined.");
+    }
+
+    return $assoc[$key];
 }
 
 ?>
