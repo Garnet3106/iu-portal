@@ -58,7 +58,14 @@ class AssignmentTable {
         }
     }
 
+    function escapeQueryString($str) {
+        $escaped_str = $this->pdo->quote($str);
+        return substr($escaped_str, 1, strlen($escaped_str) - 2);
+    }
+
     function execute_query($query, $bind_values = null) {
+        var_dump($query);
+        var_dump($bind_values);
         try {
             $stmt = $this->pdo->prepare($query);
 
@@ -103,28 +110,41 @@ class AssignmentTable {
         }
     }
 
+    public function register($table_name, $column_names, $data_list, $binding_value_names, $get_each_values_callback) {
+        try {
+            $values_list = [];
+            $bind_values = [];
+
+            foreach ($data_list as $each_data_i => $each_data) {
+                $values_list[] = $get_each_values_callback($each_data_i);
+
+                foreach ($binding_value_names as $each_binding_value_name) {
+                    $binding_value = ensurePropertyExistence($each_data, $each_binding_value_name);
+                    $bind_values["{$each_binding_value_name}_{$each_data_i}"] = $binding_value;
+                };
+            }
+
+            $escaped_table_name = $this->escapeQueryString($table_name);
+            $escaped_column_names = $this->escapeQueryString(join(", ", $column_names));
+            $values_txt = $this->escapeQueryString(join(", ", $values_list));
+            $stmt = $this->execute_query("INSERT INTO {$escaped_table_name} ({$escaped_column_names}) VALUES {$values_txt}", $bind_values);
+        } catch(PDOException $e) {
+            echo $e->getMessage();
+            throw $e;
+        }
+    }
+
     public function register_assignments($assignments) {
         if (count($assignments) === 0) {
             JsonApi::respond_error("No assignment provided.");
         }
 
-        $property_names = ["course_id", "lecture_id", "assigned_from", "submit_to", "description", "note"];
+        $column_names = ["id", "course_id", "lecture_id", "registration_time", "assigned_from", "submit_to", "deadline", "description", "note"];
+        $binding_value_names = ["course_id", "lecture_id", "assigned_from", "submit_to", "deadline", "description", "note"];
+        $get_each_values_callback = fn($i) => "(UUID(), :course_id_{$i}, :lecture_id_{$i}, NOW(), :assigned_from_{$i}, :submit_to_{$i}, :deadline_{$i}, :description_{$i}, :note_{$i})";
 
         try {
-            $values_list = [];
-            $bind_values = [];
-
-            foreach ($assignments as $each_assignment_i => $each_assignment) {
-                $values_list[] = "(UUID(), :course_id_{$each_assignment_i}, :lecture_id_{$each_assignment_i}, NOW(), :assigned_from_{$each_assignment_i}, :submit_to_{$each_assignment_i}, NOW(), :description_{$each_assignment_i}, :note_{$each_assignment_i})";
-
-                foreach ($property_names as $each_property_name) {
-                    $bind_values["{$each_property_name}_{$each_assignment_i}"] = ensurePropertyExistence($each_assignment, $each_property_name);
-                };
-            }
-
-            $values_txt = join(", ", $values_list);
-            $stmt = $this->execute_query("INSERT INTO assignment (id, course_id, lecture_id, registration_time, assigned_from, submit_to, deadline, description, note) VALUES {$values_txt}", $bind_values);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $this->register("assignment", $column_names, $assignments, $binding_value_names, $get_each_values_callback);
         } catch(PDOException $e) {
             JsonApi::respond_error("Failed to register assignment data.");
         }
@@ -137,25 +157,39 @@ $req = [
         [
             "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
             "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "registration_time" => time(),
             "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
             "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "deadline" => time(),
+            "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
             "description" => "desc",
             "note" => "notes",
         ],
         [
             "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
             "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "registration_time" => time(),
             "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
             "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-            "deadline" => time(),
+            "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
             "description" => "desc",
             "note" => "notes",
         ],
     ],
 ];
+
+// $req = [
+//     "action" => "register_course",
+//     "courses" => [
+//         [
+//             "code" => "MK11220002",
+//             "name" => "マーケティング基礎",
+//             "election_kind" => "required",
+//             "number_of_credit" => 2,
+//             "year" => 2022,
+//             "grade" => 1,
+//             "semester" => "first",
+//             "teacher_ids" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+//         ],
+//     ],
+// ];
 
 run($req);
 
