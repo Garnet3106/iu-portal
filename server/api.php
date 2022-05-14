@@ -11,8 +11,7 @@ Dotenv\Dotenv::createImmutable(__DIR__)->load();
 
 class JsonApi {
     public static function respond($json_obj) {
-        var_dump($json_obj);
-        // todo: header(json_encode($json_obj));
+        print(json_encode($json_obj));
         exit();
     }
 
@@ -168,7 +167,11 @@ class DatabaseTable {
     }
 }
 
-run($req);
+if (!array_key_exists("request", $_POST)) {
+    JsonApi::respond_error("Request parameter is not provided.");
+}
+
+run($_POST["request"]);
 
 function run($req) {
     if ($req === null) {
