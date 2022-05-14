@@ -35,7 +35,7 @@ class JsonApi {
     }
 }
 
-class AssignmentTable {
+class DatabaseTable {
     private $is_logging_in = false;
     private $pdo;
 
@@ -209,10 +209,10 @@ $req = [
 run($req);
 
 function run($req) {
-    $assignment_table = new AssignmentTable();
+    $db_table = new DatabaseTable();
 
     try {
-        $assignment_table->login();
+        $db_table->login();
     } catch(PDOException $e) {
         JsonApi::respond_error("Failed to connect to database server.");
     }
@@ -221,17 +221,17 @@ function run($req) {
 
     switch ($action_kind) {
         case "get_assignments": {
-            $assignments = $assignment_table->get_all_assignments();
+            $assignments = $db_table->get_all_assignments();
             JsonApi::respond_assignments($assignments);
         } break;
         case "register_assignments": {
             $assignments = ensurePropertyExistence($req, "assignments");
-            $assignment_table->register_assignments($assignments);
+            $db_table->register_assignments($assignments);
             JsonApi::respond_ok();
         } break;
         case "register_course": {
             $courses = ensurePropertyExistence($req, "courses");
-            $assignment_table->register_courses($courses);
+            $db_table->register_courses($courses);
             JsonApi::respond_ok();
         } break;
         default: {
