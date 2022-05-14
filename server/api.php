@@ -1,3 +1,5 @@
+JSON API for iUPortal Application
+
 <?php
 
 error_reporting(E_ALL);
