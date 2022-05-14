@@ -168,49 +168,13 @@ class DatabaseTable {
     }
 }
 
-// $req = [
-//     "action" => "register_assignments",
-//     "assignments" => [
-//         [
-//             "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
-//             "description" => "desc",
-//             "note" => "notes",
-//         ],
-//         [
-//             "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-//             "deadline" => (new DateTime("now", new DateTimeZone("UTC")))->format("Y-m-d H:m:s"),
-//             "description" => "desc",
-//             "note" => "notes",
-//         ],
-//     ],
-// ];
-
-$req = [
-    "action" => "register_course",
-    "courses" => [
-        [
-            "code" => "MK11220002",
-            "name" => "科目名",
-            "election_kind" => "required",
-            "number_of_credit" => 2,
-            "year" => 2022,
-            "grade" => 1,
-            "semester" => "first",
-            "teacher_ids" => "3db893b5-d247-11ec-8085-49bfe3345a29",
-        ],
-    ],
-];
-
 run($req);
 
 function run($req) {
+    if ($req === null) {
+        JsonApi::respond_error("Request parameter is not provided.");
+    }
+
     $db_table = new DatabaseTable();
 
     try {
