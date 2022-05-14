@@ -154,9 +154,9 @@ class DatabaseTable {
             JsonApi::respond_error("No course provided.");
         }
 
-        $column_names = ["id", "code", "name", "election_kind", "number_of_credit", "year", "grade", "semester", "teacher_ids"];
+        $column_names = ["id", "registration_time", "code", "name", "election_kind", "number_of_credit", "year", "grade", "semester", "teacher_ids"];
         $binding_value_names = ["code", "name", "election_kind", "number_of_credit", "year", "grade", "semester", "teacher_ids"];
-        $get_each_values_callback = fn($i) => "(UUID(), :code_{$i}, :name_{$i}, :election_kind_{$i}, :number_of_credit_{$i}, :year_{$i}, :grade_{$i}, :semester_{$i}, :teacher_ids_{$i})";
+        $get_each_values_callback = fn($i) => "(UUID(), NOW(), :code_{$i}, :name_{$i}, :election_kind_{$i}, :number_of_credit_{$i}, :year_{$i}, :grade_{$i}, :semester_{$i}, :teacher_ids_{$i})";
 
         try {
             return $this->register("course", $column_names, $courses, $binding_value_names, $get_each_values_callback);
