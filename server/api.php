@@ -7,60 +7,25 @@ require "vendor/autoload.php";
 
 Dotenv\Dotenv::createImmutable(__DIR__)->load();
 
-run();
-
-function run() {
-    $assignment_table = new AssignmentTable();
-
-    try {
-        $assignment_table->login();
-    } catch(PDOException $e) {
-        JsonApi.print_error("Failed to connect to database server.");
-    }
-
-    try {
-        var_dump($assignment_table->get_all_assignments());
-    } catch(PDOException $e) {
-        JsonApi.print_error("Failed to load assignment data.");
-    }
-
-    // todo
-    $pdo = null;
-
-    return [
-        "kind" => "ok",
-    ];
-}
-
 class JsonApi {
-    static function print($json_obj) {
-        print(json_encode($json_obj));
+    public static function respond($json_obj) {
+        var_dump($json_obj);
+        // todo: print(json_encode($json_obj));
         exit();
     }
 
-    static function print_error($msg) {
-        JsonApi.print([
+    public static function respond_error($msg) {
+        JsonApi::respond([
             "status" => "error",
-            "message" => "Failed to execute SQL query.",
-        ]);
-    }
-
-    static function print_assignment_list($msg) {
-        JsonApi.print([
-            "status" => "ok",
-            "message" => "Failed to execute SQL query.",
-        ]);
-    }
-}
-
-class DatabaseException {
-    public $assoc = [];
-
-    public function __construct() {
-        $this->assoc = [
-            "kind" => "error",
             "message" => $msg,
-        ];
+        ]);
+    }
+
+    public static function respond_assignments($assignments) {
+        JsonApi::respond([
+            "status" => "ok",
+            "assignments" => $assignments,
+        ]);
     }
 }
 
@@ -100,7 +65,7 @@ class AssignmentTable {
             $succeeded = $stmt->execute();
 
             if (!$succeeded) {
-                throw new DatabaseException();
+                JsonApi::respond_error("Failed to execute SQL query.");
             }
 
             return $stmt;
@@ -126,6 +91,54 @@ class AssignmentTable {
     public function get_all_assignments() {
         $stmt = $this->execute_query("SELECT * FROM assignment");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
+
+$req = [
+    "action" => "create_assignments",
+    "content" => [
+        "assignments" => [
+            [
+                "course_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+                "lecture_id" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+                "registration_time" => time(),
+                "assigned_from" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+                "submit_to" => "3db893b5-d247-11ec-8085-49bfe3345a29",
+                "deadline" => time(),
+                "description" => "desc",
+                "note" => "notes",
+            ],
+        ],
+    ],
+];
+
+run($req);
+
+function run($req) {
+    $assignment_table = new AssignmentTable();
+
+    try {
+        $assignment_table->login();
+    } catch(PDOException $e) {
+        JsonApi::respond_error("Failed to connect to database server.");
+    }
+
+    try {
+        if (!array_key_exists("action", $req)) {
+            JsonApi::respond_error("Property `action` is not defined.");
+        }
+
+        switch ($req["action"]) {
+            case "create_assignments": {
+                $assignments = $assignment_table->get_all_assignments();
+                JsonApi::respond_assignments($assignments);
+            } break;
+            default: {
+                JsonApi::respond_error("Unknown action kind is provided.");
+            } break;
+        }
+    } catch(PDOException $e) {
+        JsonApi::respond_error("Failed to load assignment data.");
     }
 }
 
