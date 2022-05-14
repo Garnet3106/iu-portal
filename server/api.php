@@ -1,5 +1,3 @@
-JSON API for iUPortal Application
-
 <?php
 
 error_reporting(E_ALL);
@@ -65,8 +63,6 @@ class DatabaseTable {
     }
 
     function execute_query($query, $bind_values = null) {
-        var_dump($query);
-        var_dump($bind_values);
         try {
             $stmt = $this->pdo->prepare($query);
 
@@ -167,11 +163,11 @@ class DatabaseTable {
     }
 }
 
-if (!array_key_exists("request", $_POST)) {
+if (!array_key_exists("request", $_GET)) {
     JsonApi::respond_error("Request parameter is not provided.");
 }
 
-run($_POST["request"]);
+run(json_decode($_GET["request"], true));
 
 function run($req) {
     if ($req === null) {
