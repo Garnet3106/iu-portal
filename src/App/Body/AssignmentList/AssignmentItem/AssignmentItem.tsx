@@ -1,7 +1,7 @@
 import React from "react";
 import AppDispatcher from "../../../../flux/AppDispatcher";
 import { UiActionCreators } from "../../../../flux/UiActionCreators";
-import { Assignment } from "../AssignmentList";
+import { Assignment } from "../../../../assignment";
 import './AssignmentItem.css';
 
 type AssignmentItemProps = {
@@ -20,7 +20,7 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
                     <div className="assignment-item-operation" />
                     <div className="assignment-item-content">
                         <div className="assignment-item-course">
-                            {this.props.assignment.courseName}
+                            {this.props.assignment.course.name}
                         </div>
                         <div className="assignment-item-deadline">
                             {this.props.assignment.deadline}

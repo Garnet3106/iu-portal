@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
 import AssignmentItem from '../AssignmentItem/AssignmentItem';
-import { Assignment } from "../AssignmentList";
+import { Assignment } from "../../../../assignment";
 import './AssignmentGroup.css';
 
 type AssignmentGroupProps = {

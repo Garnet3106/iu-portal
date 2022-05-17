@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import UiStore from '../../../flux/UiStore';
-import { Assignment } from '../AssignmentList/AssignmentList';
 import { BodyProps } from '../Body';
 import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
 import './AssignmentPreview.css';
@@ -49,7 +48,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
 
         return (
             <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
-                <HorizontalSwitcher title={assignment.courseName} description={assignment.teacherName} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
+                <HorizontalSwitcher title={assignment.course.name} description={assignment.course.teachers.map((eachCourse) => eachCourse.name).join('<br>')} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 <div className="preview">
                     <div className="preview-left">
                         <div className="preview-description">
@@ -59,7 +58,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
                             {assignment.note}
                         </div>
                         <div className="preview-management">
-                            登録者 {assignment.registrarName} ({assignment.checkerNumber} 人が照合)
+                            登録者 {assignment.registrar.name} ({assignment.numberOfChecker} 人が照合)
                         </div>
                     </div>
                     <div>
@@ -72,7 +71,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
                                     配布元
                                 </div>
                                 <div className="preview-detail-content">
-                                    {assignment.assignedFrom}
+                                    {assignment.assignedFrom.kind}
                                 </div>
                             </div>
                             <div className="preview-detail-arrow" />
@@ -81,7 +80,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
                                     提出先
                                 </div>
                                 <div className="preview-detail-content">
-                                    {assignment.submitTo}
+                                    {assignment.submitTo.kind}
                                 </div>
                             </div>
                         </div>

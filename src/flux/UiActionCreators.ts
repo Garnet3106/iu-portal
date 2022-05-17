@@ -1,6 +1,6 @@
 import { ActionKind } from "./AppConstants";
 import UiStore, { Page } from './UiStore';
-import { Assignment } from "../App/Body/AssignmentList/AssignmentList";
+import { Assignment } from "../assignment";
 
 export type UiActionPayload = {
     type: ActionKind.PageSwitch,
@@ -24,25 +24,18 @@ export const UiActionCreators = {
             data: {
                 currentPage: new Page(0, 'AssignmentList'),
                 switchPageTo: null,
-                // Change to false when set assinments empty array.
-                hasAssignmentsUpdated: true,
-                assignments: [
-                    {
-                        id: 'aida',
-                        registrarName: '名字',
-                        checkerNumber: 3,
-                        courseName: '経営学',
-                        teacherName: '〇〇教員',
-                        assignedFrom: 'Classroom',
-                        submitTo: 'Eメール',
-                        deadline: '今週金曜日まで',
-                        description: '講義の感想と自分の考えを 200 字以上で書く',
-                        note: '補足情報はありません',
-                    },
-                ],
+                hasAssignmentsUpdated: false,
+                assignments: [],
                 previewingAssignmentId: null,
             },
         };
+    },
+
+    initializeAssignments(assignments: Assignment[]): UiActions {
+        let defaultAction = this.getDefault();
+        defaultAction.data.hasAssignmentsUpdated = true;
+        defaultAction.data.assignments = assignments;
+        return defaultAction;
     },
 
     // Set `hasAssignmentsUpdated` value because it's basically false.

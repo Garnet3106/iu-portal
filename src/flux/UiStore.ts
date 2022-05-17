@@ -1,7 +1,7 @@
 import { ReduceStore } from "flux/utils";
 import AppDispatcher from "./AppDispatcher";
 import { ActionKind, Actions } from "./AppConstants";
-import { Assignment } from "../App/Body/AssignmentList/AssignmentList";
+import { Assignment } from "../assignment";
 
 export class Page {
     index: number;
