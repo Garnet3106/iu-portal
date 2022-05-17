@@ -62,8 +62,9 @@ req.addEventListener('load', () => {
         },
     };
 
-    if (responce.status !== 'error') {
-        console.error(`Assignment Error: Failed to load assignments. (${responce.message})`);
+    if (responce.status === 'error') {
+        let msg = responce.message;
+        console.error(`Assignment Error: Failed to load assignments. (${msg !== '' ? msg : 'no message'})`);
         return;
     }
 
