@@ -22,7 +22,7 @@ export const UiActionCreators = {
         return {
             type: ActionKind.PageSwitch,
             data: {
-                currentPage: new Page(0, 'AssignmentList'),
+                currentPage: new Page(0, 'Login'),
                 switchPageTo: null,
                 hasAssignmentsUpdated: false,
                 assignments: [],
@@ -64,7 +64,7 @@ export const UiActionCreators = {
 
     previewAssignment(assignmentId: string): UiActions {
         let action = this.getCurrent();
-        action.data.switchPageTo = new Page(1, 'AssignmentPreview');
+        action.data.switchPageTo = new Page(2, 'AssignmentPreview');
         action.data.previewingAssignmentId = assignmentId;
         return action;
     },

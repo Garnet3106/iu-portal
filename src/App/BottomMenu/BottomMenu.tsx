@@ -24,11 +24,11 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
         return (
             <div className="BottomMenu">
                 <div className="menu">
-                    <div className="menu-item" id="BottomMenuItem_AssignmentList_0" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Notification_2" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Statistics_3" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Settings_4" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Report_5" onClick={this.onMenuItemClick.bind(this)} />
+                    <div className="menu-item" id="BottomMenuItem_AssignmentList_1" onClick={this.onMenuItemClick.bind(this)} />
+                    <div className="menu-item" id="BottomMenuItem_Notification_3" onClick={this.onMenuItemClick.bind(this)} />
+                    <div className="menu-item" id="BottomMenuItem_Statistics_4" onClick={this.onMenuItemClick.bind(this)} />
+                    <div className="menu-item" id="BottomMenuItem_Settings_5" onClick={this.onMenuItemClick.bind(this)} />
+                    <div className="menu-item" id="BottomMenuItem_Report_6" onClick={this.onMenuItemClick.bind(this)} />
                 </div>
                 <div className="menu-bar-area">
                     <div className="menu-bar" />

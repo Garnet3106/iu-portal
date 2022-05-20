@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import Login from './Login/Login';
 import AssignmentPreview from './AssignmentPreview/AssignmentPreview';
 import AssignmentList from './AssignmentList/AssignmentList';
 import Statistics from './Statistics/Statistics';
@@ -29,17 +30,18 @@ class Body extends Component<{}> {
     render() {
         return (
             <div className="Body">
-                <AssignmentList page={new Page(0, 'AssignmentList')} style={{}} />
+                <Login page={new Page(0, 'Login')} style={{}} />
+                <AssignmentList page={new Page(1, 'AssignmentList')} style={newBodyComponentStyle} />
                 <AssignmentPreview bodyProps={
                     {
-                        page: new Page(1, 'AssignmentPreview'),
+                        page: new Page(2, 'AssignmentPreview'),
                         style: newBodyComponentStyle,
                     }
                 } />
-                <Statistics page={new Page(2, 'Notification')} style={newBodyComponentStyle} />
-                <Statistics page={new Page(3, 'Statistics')} style={newBodyComponentStyle} />
-                <Statistics page={new Page(4, 'Settings')} style={newBodyComponentStyle} />
-                <Statistics page={new Page(5, 'Report')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(3, 'Notification')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(4, 'Statistics')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(5, 'Settings')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(6, 'Report')} style={newBodyComponentStyle} />
             </div>
         );
     }

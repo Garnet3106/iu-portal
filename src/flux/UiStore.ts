@@ -42,7 +42,7 @@ export type UiState = {
 class UiStore extends ReduceStore<UiState, Actions> {
     getInitialState() {
         return {
-            currentPage: new Page(0, 'AssignmentList'),
+            currentPage: new Page(0, 'Login'),
             switchPageTo: null,
             hasAssignmentsUpdated: false,
             assignments: [],
