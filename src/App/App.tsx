@@ -71,8 +71,8 @@ req.addEventListener('load', () => {
     AppDispatcher.dispatch(UiActionCreators.initializeAssignments(responce.content.assignments));
 });
 
-req.open('GET', `https://iu-portal.gant.work/api.php?request=${encodeURIComponent(`{"action":"get_asgn"}`)}`);
-req.send();
+// req.open('GET', `https://iu-portal.gant.work/api.php?request=${encodeURIComponent(`{"action":"get_asgn"}`)}`);
+// req.send();
 
 // Initialize UI State.
 AppDispatcher.dispatch(UiActionCreators.getDefault());
