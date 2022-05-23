@@ -6,70 +6,22 @@ import Body from './Body/Body';
 import BottomMenu from './BottomMenu/BottomMenu';
 import AppDispatcher from '../flux/AppDispatcher';
 import { UiActionCreators } from '../flux/UiActionCreators';
-import { CourseElectionKind, CourseSemester, PlatformKind } from '../assignment';
-import { JsonAssignmentResponce } from '../jsonapi';
+import { apiResponseToAssignments, toAssignmentStructureApiResponse } from '../jsonapi';
 import './App.css';
 
-let req = new XMLHttpRequest();
+// let req = new XMLHttpRequest();
 
-req.addEventListener('load', () => {
-    console.log(req.responseText);
+// req.addEventListener('load', () => {
+//     console.log(req.responseText);
 
-    let responce: JsonAssignmentResponce = {
-        status: 'ok',
-        message: '',
-        content: {
-            assignments: [
-                {
-                    id: '3db893b5-d247-11ec-8085-49bfe3345a29',
-                    registrar: {
-                        id: '3db893b5-d247-11ec-8085-49bfe3345a29',
-                        name: '登録者名',
-                    },
-                    numberOfChecker: 2,
-                    course: {
-                        id: '3db893b5-d247-11ec-8085-49bfe3345a29',
-                        name: '科目名',
-                        electionKind: CourseElectionKind.Required,
-                        numberOfCredit: 2,
-                        year: 2022,
-                        grade: 1,
-                        semester: CourseSemester.First,
-                        teachers: [
-                            {
-                                id: '3db893b5-d247-11ec-8085-49bfe3345a29',
-                                name: '教員名',
-                            }
-                        ],
-                    },
-                    lecture: {
-                        id: '3db893b5-d247-11ec-8085-49bfe3345a29',
-                        name: '講義名',
-                    },
-                    assignedFrom: {
-                        id: '3db893b5-d247-11ec-8085-49bfe3345a29',
-                        kind: PlatformKind.Classroom,
-                    },
-                    submitTo: {
-                        id: '3db893b5-d247-11ec-8085-49bfe3345a29',
-                        kind: PlatformKind.EMail,
-                    },
-                    deadline: Date.now(),
-                    description: 'desc',
-                    note: 'notes',
-                },
-            ],
-        },
-    };
+//     if (responce.status === 'error') {
+//         let msg = responce.message;
+//         console.error(`Assignment Error: Failed to load assignments. (${msg !== '' ? msg : 'no message'})`);
+//         return;
+//     }
 
-    if (responce.status === 'error') {
-        let msg = responce.message;
-        console.error(`Assignment Error: Failed to load assignments. (${msg !== '' ? msg : 'no message'})`);
-        return;
-    }
-
-    AppDispatcher.dispatch(UiActionCreators.initializeAssignments(responce.content.assignments));
-});
+//     AppDispatcher.dispatch(UiActionCreators.initializeAssignments(responce.content.assignments));
+// });
 
 // req.open('GET', `https://iu-portal.gant.work/api.php?request=${encodeURIComponent(`{"action":"get_asgn"}`)}`);
 // req.send();
@@ -77,7 +29,15 @@ req.addEventListener('load', () => {
 // Initialize UI State.
 AppDispatcher.dispatch(UiActionCreators.getDefault());
 
-class App extends React.Component {
+class App extends React.Component<{}> {
+    constructor(props: {}) {
+        super(props);
+
+        let responce = JSON.parse(`{"status":200,"request":"{\\"action\\":\\"getAssignments\\",\\"includeCompleted\\":true}","contents":{"assignments":{"3db893b5-d247-11ec-8085-49bfe3345a29":{"registrarId":"3db893b5-d247-11ec-8085-49bfe3345a29","numberOfCheckers":2,"courseId":"3db893b5-d247-11ec-8085-49bfe3345a29","lectureId":"3db893b5-d247-11ec-8085-49bfe3345a29","assignedFrom":"3db893b5-d247-11ec-8085-49bfe3345a29","assignedFromLink":null,"submitTo":"3db893b5-d247-11ec-8085-49bfe3345a29","submitToLink":null,"deadline":"2022-05-14 11:05:02","description":"desc","note":"notes","completed":false}},"courses":{"3db893b5-d247-11ec-8085-49bfe3345a29":{"code":"MK11220002","name":"経営学","electionKind":"required","numberOfCredits":2,"academicYear":2022,"grade":1,"semester":"first","teacherIds":["3db893b5-d247-11ec-8085-49bfe3345a29"]}},"lectures":{"3db893b5-d247-11ec-8085-49bfe3345a29":{"numberOfTimes":10,"date":"2022-05-14"}},"teachers":{"3db893b5-d247-11ec-8085-49bfe3345a29":{"name":"教員太郎"}},"platforms":{"3db893b5-d247-11ec-8085-49bfe3345a29":{"numberOfTimes":2,"nickname":"unipa"}},"users":{"3db893b5-d247-11ec-8085-49bfe3345a29":{"nickname":"ユーザ太郎"}}}}`);
+        let assignments = apiResponseToAssignments(toAssignmentStructureApiResponse(responce));
+        AppDispatcher.dispatch(UiActionCreators.initializeAssignments(assignments));
+    }
+
     render() {
         return (
             <div className="App">

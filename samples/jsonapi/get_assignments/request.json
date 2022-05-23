@@ -1,0 +1,4 @@
+{
+    "action": "getAssignments",
+    "includeCompleted": true
+}

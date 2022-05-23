@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { formatDate } from '../../../assignment';
 import UiStore from '../../../flux/UiStore';
 import { BodyProps } from '../Body';
 import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
@@ -58,13 +59,13 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
                             {assignment.note}
                         </div>
                         <div className="preview-management">
-                            登録者 {assignment.registrar.name} ({assignment.numberOfChecker} 人が照合)
+                            登録者 {assignment.registrar.nickname} ({assignment.numberOfCheckers} 人が照合)
                         </div>
                     </div>
                     <div>
                         <div className="preview-detail">
                             <div className="preview-detail-deadline">
-                                {assignment.deadline}
+                                {formatDate(assignment.deadline, 'yyyy/M/d', '期限なし')}
                             </div>
                             <div className="preview-detail-group">
                                 <div className="preview-detail-title">

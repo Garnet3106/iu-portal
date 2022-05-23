@@ -3,8 +3,8 @@ import { BodyProps } from "../Body";
 import UiStore, { Page } from "../../../flux/UiStore";
 import AppDispatcher from "../../../flux/AppDispatcher";
 import { UiActionCreators } from "../../../flux/UiActionCreators";
-import { AuthError, GoogleAuthProvider, User, UserCredential } from "firebase/auth";
-import { firebaseAuth, hashWithSha256, signInWithGoogle } from '../../../firebase/firebase';
+import { AuthError, User, UserCredential } from "firebase/auth";
+import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import './Login.css';
 
 const iuEmailPattern = /\d{2}im\d{4}@i-u\.ac\.jp/;

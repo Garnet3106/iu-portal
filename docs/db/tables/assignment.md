@@ -1,4 +1,4 @@
-# Database
+# 課題関連テーブル
 
 ## assignment テーブル
 
@@ -11,7 +11,9 @@
 |course_id|講義のコース ID|UUID|CHAR(36)|||
 |lecture_id|課題元の講義 ID|UUID|CHAR(36)|||
 |assigned_from|公開元のプラフォ ID|UUID|CHAR(36)||存在しなければ NULL|
+|assigned_from_link|公開元のプラフォ URL|Text|TEXT||存在しなければ NULL|
 |submit_to|提出先のプラフォ ID|UUID|CHAR(36)||存在しなければ NULL|
+|submit_to_link|提出先のプラフォ URL|Text|TEXT||存在しなければ NULL|
 |deadline|提出期限時間|Timestamp|TIMESTAMP||期限がなければ NULL|
 |description|課題の内容説明|Text|TEXT|||
 |note|補足情報の説明|Text|TEXT|||
@@ -30,8 +32,8 @@
 |semester|受講時期|Enum|ENUM \*2|||
 |teacher_ids|学年|Text|TEXT||`,` で ID 分割|
 
-\*1 `ENUM('REQUIRED', 'ELECTIVELY_REQUIRED', 'ELECTIVE')`
-\*2 `ENUM('FIRST', 'SECOND')`
+\*1 `ENUM('required', 'electively_required', 'elective')`
+\*2 `ENUM('first', 'second')`
 
 ## lecture テーブル
 
@@ -40,15 +42,6 @@
 |id|コース ID|UUID|CHAR(36)|PRIMARY KEY||
 |number_of_times|講義回数|UInt|INT|UNSIGNED||
 |date|講義日程|Date|DATE|||
-
-## user テーブル
-
-|カラム名|説明|形式|データ型|属性|備考|
-|:-:|:-:|:-:|:-:|:-:|:-:|
-|id|ユーザ ID|UUID|CHAR(36)|PRIMARY KEY||
-|email|登録メールアドレス|Text|TEXT|||
-|firebase_id|Firebase 上の ユーザ ID|Text|TEXT|||
-|is_admin|管理者かどうか|Boolean|BOOLEAN|||
 
 ## teacher テーブル
 
@@ -62,11 +55,4 @@
 |カラム名|説明|形式|データ型|属性|備考|
 |:-:|:-:|:-:|:-:|:-:|:-:|
 |id|プラフォ ID|UUID|CHAR(36)|PRIMARY KEY||
-|nickname|プラフォニックネーム|Text|TEXT|||
-
-## access_log テーブル
-
-|カラム名|説明|形式|データ型|属性|備考|
-|:-:|:-:|:-:|:-:|:-:|:-:|
-|id|ログ ID|UUID|CHAR(36)|PRIMARY KEY||
-|url|アクセス先 URL|Text|TEXT \*1|||
+|nickname|プラフォニックネーム|Platform Nickname|TEXT|||
