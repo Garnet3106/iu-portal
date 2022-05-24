@@ -1,5 +1,7 @@
 import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Platform, PlatformKind, Teacher, User } from "./assignment"
 
+export const subdataNames = ['assignments', 'courses', 'lectures', 'teachers', 'platforms', 'users'];
+
 // todo: change to type alias
 export class UuidAssoc<Value> {
     private assoc: {
@@ -11,12 +13,6 @@ export class UuidAssoc<Value> {
     }) {
         this.assoc = assoc;
     }
-
-    // static fromRawProperties<Value>(assoc: {
-    //     [uuid: string]: Value,
-    // }): UuidAssoc<Value> {
-    //     return new UuidAssoc<Value>(assoc);
-    // }
 
     getAssoc(): {
         [uuid: string]: Value,
@@ -111,6 +107,13 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
         console.error('Assignment Loading Error: Property `contents` doesn\'t exist.');
         return result;
     }
+    
+    subdataNames.forEach((eachName: string) => {
+        if ((response.contents as any)[eachName] === undefined) {
+            console.error(`Assignment Loading Error: Property \`${eachName}\` doesn\'t exist.`);
+            return result;
+        }
+    });
 
     result.contents = {
         assignments: new UuidAssoc(response.contents.assignments),

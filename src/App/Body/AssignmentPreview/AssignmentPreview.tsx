@@ -43,7 +43,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
         const assignment = UiStore.getState().assignments.find((v) => v.id === this.state.assignmentId);
 
         if (assignment === undefined) {
-            console.error(`Assignment Load Error: Couldn't update assigment preview because \`${this.state.assignmentId}\` is not found.`);
+            console.error(`Assignment Loading Error: Couldn't update assigment preview because \`${this.state.assignmentId}\` is not found.`);
             return;
         }
 
