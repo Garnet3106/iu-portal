@@ -58,11 +58,6 @@ class DatabaseTable {
         }
     }
 
-    function escapeQueryString($str) {
-        $escaped_str = $this->pdo->quote($str);
-        return substr($escaped_str, 1, strlen($escaped_str) - 2);
-    }
-
     function execute_query($query, $bind_values = null) {
         try {
             $stmt = $this->pdo->prepare($query);
@@ -108,56 +103,17 @@ class DatabaseTable {
         }
     }
 
-    public function register($table_name, $column_names, $data_list, $binding_value_names, $get_each_values_callback) {
+    public function register_assignments($assignment) {
         try {
-            $values_list = [];
-            $bind_values = [];
-
-            foreach ($data_list as $each_data_i => $each_data) {
-                $values_list[] = $get_each_values_callback($each_data_i);
-
-                foreach ($binding_value_names as $each_binding_value_name) {
-                    $binding_value = ensurePropertyExistence($each_data, $each_binding_value_name);
-                    $bind_values["{$each_binding_value_name}_{$each_data_i}"] = $binding_value;
-                };
-            }
-
-            $escaped_table_name = $this->escapeQueryString($table_name);
-            $escaped_column_names = $this->escapeQueryString(join(", ", $column_names));
-            $values_txt = $this->escapeQueryString(join(", ", $values_list));
-            $stmt = $this->execute_query("INSERT INTO {$escaped_table_name} ({$escaped_column_names}) VALUES {$values_txt}", $bind_values);
-        } catch(PDOException $e) {
-            throw $e;
-        }
-    }
-
-    public function register_assignments($assignments) {
-        if (count($assignments) === 0) {
-            JsonApi::respond_error("No assignment provided.");
-        }
-
-        $column_names = ["id", "registration_time", "course_id", "lecture_id", "assigned_from", "submit_to", "deadline", "description", "note"];
-        $binding_value_names = ["course_id", "lecture_id", "assigned_from", "submit_to", "deadline", "description", "note"];
-        $get_each_values_callback = fn($i) => "(UUID(), NOW(), :course_id_{$i}, :lecture_id_{$i}, :assigned_from_{$i}, :submit_to_{$i}, :deadline_{$i}, :description_{$i}, :note_{$i})";
-
-        try {
-            return $this->register("assignment", $column_names, $assignments, $binding_value_names, $get_each_values_callback);
+            $this->execute_query("INSERT INTO assignment (id, registrar_id, registered_at, course_id, lecture_id, assigned_from, submit_to, deadline, description, note) VALUES (UUID(), :registrar_id, NOW(), :course_id, :lecture_id, :assigned_from, :submit_to, :deadline, :description, :note)");
         } catch(PDOException $e) {
             JsonApi::respond_error("Failed to register assignment data.");
         }
     }
 
-    public function register_courses($courses) {
-        if (count($courses) === 0) {
-            JsonApi::respond_error("No course provided.");
-        }
-
-        $column_names = ["id", "registration_time", "code", "name", "election_kind", "number_of_credit", "year", "grade", "semester", "teacher_ids"];
-        $binding_value_names = ["code", "name", "election_kind", "number_of_credit", "year", "grade", "semester", "teacher_ids"];
-        $get_each_values_callback = fn($i) => "(UUID(), NOW(), :code_{$i}, :name_{$i}, :election_kind_{$i}, :number_of_credit_{$i}, :year_{$i}, :grade_{$i}, :semester_{$i}, :teacher_ids_{$i})";
-
+    public function register_courses($course) {
         try {
-            return $this->register("course", $column_names, $courses, $binding_value_names, $get_each_values_callback);
+            $this->execute_query("INSERT INTO course (id, registered_at, code, name, election_kind, number_of_credit, year, grade, semester, teacher_ids) VALUES (UUID(), NOW(), :code, :name, :election_kind, :number_of_credit, :year, :grade, :semester, :teacher_ids)");
         } catch(PDOException $e) {
             JsonApi::respond_error("Failed to register course data.");
         }
@@ -183,20 +139,21 @@ function run($req) {
         JsonApi::respond_error("Failed to connect to database server.");
     }
 
-    $action_kind = ensurePropertyExistence($req, "action");
+    $action_kind = ensure_property_existence($req, "action");
 
     switch ($action_kind) {
-        case "get_assignments": {
+        case "get_asgn": {
             $assignments = $db_table->get_all_assignments();
             JsonApi::respond_assignments($assignments);
         } break;
-        case "register_assignments": {
-            $assignments = ensurePropertyExistence($req, "assignments");
-            $db_table->register_assignments($assignments);
+        case "reg_asgn": {
+            $assignment = ensure_property_existence($req, "assignment");
+            $each_assignment["registrar_id"] = ;
+            $db_table->register_assignment($assignment);
             JsonApi::respond_ok();
         } break;
-        case "register_course": {
-            $courses = ensurePropertyExistence($req, "courses");
+        case "reg_course": {
+            $courses = ensure_property_existence($req, "courses");
             $db_table->register_courses($courses);
             JsonApi::respond_ok();
         } break;
@@ -206,7 +163,7 @@ function run($req) {
     }
 }
 
-function ensurePropertyExistence($assoc, $key) {
+function ensure_property_existence($assoc, $key) {
     if (!array_key_exists($key, $assoc)) {
         JsonApi::respond_error("Property `{$key}` is not defined.");
     }
