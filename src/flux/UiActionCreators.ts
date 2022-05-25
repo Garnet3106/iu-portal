@@ -38,6 +38,13 @@ export const UiActionCreators = {
         return defaultAction;
     },
 
+    updateAssignments(assignments: Assignment[]): UiActions {
+        let action = this.getCurrent();
+        action.data.hasAssignmentsUpdated = true;
+        action.data.assignments = assignments;
+        return action;
+    },
+
     // Set `hasAssignmentsUpdated` value because it's basically false.
     getCurrent(): UiActions {
         let action = UiStore.getState();

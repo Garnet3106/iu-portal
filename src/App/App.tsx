@@ -43,7 +43,7 @@ class App extends React.Component<{}> {
         }
 
         let assignments = apiResponseToAssignments(toAssignmentStructureApiResponse(response));
-        AppDispatcher.dispatch(UiActionCreators.initializeAssignments(assignments));
+        AppDispatcher.dispatch(UiActionCreators.updateAssignments(assignments));
     }
 
     render() {
