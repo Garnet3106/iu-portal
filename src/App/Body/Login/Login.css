@@ -17,6 +17,7 @@
     background-color: #ffffff;
     border-radius: 3px;
     color: #333333;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     margin-bottom: var(--layout-margin);

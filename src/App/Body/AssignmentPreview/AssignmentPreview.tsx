@@ -5,20 +5,20 @@ import { BodyProps } from '../Body';
 import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
 import './AssignmentPreview.css';
 
-export type HorizontalSwitcherProps = {
+export type AssignmentPreviewProps = {
     bodyProps: BodyProps,
 };
 
-export type HorizontalSwitcherState = {
+export type AssignmentPreviewState = {
     assignmentId: string | null,
 };
 
-class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwitcherState> {
+class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPreviewState> {
     _isMounted: boolean;
     // To complement unset assigment ID for state.
     _initialAssignmentId: string | null;
 
-    constructor(props: HorizontalSwitcherProps) {
+    constructor(props: AssignmentPreviewProps) {
         super(props);
 
         this._isMounted = false;
@@ -34,7 +34,7 @@ class AssignmentPreview extends Component<HorizontalSwitcherProps, HorizontalSwi
     render() {
         if (this.state.assignmentId === null) {
             return (
-                <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
+                <div className="Statistics body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
                     <HorizontalSwitcher title="課題がロードされていません" description="" onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 </div>
             );

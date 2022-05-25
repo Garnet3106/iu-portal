@@ -1,1 +1,101 @@
-.Statistics {}
+.Statistics {
+    flex-direction: column;
+    scrollbar-width: none;
+}
+
+.Statistics::-webkit-scrollbar {
+    display: none;
+}
+
+.top-statistics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.top-statistics-item {
+    align-items: center;
+    background-color: var(--light-font-color);
+    border-radius: var(--basic-border-radius);
+    color: var(--dark-font-color);
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    margin-right: var(--layout-margin);
+    padding: 8px 10px;
+}
+
+.top-statistics-item:last-of-type {
+    margin-right: 0;
+}
+
+.top-statistics-item-top {
+    align-items: center;
+    display: flex;
+}
+
+.top-statistics-item-icon {
+    background-color: #aaaaaa;
+    display: flex;
+    height: 18px;
+    margin-right: 5px;
+    width: 18px;
+}
+
+.top-statistics-item-title {
+    font-size: 90%;
+}
+
+.top-statistics-item-bottom {
+    align-items: baseline;
+    display: flex;
+}
+
+.top-statistics-item-number {
+    font-size: 200%;
+    margin-right: 5px;
+}
+
+.top-statistics-item-unit {
+    font-size: 100%;
+}
+
+.detailed-statistics {
+    display: flex;
+    margin-top: 20px;
+}
+
+.detailed-statistics-side {
+    display: flex;
+    flex-direction: column;
+    margin-left: calc((100% - (45% * 2)) / 3);
+    width: 45%;
+}
+
+.detailed-statistics-item {
+    align-items: baseline;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 0 8px;
+}
+
+.detailed-statistics-item-title {
+    font-size: 90%;
+}
+
+.detailed-statistics-item-data {
+    align-items: baseline;
+    display: flex;
+}
+
+.detailed-statistics-item-data-number {
+    font-size: 150%;
+    margin-right: 2px;
+}
+
+.detailed-statistics-item-data-unit {
+    font-size: 100%;
+}
+

@@ -1,9 +1,9 @@
-import React, { Component, RefCallback } from 'react';
+import React, { Component } from 'react';
 import './HorizontalSwitcher.css';
 
 export type HorizontalSwitcherProps = {
     title: string,
-    description: string,
+    description: string | null,
     onClickLeftButton: (event: React.MouseEvent) => void,
     onClickRightButton: (event: React.MouseEvent) => void,
 };
@@ -14,6 +14,12 @@ class HorizontalSwitcher extends Component<HorizontalSwitcherProps> {
     }
 
     render() {
+        const description = (
+            <div className="switcher-description">
+                {this.props.description}
+            </div>
+        );
+
         return (
             <div className="HorizontalSwitcher body-subcomponent">
                 <div className="switcher-top">
@@ -23,9 +29,7 @@ class HorizontalSwitcher extends Component<HorizontalSwitcherProps> {
                     </div>
                     <div className="switcher-button" onClick={this.props.onClickRightButton} />
                 </div>
-                <div className="switcher-description">
-                    {this.props.description}
-                </div>
+                {this.props.description !== null ? description : (<></>)}
             </div>
         );
     }
