@@ -119,7 +119,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                             </div>
                             <div className="detailed-statistics-item-data">
                                 <div className="detailed-statistics-item-data-number">
-                                    96.5
+                                    {this.state.submissionRate.toString()}
                                 </div>
                                 <div className="detailed-statistics-item-data-unit">
                                     %
