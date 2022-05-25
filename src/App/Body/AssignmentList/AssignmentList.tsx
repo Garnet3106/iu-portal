@@ -27,7 +27,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
 
         this.state = {
             assignments: [],
-            displayOrder: AssignmentDisplayOrder.EarlierDeadline,
+            displayOrder: AssignmentDisplayOrder.All,
         };
 
         this._isMounted = false;
@@ -91,14 +91,15 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
         return (
             <div className="AssignmentList body-component" id={this.props.page.toId()} style={this.props.style}>
                 <div className="display-order">
-                    <div className="display-order-item">
+                    <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.All)} onClick={() => {
+                        this.onClickDisplayOrderItem(AssignmentDisplayOrder.All)
+                    }}>
                         すべて
                     </div>
-                    <div className="display-order-item">
+                    <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.EarlierDeadline)} onClick={() => {
+                        this.onClickDisplayOrderItem(AssignmentDisplayOrder.EarlierDeadline)
+                    }}>
                         期限が早い順
-                    </div>
-                    <div className="display-order-item">
-                        出題が早い順
                     </div>
                 </div>
                 <hr className="division-line" />
@@ -111,6 +112,27 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
 
     componentDidMount() {
         this._isMounted = true;
+    }
+
+    getDisplayOrderCssClass(targetDisplayOrder: AssignmentDisplayOrder) {
+        const basicClass = 'display-order-item';
+        const selectedClass = 'display-order-item-selected';
+
+        if (this.state.displayOrder === targetDisplayOrder) {
+            return `${basicClass} ${selectedClass}`;
+        } else {
+            return `${basicClass}`;
+        }
+    }
+
+    onClickDisplayOrderItem(targetDisplayOrder: AssignmentDisplayOrder) {
+        if (!this._isMounted) {
+            return;
+        }
+
+        this.setState({
+            displayOrder: targetDisplayOrder,
+        });
     }
 
     updateAssignmentList(assignments: Assignment[]) {

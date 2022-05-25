@@ -9,7 +9,7 @@
 }
 
 .display-order-item {
-    background-color: var(--light-back-color);
+    background-color: var(--main-back-color-2);
     border: 2px solid var(--border-color);
     border-radius: 100vh;
     color: var(--dark-font-color-2);
@@ -25,6 +25,11 @@
 
 .display-order-item:last-of-type {
     margin: 0;
+}
+
+.display-order-item-selected {
+    background-color: var(--light-back-color);
+    color: var(--dark-font-color);
 }
 
 /* 
