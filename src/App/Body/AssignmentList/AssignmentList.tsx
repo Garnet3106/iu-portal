@@ -2,11 +2,21 @@ import React from "react";
 import UiStore from "../../../flux/UiStore";
 import { BodyProps } from '../Body';
 import AssignmentGroup from './AssignmentGroup/AssignmentGroup';
-import { Assignment } from "../../../assignment";
+import { Assignment, formatDate } from "../../../assignment";
 import './AssignmentList.css';
+
+export enum AssignmentDisplayOrder {
+    All,
+    EarlierDeadline,
+}
+
+export type SortedAssignmentGroups = {
+    [deadlineDate: string]: Assignment[],
+};
 
 type AssignmentListState = {
     assignments: Assignment[],
+    displayOrder: AssignmentDisplayOrder,
 }
 
 class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
@@ -17,6 +27,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
 
         this.state = {
             assignments: [],
+            displayOrder: AssignmentDisplayOrder.EarlierDeadline,
         };
 
         this._isMounted = false;
@@ -31,9 +42,51 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
     }
 
     render() {
-        const assignmentGroup = (
-            <AssignmentGroup assignments={this.state.assignments} title="すべて" />
-        );
+        let assignmentGroup: JSX.Element[] = [];
+
+        switch (this.state.displayOrder) {
+            case AssignmentDisplayOrder.All: {
+                assignmentGroup.push((
+                    <AssignmentGroup assignments={this.state.assignments} title="すべて" key="assignmentGroup_all" />
+                ));
+            } break;
+
+            case AssignmentDisplayOrder.EarlierDeadline: {
+                const sortedAssignments = this.state.assignments.sort((a: Assignment, b: Assignment) => {
+                    if (a.deadline === null || b.deadline === null) {
+                        return -1;
+                    }
+
+                    if (a.deadline < b.deadline) {
+                        return -1;
+                    }
+
+                    if (a.deadline > b.deadline) {
+                        return 1;
+                    }
+
+                    return 0;
+                });
+
+                let sortedAssignmentGroups: SortedAssignmentGroups = {};
+
+                sortedAssignments.forEach((eachAssignment: Assignment) => {
+                    const deadlineDate = formatDate(eachAssignment.deadline, 'M/d まで', '期限なし');
+
+                    if (!(deadlineDate in sortedAssignmentGroups)) {
+                        sortedAssignmentGroups[deadlineDate] = [];
+                    }
+
+                    sortedAssignmentGroups[deadlineDate].push(eachAssignment);
+                });
+
+                assignmentGroup = Object.keys(sortedAssignmentGroups).map((key: string) => {
+                    return (
+                        <AssignmentGroup assignments={sortedAssignmentGroups[key]} title={key} key={`assignmentGroup_${key}`} />
+                    );
+                });
+            } break;
+        }
 
         return (
             <div className="AssignmentList body-component" id={this.props.page.toId()} style={this.props.style}>
