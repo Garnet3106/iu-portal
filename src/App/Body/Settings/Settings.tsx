@@ -1,9 +1,10 @@
 import { Component } from 'react';
+import { BodyProps } from '../Body';
 import SettingItem from './SettingItem/SettingItem';
 import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
 import UiStore, { Page } from '../../../flux/UiStore';
-import { BodyProps } from '../Body';
+import { ActionKind } from '../../../flux/AppConstants';
 import './Settings.css';
 
 export enum Language {
@@ -111,7 +112,7 @@ class Settings extends Component<BodyProps> {
 
         const uiState = UiStore.getState();
 
-        if (uiState.hasSettingValuesUpdated) {
+        if (uiState.latestKind === ActionKind.UpdateSettingValues) {
             this.forceUpdate();
         }
     }

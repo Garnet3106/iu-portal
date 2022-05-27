@@ -3,6 +3,7 @@ import UiStore from "../../../flux/UiStore";
 import { BodyProps } from '../Body';
 import AssignmentGroup from './AssignmentGroup/AssignmentGroup';
 import { Assignment, formatDate } from "../../../assignment";
+import { ActionKind } from "../../../flux/AppConstants";
 import './AssignmentList.css';
 
 export enum AssignmentDisplayOrder {
@@ -35,7 +36,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
         UiStore.addListener(() => {
             const uiState = UiStore.getState();
 
-            if (uiState.hasAssignmentsUpdated) {
+            if (uiState.latestKind === ActionKind.UpdateAssignments) {
                 this.updateAssignmentList(uiState.assignments);
             }
         });

@@ -33,12 +33,11 @@ export class PageSwitch {
 }
 
 export type UiState = {
+    latestKind: ActionKind,
     currentPage: Page,
     switchPageTo: Page | null,
-    hasAssignmentsUpdated: boolean,
     assignments: Assignment[],
     previewingAssignmentId: string | null,
-    hasSettingValuesUpdated: boolean,
     settingValues: SettingValues,
     settingValueListItems: {
         [name: string]: () => void,
@@ -48,12 +47,11 @@ export type UiState = {
 class UiStore extends ReduceStore<UiState, Actions> {
     getInitialState() {
         return {
+            latestKind: ActionKind.InitializeStore,
             currentPage: new Page(0, 'Login'),
             switchPageTo: null,
-            hasAssignmentsUpdated: false,
             assignments: [],
             previewingAssignmentId: null,
-            hasSettingValuesUpdated: false,
             settingValues: {
                 language: Language.Japanese,
                 font: Font.HpSimplified,
@@ -62,24 +60,16 @@ class UiStore extends ReduceStore<UiState, Actions> {
         };
     }
 
-    reduce(state: UiState, action: Actions) {
-        switch (action.type) {
-            case ActionKind.PageSwitch: {
-                return {
-                    currentPage: action.data.currentPage,
-                    switchPageTo: action.data.switchPageTo,
-                    hasAssignmentsUpdated: action.data.hasAssignmentsUpdated,
-                    assignments: action.data.assignments,
-                    previewingAssignmentId: action.data.previewingAssignmentId,
-                    hasSettingValuesUpdated: action.data.hasSettingValuesUpdated,
-                    settingValues: action.data.settingValues,
-                    settingValueListItems: action.data.settingValueListItems,
-                };
-            }
-            default: {
-                return state;
-            }
-        }
+    reduce(_state: UiState, action: Actions) {
+        return {
+            latestKind: action.kind,
+            currentPage: action.data.currentPage,
+            switchPageTo: action.data.switchPageTo,
+            assignments: action.data.assignments,
+            previewingAssignmentId: action.data.previewingAssignmentId,
+            settingValues: action.data.settingValues,
+            settingValueListItems: action.data.settingValueListItems,
+        };
     }
 }
 

@@ -3,6 +3,7 @@ import { BodyProps } from '../Body';
 import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
 import { Assignment } from '../../../assignment';
 import UiStore from '../../../flux/UiStore';
+import { ActionKind } from '../../../flux/AppConstants';
 import './Statistics.css';
 
 export class MightBeUnknown<T extends object | number> {
@@ -148,7 +149,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
     onUpdateUiState() {
         const uiState = UiStore.getState();
 
-        if (uiState.hasAssignmentsUpdated) {
+        if (uiState.latestKind === ActionKind.UpdateAssignments) {
             let numberOfSubmitted = 0;
             let numberOfUnsubmitted = 0;
 

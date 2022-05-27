@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { formatDate } from '../../../assignment';
+import { ActionKind } from '../../../flux/AppConstants';
 import UiStore from '../../../flux/UiStore';
 import { BodyProps } from '../Body';
 import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
@@ -108,7 +109,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
     onUpdateUiState() {
         const uiState = UiStore.getState();
 
-        if (uiState.previewingAssignmentId !== this.state.assignmentId) {
+        if (uiState.latestKind === ActionKind.UpdatePreviewingAssignment) {
             if (this._isMounted) {
                 this.setState({
                     assignmentId: uiState.previewingAssignmentId,

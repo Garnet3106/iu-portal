@@ -4,14 +4,12 @@ import { Assignment } from "../assignment";
 import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
 
 export type UiActionPayload = {
-    type: ActionKind.PageSwitch,
+    kind: ActionKind,
     data: {
         currentPage: Page,
         switchPageTo: Page | null,
-        hasAssignmentsUpdated: boolean,
         assignments: Assignment[],
         previewingAssignmentId: string | null,
-        hasSettingValuesUpdated: boolean,
         settingValues: SettingValues,
         settingValueListItems: {
             [name: string]: () => void,
@@ -26,14 +24,12 @@ export type UiActions = ReturnType<
 export const UiActionCreators = {
     getDefault(): UiActions {
         return {
-            type: ActionKind.PageSwitch,
+            kind: ActionKind.InitializeStore,
             data: {
                 currentPage: new Page(0, 'Login'),
                 switchPageTo: null,
-                hasAssignmentsUpdated: false,
                 assignments: [],
                 previewingAssignmentId: null,
-                hasSettingValuesUpdated: false,
                 settingValues: {
                     language: Language.Japanese,
                     font: Font.HpSimplified,
@@ -43,62 +39,50 @@ export const UiActionCreators = {
         };
     },
 
-    initializeAssignments(assignments: Assignment[]): UiActions {
-        let defaultAction = this.getDefault();
-        defaultAction.data.hasAssignmentsUpdated = true;
-        defaultAction.data.assignments = assignments;
-        return defaultAction;
-    },
-
     updateAssignments(assignments: Assignment[]): UiActions {
-        let action = this.getCurrent();
-        action.data.hasAssignmentsUpdated = true;
+        let action = this.getCurrent(ActionKind.UpdateAssignments);
         action.data.assignments = assignments;
         return action;
     },
 
-    // Set `hasAssignmentsUpdated` value because it's basically false.
-    getCurrent(): UiActions {
+    getCurrent(kind: ActionKind): UiActions {
         let action = UiStore.getState();
-        action.hasAssignmentsUpdated = false;
-        action.hasSettingValuesUpdated = false;
 
         return {
-            type: ActionKind.PageSwitch,
+            kind: kind,
             data: action,
         };
     },
 
     updateSettingValues(values: SettingValues): UiActions {
-        let action = this.getCurrent();
+        let action = this.getCurrent(ActionKind.UpdateSettingValues);
         action.data.settingValues = values;
-        action.data.hasSettingValuesUpdated = true;
         return action;
     },
 
     updateSettingValueList(values: {
         [name: string]: () => void,
     }): UiActions {
-        let action = this.getCurrent();
+        let action = this.getCurrent(ActionKind.UpdateSettingValueListItems);
         action.data.settingValueListItems = values;
         return action;
     },
 
     updateSwitchTargetPage(switchPageTo: Page | null): UiActions {
-        let action = this.getCurrent();
+        let action = this.getCurrent(ActionKind.SwitchPage);
         action.data.switchPageTo = switchPageTo;
         return action;
     },
 
     updateCurrentPage(switchPageTo: Page): UiActions {
-        let action = this.getCurrent();
+        let action = this.getCurrent(ActionKind.SwitchPage);
         action.data.currentPage = switchPageTo;
         action.data.switchPageTo = null;
         return action;
     },
 
     previewAssignment(assignmentId: string): UiActions {
-        let action = this.getCurrent();
+        let action = this.getCurrent(ActionKind.UpdatePreviewingAssignment);
         action.data.switchPageTo = new Page(2, 'AssignmentPreview');
         action.data.previewingAssignmentId = assignmentId;
         return action;
