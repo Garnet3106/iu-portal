@@ -1,6 +1,7 @@
 import { ActionKind } from "./AppConstants";
 import UiStore, { Page } from './UiStore';
 import { Assignment } from "../assignment";
+import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
 
 export type UiActionPayload = {
     type: ActionKind.PageSwitch,
@@ -10,6 +11,11 @@ export type UiActionPayload = {
         hasAssignmentsUpdated: boolean,
         assignments: Assignment[],
         previewingAssignmentId: string | null,
+        hasSettingValuesUpdated: boolean,
+        settingValues: SettingValues,
+        settingValueListItems: {
+            [name: string]: () => void,
+        },
     },
 };
 
@@ -27,6 +33,12 @@ export const UiActionCreators = {
                 hasAssignmentsUpdated: false,
                 assignments: [],
                 previewingAssignmentId: null,
+                hasSettingValuesUpdated: false,
+                settingValues: {
+                    language: Language.Japanese,
+                    font: Font.HpSimplified,
+                },
+                settingValueListItems: {},
             },
         };
     },
@@ -49,11 +61,27 @@ export const UiActionCreators = {
     getCurrent(): UiActions {
         let action = UiStore.getState();
         action.hasAssignmentsUpdated = false;
+        action.hasSettingValuesUpdated = false;
 
         return {
             type: ActionKind.PageSwitch,
             data: action,
         };
+    },
+
+    updateSettingValues(values: SettingValues): UiActions {
+        let action = this.getCurrent();
+        action.data.settingValues = values;
+        action.data.hasSettingValuesUpdated = true;
+        return action;
+    },
+
+    updateSettingValueList(values: {
+        [name: string]: () => void,
+    }): UiActions {
+        let action = this.getCurrent();
+        action.data.settingValueListItems = values;
+        return action;
     },
 
     updateSwitchTargetPage(switchPageTo: Page | null): UiActions {

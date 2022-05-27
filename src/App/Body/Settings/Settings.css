@@ -1,0 +1,25 @@
+.Settings {
+    flex-direction: column;
+    scrollbar-width: none;
+}
+
+.Settings::-webkit-scrollbar {
+    display: none;
+}
+
+.settings-group {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-group-title {
+    display: inline-flex;
+}
+
+.settings-group-items {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

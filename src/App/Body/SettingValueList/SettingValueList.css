@@ -1,0 +1,8 @@
+.SettingValueList {
+    flex-direction: column;
+    scrollbar-width: none;
+}
+
+.Settings::-webkit-scrollbar {
+    display: none;
+}

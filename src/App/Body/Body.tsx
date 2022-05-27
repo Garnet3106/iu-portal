@@ -3,6 +3,8 @@ import Login from './Login/Login';
 import AssignmentPreview from './AssignmentPreview/AssignmentPreview';
 import AssignmentList from './AssignmentList/AssignmentList';
 import Statistics from './Statistics/Statistics';
+import Settings from './Settings/Settings';
+import SettingValueList from './SettingValueList/SettingValueList';
 import { EventSubscription } from 'fbemitter';
 import AppDispatcher from '../../flux/AppDispatcher';
 import UiStore, { Page, PageSwitch } from '../../flux/UiStore';
@@ -40,8 +42,9 @@ class Body extends Component<{}> {
                 } />
                 <Statistics page={new Page(3, 'Notification')} style={newBodyComponentStyle} />
                 <Statistics page={new Page(4, 'Statistics')} style={newBodyComponentStyle} />
-                <Statistics page={new Page(5, 'Settings')} style={newBodyComponentStyle} />
-                <Statistics page={new Page(6, 'Report')} style={newBodyComponentStyle} />
+                <Settings page={new Page(5, 'Settings')} style={newBodyComponentStyle} />
+                <SettingValueList page={new Page(6, 'SettingValueList')} style={newBodyComponentStyle} />
+                <Statistics page={new Page(7, 'Report')} style={newBodyComponentStyle} />
             </div>
         );
     }

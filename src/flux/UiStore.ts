@@ -2,6 +2,7 @@ import { ReduceStore } from "flux/utils";
 import AppDispatcher from "./AppDispatcher";
 import { ActionKind, Actions } from "./AppConstants";
 import { Assignment } from "../assignment";
+import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
 
 export class Page {
     index: number;
@@ -37,6 +38,11 @@ export type UiState = {
     hasAssignmentsUpdated: boolean,
     assignments: Assignment[],
     previewingAssignmentId: string | null,
+    hasSettingValuesUpdated: boolean,
+    settingValues: SettingValues,
+    settingValueListItems: {
+        [name: string]: () => void,
+    },
 };
 
 class UiStore extends ReduceStore<UiState, Actions> {
@@ -47,6 +53,12 @@ class UiStore extends ReduceStore<UiState, Actions> {
             hasAssignmentsUpdated: false,
             assignments: [],
             previewingAssignmentId: null,
+            hasSettingValuesUpdated: false,
+            settingValues: {
+                language: Language.Japanese,
+                font: Font.HpSimplified,
+            },
+            settingValueListItems: {},
         };
     }
 
@@ -59,6 +71,9 @@ class UiStore extends ReduceStore<UiState, Actions> {
                     hasAssignmentsUpdated: action.data.hasAssignmentsUpdated,
                     assignments: action.data.assignments,
                     previewingAssignmentId: action.data.previewingAssignmentId,
+                    hasSettingValuesUpdated: action.data.hasSettingValuesUpdated,
+                    settingValues: action.data.settingValues,
+                    settingValueListItems: action.data.settingValueListItems,
                 };
             }
             default: {
