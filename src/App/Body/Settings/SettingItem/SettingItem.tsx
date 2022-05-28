@@ -15,7 +15,7 @@ class SettingItem extends Component<SettingItemProps> {
                 <div className="settings-item-name">
                     {this.props.itemName}
                 </div>
-                <div className="settings-item-value">
+                <div className={this.props.focuseItem ? 'settings-item-value-focused' : 'settings-item-value'}>
                     {this.props.itemValue}
                 </div>
             </div>

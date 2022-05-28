@@ -86,19 +86,21 @@ class Settings extends Component<BodyProps> {
     onClickLanguageSettingItem() {
         const uiState = UiStore.getState();
         const focusedListItemIndex = uiState.settingValues.language;
+        let callbacks: {
+            [name: string]: () => void;
+        } = {};
 
-        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList(focusedListItemIndex, {
-            '日本語': () => {
-                Settings.updateLanguageSettingTo(Language.Japanese);
-            },
-            '日本語 (かな)': () => {
-                Settings.updateLanguageSettingTo(Language.JapaneseKana);
-            },
-            '英語': () => {
-                Settings.updateLanguageSettingTo(Language.EnglishUs);
-            },
-        }));
+        Object.entries(Language).forEach(([_index, eachLang]) => {
+            const assertedLang = eachLang as Language;
 
+            if(typeof assertedLang === 'number') {
+                callbacks[languageNameToJapanese(assertedLang)] = () => {
+                    Settings.updateLanguageSettingTo(assertedLang);
+                }
+            }
+        });
+
+        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList(focusedListItemIndex, callbacks));
         Settings.switchToSettingValueListPage();
     }
 
@@ -111,13 +113,21 @@ class Settings extends Component<BodyProps> {
     onClickFontSettingItem() {
         const uiState = UiStore.getState();
         const focusedListItemIndex = uiState.settingValues.language;
+        let callbacks: {
+            [name: string]: () => void;
+        } = {};
 
-        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList(focusedListItemIndex, {
-            'HP Simplified': () => {
-                Settings.updateFontSettingTo(Font.HpSimplified);
-            },
-        }));
+        Object.entries(Font).forEach(([_index, eachFont]) => {
+            const assertedFont = eachFont as Font;
 
+            if(typeof assertedFont === 'number') {
+                callbacks[fontNameToString(assertedFont)] = () => {
+                    Settings.updateFontSettingTo(assertedFont);
+                }
+            }
+        });
+
+        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList(focusedListItemIndex, callbacks));
         Settings.switchToSettingValueListPage();
     }
 

@@ -23,3 +23,8 @@
     color: var(--main-back-color-2);
     font-size: 85%;
 }
+
+.settings-item-value-focused {
+    color: var(--light-font-color);
+    font-size: 85%;
+}
