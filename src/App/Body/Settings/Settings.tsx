@@ -112,7 +112,7 @@ class Settings extends Component<BodyProps> {
 
     onClickFontSettingItem() {
         const uiState = UiStore.getState();
-        const focusedListItemIndex = uiState.settingValues.language;
+        const focusedListItemIndex = uiState.settingValues.font;
         let callbacks: {
             [name: string]: () => void;
         } = {};
