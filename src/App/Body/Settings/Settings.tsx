@@ -8,13 +8,33 @@ import { ActionKind } from '../../../flux/AppConstants';
 import './Settings.css';
 
 export enum Language {
-    EnglishUs = 'en_us',
-    Japanese = 'ja',
-    JapaneseKana = 'ja_kana',
+    EnglishUs,
+    Japanese,
+    JapaneseKana,
+}
+
+export function languageNameToJapanese(lang: Language): string {
+    switch (lang) {
+        case Language.EnglishUs:
+        return '英語 (アメリカ)';
+
+        case Language.Japanese:
+        return '日本語';
+
+        case Language.JapaneseKana:
+        return '日本語 (かな)';
+    }
 }
 
 export enum Font {
-    HpSimplified = 'HP Simplified',
+    HpSimplified,
+}
+
+export function fontNameToString(font: Font): string {
+    switch (font) {
+        case Font.HpSimplified:
+        return 'HP Simplified';
+    }
 }
 
 export type SettingValues = {
@@ -47,8 +67,8 @@ class Settings extends Component<BodyProps> {
                         表示
                     </div>
                     <div className="settings-group-items">
-                        <SettingItem itemName="言語" itemValue={uiState.settingValues.language} onClickItem={this.onClickLanguageSettingItem}/>
-                        <SettingItem itemName="フォント" itemValue={uiState.settingValues.font} onClickItem={this.onClickFontSettingItem}/>
+                        <SettingItem itemName="言語" itemValue={languageNameToJapanese(uiState.settingValues.language)} onClickItem={this.onClickLanguageSettingItem}/>
+                        <SettingItem itemName="フォント" itemValue={fontNameToString(uiState.settingValues.font)} onClickItem={this.onClickFontSettingItem}/>
                     </div>
                 </div>
             </div>
@@ -64,7 +84,10 @@ class Settings extends Component<BodyProps> {
     }
 
     onClickLanguageSettingItem() {
-        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList({
+        const uiState = UiStore.getState();
+        const focusedListItemIndex = uiState.settingValues.language;
+
+        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList(focusedListItemIndex, {
             '日本語': () => {
                 Settings.updateLanguageSettingTo(Language.Japanese);
             },
@@ -86,7 +109,10 @@ class Settings extends Component<BodyProps> {
     }
 
     onClickFontSettingItem() {
-        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList({
+        const uiState = UiStore.getState();
+        const focusedListItemIndex = uiState.settingValues.language;
+
+        AppDispatcher.dispatch(UiActionCreators.updateSettingValueList(focusedListItemIndex, {
             'HP Simplified': () => {
                 Settings.updateFontSettingTo(Font.HpSimplified);
             },

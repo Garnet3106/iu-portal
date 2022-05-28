@@ -39,6 +39,7 @@ export type UiState = {
     assignments: Assignment[],
     previewingAssignmentId: string | null,
     settingValues: SettingValues,
+    focusedListItemIndex: number | null,
     settingValueListItems: {
         [name: string]: () => void,
     },
@@ -56,6 +57,7 @@ class UiStore extends ReduceStore<UiState, Actions> {
                 language: Language.Japanese,
                 font: Font.HpSimplified,
             },
+            focusedListItemIndex: null,
             settingValueListItems: {},
         };
     }
@@ -68,6 +70,7 @@ class UiStore extends ReduceStore<UiState, Actions> {
             assignments: action.data.assignments,
             previewingAssignmentId: action.data.previewingAssignmentId,
             settingValues: action.data.settingValues,
+            focusedListItemIndex: action.data.focusedListItemIndex,
             settingValueListItems: action.data.settingValueListItems,
         };
     }

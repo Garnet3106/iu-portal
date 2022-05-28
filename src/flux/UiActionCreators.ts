@@ -11,6 +11,7 @@ export type UiActionPayload = {
         assignments: Assignment[],
         previewingAssignmentId: string | null,
         settingValues: SettingValues,
+        focusedListItemIndex: number | null,
         settingValueListItems: {
             [name: string]: () => void,
         },
@@ -34,6 +35,7 @@ export const UiActionCreators = {
                     language: Language.Japanese,
                     font: Font.HpSimplified,
                 },
+                focusedListItemIndex: null,
                 settingValueListItems: {},
             },
         };
@@ -60,10 +62,11 @@ export const UiActionCreators = {
         return action;
     },
 
-    updateSettingValueList(values: {
+    updateSettingValueList(focusedListItemIndex: number, values: {
         [name: string]: () => void,
     }): UiActions {
         let action = this.getCurrent(ActionKind.UpdateSettingValueListItems);
+        action.data.focusedListItemIndex = focusedListItemIndex;
         action.data.settingValueListItems = values;
         return action;
     },

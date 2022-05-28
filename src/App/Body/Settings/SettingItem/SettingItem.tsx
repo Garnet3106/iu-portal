@@ -4,6 +4,7 @@ import './SettingItem.css';
 export type SettingItemProps = {
     itemName: string,
     itemValue: string,
+    focuseItem?: boolean,
     onClickItem: () => void,
 }
 

@@ -7,6 +7,7 @@ import SettingItem from '../Settings/SettingItem/SettingItem';
 import './SettingValueList.css';
 
 export type SettingValueListState = {
+    focusedListItemIndex: number | null,
     listItemCallbacks: {
         [name: string]: () => void,
     },
@@ -14,6 +15,7 @@ export type SettingValueListState = {
 
 class SettingValueList extends Component<BodyProps, SettingValueListState> {
     private _isMounted: boolean;
+    private _focusedListItemIndex: number | null;
     private _listItemCallbacks: {
         [name: string]: () => void,
     } | null;
@@ -22,10 +24,12 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
         super(props);
 
         this.state = {
+            focusedListItemIndex: null,
             listItemCallbacks: {},
         };
 
         this._isMounted = false;
+        this._focusedListItemIndex = null;
         this._listItemCallbacks = null;
 
         UiStore.addListener(this.onUpdateUiState.bind(this));
@@ -35,7 +39,9 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
         let valueItems: JSX.Element[] = [];
 
         Object.keys(this.state.listItemCallbacks).forEach((itemValue: string, index: number) => {
-            valueItems.push((<SettingItem itemName="" itemValue={itemValue} onClickItem={() => {
+            let focuseItem = this.state.focusedListItemIndex !== null && index === this.state.focusedListItemIndex;
+
+            valueItems.push((<SettingItem itemName="" itemValue={itemValue} focuseItem={focuseItem} onClickItem={() => {
                 this.onClickItem(itemValue);
             }} key={`settingValueListItem_${index}`} />))
         });
@@ -55,8 +61,9 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
     componentDidMount() {
         this._isMounted = true;
 
-        if (this._listItemCallbacks !== null) {
+        if (this._focusedListItemIndex !== null && this._listItemCallbacks !== null) {
             this.setState({
+                focusedListItemIndex: this._focusedListItemIndex,
                 listItemCallbacks: this._listItemCallbacks,
             });
         }
@@ -73,6 +80,8 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
         if (onClick !== undefined) {
             onClick();
         }
+
+        SettingValueList.switchToSettingPage();
     }
 
     static switchToSettingPage() {
@@ -84,9 +93,11 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
 
         if (this._isMounted) {
             this.setState({
+                focusedListItemIndex: uiState.focusedListItemIndex,
                 listItemCallbacks: uiState.settingValueListItems,
             });
         } else {
+            this._focusedListItemIndex = uiState.focusedListItemIndex;
             this._listItemCallbacks = uiState.settingValueListItems;
         }
     }
