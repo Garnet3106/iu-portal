@@ -63,7 +63,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                             登録者 {assignment.registrar.nickname} ({assignment.numberOfCheckers} 人が照合)
                         </div>
                     </div>
-                    <div>
+                    <div className="preview-detail-parent">
                         <div className="preview-detail">
                             <div className="preview-detail-deadline">
                                 {formatDate(assignment.deadline, 'yyyy/M/d', '期限なし')}

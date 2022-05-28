@@ -6,6 +6,7 @@
 
 .preview {
     display: flex;
+    justify-content: center;
     width: 100vw;
 }
 
@@ -42,6 +43,10 @@
     font-size: 80%;
 }
 
+.preview-detail-parent {
+    min-width: 35%;
+}
+
 .preview-detail {
     align-items: center;
     background-color: var(--light-back-color);
@@ -74,6 +79,7 @@
 
 .preview-detail-content {
     font-size: 130%;
+    text-align: center;
 }
 
 .preview-detail-arrow {
