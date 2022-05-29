@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BodyProps } from '../Body';
-import UiStore, { Page } from '../../../flux/UiStore';
-import { ActionKind } from '../../../flux/AppConstants';
-import './Report.css';
+import { Page } from '../../../flux/UiStore';
 import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
+import { JsonApi } from '../../../jsonapi';
+import './Report.css';
 
 export enum ReportKind {
     MessageToDeveloper,
@@ -33,7 +33,8 @@ export enum MessageLengthValidation {
 }
 
 export type ReportState = {
-    message: string,
+    kind: ReportKind,
+    msg: string,
 }
 
 const maxMsgLen = 1000;
@@ -44,7 +45,8 @@ class Report extends Component<BodyProps, ReportState> {
         super(props);
 
         this.state = {
-            message: '',
+            kind: 0 as ReportKind,
+            msg: '',
         };
     }
 
@@ -59,18 +61,18 @@ class Report extends Component<BodyProps, ReportState> {
             }
         });
 
-        const restOfMsgLen = this.state.message.length - maxMsgLen;
-        const isMsgLenAppropriate = Report.validateMessageLength(this.state.message, minMsgLen, maxMsgLen) === MessageLengthValidation.Appropriate;
-        const textareaClassName = isMsgLenAppropriate ? 'report-text-count' : 'report-text-count report-text-count-over';
+        const restOfMsgLen = this.state.msg.length - maxMsgLen;
+        const isMsgLenAppropriate = Report.validateMessageLength(this.state.msg, minMsgLen, maxMsgLen) === MessageLengthValidation.Appropriate;
+        const textAreaClassName = isMsgLenAppropriate ? 'report-text-count' : 'report-text-count report-text-count-over';
 
         return (
             <div className="Report body-component" id={this.props.page.toId()} style={this.props.style}>
                 <div className="report-wrapper">
-                    <select className="report-kind">
+                    <select className="report-kind" onChange={this.onChangeReportKind.bind(this)}>
                         {options}
                     </select>
-                    <textarea className="report-text" onChange={this.onChangeTextarea.bind(this)} placeholder={`${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください`} />
-                    <div className={textareaClassName}>
+                    <textarea className="report-text" onChange={this.onChangeReportMessage.bind(this)} placeholder={`${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください`} />
+                    <div className={textAreaClassName}>
                         {restOfMsgLen}
                     </div>
                 </div>
@@ -81,17 +83,27 @@ class Report extends Component<BodyProps, ReportState> {
         );
     }
 
-    onChangeTextarea(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    onChangeReportKind(event: React.ChangeEvent<HTMLSelectElement>) {
+        const target = event.target as HTMLSelectElement;
+
         this.setState({
-            message: (event.target as HTMLTextAreaElement).value,
+            kind: target.selectedIndex as ReportKind,
+        });
+    }
+
+    onChangeReportMessage(event: React.ChangeEvent<HTMLTextAreaElement>) {
+        const target = event.target as HTMLTextAreaElement;
+
+        this.setState({
+            msg: target.value,
         });
     }
 
     onClickSendButton() {
-        switch (Report.validateMessageLength(this.state.message, minMsgLen, maxMsgLen)) {
+        switch (Report.validateMessageLength(this.state.msg, minMsgLen, maxMsgLen)) {
             case MessageLengthValidation.Appropriate: {
                 if (window.confirm('送信してよろしいですか？\n\n※ アプリの円滑な運営を目的に送信者のアカウント情報を記録しますが、外部には公開いたしません。')) {
-                    alert('ご報告ありがとうございました。後ほど管理者が確認いたします。');
+                    Report.sendToServer(this.state.kind, this.state.msg);
                     AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(new Page(1, 'AssignmentList')));
                 }
             } break;
@@ -108,6 +120,20 @@ class Report extends Component<BodyProps, ReportState> {
                 alert(`${maxMsgLen} 文字以内で入力してください。`);
             } break;
         }
+    }
+
+    static sendToServer(kind: ReportKind, msg: string) {
+        const reqObj = JsonApi.getReportRequestObject(kind, msg);
+
+        const onLoad = (event: ProgressEvent<XMLHttpRequestEventTarget>) => {
+            alert('ご報告ありがとうございました。後ほど管理者が確認いたします。');
+        };
+
+        const onError = (event: ProgressEvent<XMLHttpRequestEventTarget>) => {
+            alert('技術的なトラブルにより送信に失敗しました。再度お試しください。');
+        };
+
+        JsonApi.request(reqObj, onLoad, onError);
     }
 
     static validateMessageLength(msg: string, minLimit: number, maxLimit: number): MessageLengthValidation {

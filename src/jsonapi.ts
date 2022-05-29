@@ -1,4 +1,29 @@
+import { ReportKind } from "./App/Body/Report/Report";
 import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, User } from "./assignment"
+
+export const JsonApi = {
+    request(
+        reqObj: object,
+        onLoad: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void,
+        onError: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void,
+    ) {
+        const req = new XMLHttpRequest();
+        req.addEventListener('load', onLoad);
+        req.addEventListener('error', onError);
+
+        const jsonReqStr = encodeURIComponent(JSON.stringify(reqObj));
+        req.open('GET', `https://iu-portal.gant.work/api.php?request=${jsonReqStr}`);
+        req.send();
+    },
+
+    getReportRequestObject: (kind: ReportKind, msg: string) => {
+        return {
+            action: 'report',
+            kind: kind,
+            message: msg,
+        }
+    },
+};
 
 export const subdataNames = ['assignments', 'courses', 'lectures', 'teachers', 'users'];
 
