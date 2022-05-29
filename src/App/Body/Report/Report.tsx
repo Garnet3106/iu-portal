@@ -41,8 +41,11 @@ const maxMsgLen = 1000;
 const minMsgLen = 5;
 
 class Report extends Component<BodyProps, ReportState> {
+    textAreaRef: React.RefObject<HTMLTextAreaElement>;
+    
     constructor(props: BodyProps) {
         super(props);
+        this.textAreaRef = React.createRef();
 
         this.state = {
             kind: 0 as ReportKind,
@@ -71,7 +74,7 @@ class Report extends Component<BodyProps, ReportState> {
                     <select className="report-kind" onChange={this.onChangeReportKind.bind(this)}>
                         {options}
                     </select>
-                    <textarea className="report-text" onChange={this.onChangeReportMessage.bind(this)} placeholder={`${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください`} />
+                    <textarea className="report-text" onChange={this.onChangeReportMessage.bind(this)} placeholder={`${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください`} ref={this.textAreaRef} />
                     <div className={textAreaClassName}>
                         {restOfMsgLen}
                     </div>
@@ -103,7 +106,7 @@ class Report extends Component<BodyProps, ReportState> {
         switch (Report.validateMessageLength(this.state.msg, minMsgLen, maxMsgLen)) {
             case MessageLengthValidation.Appropriate: {
                 if (window.confirm('送信してよろしいですか？\n\n※ アプリの円滑な運営を目的に送信者のアカウント情報を記録しますが、外部には公開いたしません。')) {
-                    Report.sendToServer(this.state.kind, this.state.msg);
+                    this.sendToServer(this.state.kind, this.state.msg);
                     AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(new Page(1, 'AssignmentList')));
                 }
             } break;
@@ -122,14 +125,18 @@ class Report extends Component<BodyProps, ReportState> {
         }
     }
 
-    static sendToServer(kind: ReportKind, msg: string) {
+    sendToServer(kind: ReportKind, msg: string) {
         const reqObj = JsonApi.getReportRequestObject(kind, msg);
 
-        const onLoad = (event: ProgressEvent<XMLHttpRequestEventTarget>) => {
+        const onLoad = (_event: ProgressEvent<XMLHttpRequestEventTarget>) => {
+            if (this.textAreaRef.current !== null) {
+                this.textAreaRef.current.value = '';
+            }
+
             alert('ご報告ありがとうございました。後ほど管理者が確認いたします。');
         };
 
-        const onError = (event: ProgressEvent<XMLHttpRequestEventTarget>) => {
+        const onError = (_event: ProgressEvent<XMLHttpRequestEventTarget>) => {
             alert('技術的なトラブルにより送信に失敗しました。再度お試しください。');
         };
 
