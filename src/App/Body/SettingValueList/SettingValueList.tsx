@@ -50,7 +50,7 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
             <div className="SettingValueList body-component" id={this.props.page.toId()} style={this.props.style}>
                 <div className="settings-group">
                     <div className="settings-group-title">
-                        項目選択
+                        項目を選択してください
                     </div>
                     {valueItems}
                 </div>

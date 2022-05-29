@@ -15,6 +15,7 @@
 
 .settings-group-title {
     display: inline-flex;
+    margin: calc(var(--layout-margin) / 2) 0;
 }
 
 .settings-group-items {
