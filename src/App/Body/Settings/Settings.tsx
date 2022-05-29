@@ -7,6 +7,10 @@ import UiStore, { Page } from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import './Settings.css';
 
+const tosUrl = 'https://iu-portal.gant.work/privacypolicy';
+const privacyPolicyUrl = 'https://iu-portal.gant.work/tos';
+const licenseUrl = 'https://iu-portal.gant.work/license';
+
 export enum Language {
     EnglishUs,
     Japanese,
@@ -71,6 +75,16 @@ class Settings extends Component<BodyProps> {
                         <SettingItem itemName="フォント" itemValue={fontNameToString(uiState.settingValues.font)} onClickItem={this.onClickFontSettingItem}/>
                     </div>
                 </div>
+                <div className="settings-group">
+                    <div className="settings-group-title">
+                        規約等
+                    </div>
+                    <div className="settings-group-items">
+                        <SettingItem itemName="" itemValue={"利用規約"} onClickItem={this.onClickTosItem}/>
+                        <SettingItem itemName="" itemValue="プライバシーポリシー" onClickItem={this.onClickPrivacyPolicyItem}/>
+                        <SettingItem itemName="" itemValue="ライセンス表示" onClickItem={this.onClickLicenseItem}/>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -129,6 +143,18 @@ class Settings extends Component<BodyProps> {
 
         AppDispatcher.dispatch(UiActionCreators.updateSettingValueList(focusedListItemIndex, callbacks));
         Settings.switchToSettingValueListPage();
+    }
+
+    onClickTosItem() {
+        window.open(tosUrl, 'iU Portal 利用規約');
+    }
+
+    onClickPrivacyPolicyItem() {
+        window.open(privacyPolicyUrl, 'iU Portal プライバシーポリシー');
+    }
+
+    onClickLicenseItem() {
+        window.open(licenseUrl, 'iU Portal ライセンス表示');
     }
 
     static updateFontSettingTo(font: Font) {
