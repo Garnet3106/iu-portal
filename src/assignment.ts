@@ -20,9 +20,9 @@ export type Assignment = {
     numberOfCheckers: number,
     course: Course,
     lecture: Lecture,
-    assignedFrom: Platform,
+    assignedFrom: string,
     assignedFromLink: string | null,
-    submitTo: Platform,
+    submitTo: string,
     submitToLink: string | null,
     deadline: Date | null,
     description: string,
@@ -61,17 +61,6 @@ export type Lecture = {
 export type Teacher = {
     id: string,
     name: string,
-};
-
-export enum PlatformKind {
-    Classroom = 'classroom',
-    EMail = 'email',
-    Unipa = 'unipa',
-};
-
-export type Platform = {
-    id: string,
-    kind: PlatformKind,
 };
 
 export type User = {

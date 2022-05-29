@@ -1,6 +1,6 @@
-import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Platform, PlatformKind, Teacher, User } from "./assignment"
+import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, User } from "./assignment"
 
-export const subdataNames = ['assignments', 'courses', 'lectures', 'teachers', 'platforms', 'users'];
+export const subdataNames = ['assignments', 'courses', 'lectures', 'teachers', 'users'];
 
 // todo: change to type alias
 export class UuidAssoc<Value> {
@@ -69,9 +69,6 @@ export type AssignmentStructureApiResponse = ApiResponse<{
     teachers: {
         [uuid: string]: ApiResponseTeacher,
     },
-    platforms: {
-        [uuid: string]: ApiResponsePlatform,
-    },
     users: {
         [uuid: string]: ApiResponseUser,
     },
@@ -82,7 +79,6 @@ export type AssociativeAssignmentStructureApiResponse = ApiResponse<{
     courses: UuidAssoc<ApiResponseCourse>,
     lectures: UuidAssoc<ApiResponseLecture>,
     teachers: UuidAssoc<ApiResponseTeacher>,
-    platforms: UuidAssoc<ApiResponsePlatform>,
     users: UuidAssoc<ApiResponseUser>,
 }>;
 
@@ -96,7 +92,6 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
             courses: new UuidAssoc<ApiResponseCourse>({}),
             lectures: new UuidAssoc<ApiResponseLecture>({}),
             teachers: new UuidAssoc<ApiResponseTeacher>({}),
-            platforms: new UuidAssoc<ApiResponsePlatform>({}),
             users: new UuidAssoc<ApiResponseUser>({}),
         },
     };
@@ -120,7 +115,6 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
         courses: new UuidAssoc(response.contents.courses),
         lectures: new UuidAssoc(response.contents.lectures),
         teachers: new UuidAssoc(response.contents.teachers),
-        platforms: new UuidAssoc(response.contents.platforms),
         users: new UuidAssoc(response.contents.users),
     };
 
@@ -162,11 +156,6 @@ export type ApiResponseTeacher = {
     name: string,
 }
 
-export type ApiResponsePlatform = {
-    numberOfTimes: number,
-    nickname: string,
-}
-
 export type ApiResponseUser = {
     nickname: string,
 }
@@ -184,7 +173,6 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
     let courses = new UuidAssoc<Course>({});
     let lectures = new UuidAssoc<Lecture>({});
     let teachers = new UuidAssoc<Teacher>({});
-    let platforms = new UuidAssoc<Platform>({});
     let users = new UuidAssoc<User>({});
 
     contents.assignments.forEach((eachAssignment: ApiResponseAssignment, eachAssignmentId: string) => {
@@ -196,12 +184,6 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
         const convertedLecture = apiResponseToLecture(eachAssignment.lectureId, contents.lectures);
         lectures.insertIfNotExists(convertedLecture.id, convertedLecture);
 
-        const convertedAssignmentPlatform = apiResponseToPlatform(eachAssignment.assignedFrom, contents.platforms);
-        platforms.insertIfNotExists(convertedAssignmentPlatform.id, convertedAssignmentPlatform);
-
-        const convertedSubmissionPlatform = apiResponseToPlatform(eachAssignment.submitTo, contents.platforms);
-        platforms.insertIfNotExists(convertedSubmissionPlatform.id, convertedSubmissionPlatform);
-        
         let teacherIds = contents.courses.at(eachAssignment.courseId)?.teacherIds;
         
         teacherIds?.forEach((eachTeacherId: string) => {
@@ -218,9 +200,9 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
             numberOfCheckers: eachAssignment.numberOfCheckers,
             course: courses.at(eachAssignment.courseId),
             lecture: lectures.at(eachAssignment.lectureId),
-            assignedFrom: platforms.at(eachAssignment.assignedFrom),
+            assignedFrom: eachAssignment.assignedFrom,
             assignedFromLink: eachAssignment.assignedFromLink,
-            submitTo: platforms.at(eachAssignment.submitTo),
+            submitTo: eachAssignment.submitTo,
             submitToLink: eachAssignment.submitToLink,
             deadline: eachAssignment.deadline !== null ? new Date(Date.parse(eachAssignment.deadline)) : null,
             description: eachAssignment.description,
@@ -254,15 +236,6 @@ function apiResponseToLecture(lectureId: string, lectures: UuidAssoc<ApiResponse
         id: lectureId,
         numberOfTimes: targetLecture.numberOfTimes,
         date: new Date(Date.parse(targetLecture.date)),
-    };
-}
-
-function apiResponseToPlatform(platformId: string, platforms: UuidAssoc<ApiResponsePlatform>): Platform {
-    let targetPlatform = platforms.at(platformId);
-
-    return {
-        id: platformId,
-        kind: targetPlatform.nickname as PlatformKind,
     };
 }
 

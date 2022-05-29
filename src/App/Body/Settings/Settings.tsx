@@ -93,7 +93,7 @@ class Settings extends Component<BodyProps> {
         Object.entries(Language).forEach(([_index, eachLang]) => {
             const assertedLang = eachLang as Language;
 
-            if(typeof assertedLang === 'number') {
+            if (typeof assertedLang === 'number') {
                 callbacks[languageNameToJapanese(assertedLang)] = () => {
                     Settings.updateLanguageSettingTo(assertedLang);
                 }
@@ -120,7 +120,7 @@ class Settings extends Component<BodyProps> {
         Object.entries(Font).forEach(([_index, eachFont]) => {
             const assertedFont = eachFont as Font;
 
-            if(typeof assertedFont === 'number') {
+            if (typeof assertedFont === 'number') {
                 callbacks[fontNameToString(assertedFont)] = () => {
                     Settings.updateFontSettingTo(assertedFont);
                 }

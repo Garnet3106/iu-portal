@@ -8,9 +8,9 @@
                 "numberOfCheckers": 2,
                 "courseId": "3db893b5-d247-11ec-8085-49bfe3345a29",
                 "lectureId": "3db893b5-d247-11ec-8085-49bfe3345a29",
-                "assignedFrom": "3db893b5-d247-11ec-8085-49bfe3345a29",
+                "assignedFrom": "UNIPA",
                 "assignedFromLink": null,
-                "submitTo": "3db893b5-d247-11ec-8085-49bfe3345a29",
+                "submitTo": "Classroom",
                 "submitToLink": null,
                 "deadline": "2022-05-14 11:05:02",
                 "description": "desc",
@@ -41,12 +41,6 @@
         "teachers": {
             "3db893b5-d247-11ec-8085-49bfe3345a29": {
                 "name": "教員太郎"
-            }
-        },
-        "platforms": {
-            "3db893b5-d247-11ec-8085-49bfe3345a29": {
-                "numberOfTimes": 2,
-                "nickname": "unipa"
             }
         },
         "users": {

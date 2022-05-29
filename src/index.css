@@ -9,6 +9,8 @@
 }
 
 :root {
+    --font-family: 'HP Simplified', 'sans-serif';
+
     --main-back-color: #60c45e;
     --main-back-color-2: #d2f3d2;
     --sub-back-color: #68a353;
@@ -44,7 +46,7 @@
 
 body {
     color: var(--light-font-color);
-    font-family: 'HP Simplified', 'sans-serif';
+    font-family: var(--font-family);
     margin: 0;
 }
 
