@@ -1,5 +1,6 @@
 {
     "status": 200,
+    "message": "Request processing finished successfully.",
     "request": "{\"action\":\"get_assignments\",\"includeCompleted\":true}",
     "contents": {
         "assignments": {

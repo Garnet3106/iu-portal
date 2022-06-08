@@ -126,9 +126,9 @@ class Report extends Component<BodyProps, ReportState> {
     }
 
     sendToServer(kind: ReportKind, msg: string) {
-        const reqObj = JsonApi.getReportRequestObject(kind, msg);
+        const req = JsonApi.getReportRequest(kind, msg);
 
-        const onLoad = (_event: ProgressEvent<XMLHttpRequestEventTarget>) => {
+        const onLoad = () => {
             if (this.textAreaRef.current !== null) {
                 this.textAreaRef.current.value = '';
             }
@@ -136,11 +136,11 @@ class Report extends Component<BodyProps, ReportState> {
             alert('ご報告ありがとうございました。後ほど管理者が確認いたします。');
         };
 
-        const onError = (_event: ProgressEvent<XMLHttpRequestEventTarget>) => {
+        const onError = () => {
             alert('技術的なトラブルにより送信に失敗しました。再度お試しください。');
         };
 
-        JsonApi.request(reqObj, onLoad, onError);
+        JsonApi.request(req, onLoad, onError);
     }
 
     static validateMessageLength(msg: string, minLimit: number, maxLimit: number): MessageLengthValidation {

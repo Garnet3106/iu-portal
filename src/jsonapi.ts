@@ -1,27 +1,45 @@
 import { ReportKind } from "./App/Body/Report/Report";
 import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, User } from "./assignment"
 
+const apiUrl = 'http://localhost:8000';
+
+export enum JsonApiRequestActionKind {
+    GetAssignments = 'get_assignments',
+    Report = 'report',
+}
+
+export type JsonApiRequest = {
+    actionKind: JsonApiRequestActionKind,
+    parameters: object,
+}
+
 export const JsonApi = {
     request(
-        reqObj: object,
-        onLoad: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void,
-        onError: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void,
+        apiRequest: JsonApiRequest,
+        onLoad: (req: XMLHttpRequest) => void,
+        onError: () => void,
     ) {
         const req = new XMLHttpRequest();
-        req.addEventListener('load', onLoad);
+
+        req.addEventListener('load', () => {
+            onLoad(req);
+        });
+
         req.addEventListener('error', onError);
 
-        const jsonReqStr = encodeURIComponent(JSON.stringify(reqObj));
-        req.open('GET', `https://iu-portal.gant.work/api.php?request=${jsonReqStr}`);
+        const jsonReqStr = encodeURIComponent(JSON.stringify(apiRequest.parameters));
+        req.open('GET', `${apiUrl}/${apiRequest.actionKind}?req=${jsonReqStr}`);
         req.send();
     },
 
-    getReportRequestObject: (kind: ReportKind, msg: string) => {
+    getReportRequest: (kind: ReportKind, msg: string) => {
         return {
-            action: 'report',
-            kind: kind,
-            message: msg,
-        }
+            actionKind: JsonApiRequestActionKind.Report,
+            parameters: {
+                kind: kind,
+                msg: msg,
+            },
+        } as JsonApiRequest;
     },
 };
 
@@ -203,18 +221,18 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
     contents.assignments.forEach((eachAssignment: ApiResponseAssignment, eachAssignmentId: string) => {
         // Add converted subdata in each assignment which doesn't exist before assignment addition.
 
+        let teacherIds = contents.courses.at(eachAssignment.courseId)?.teacherIds;
+
+        teacherIds?.forEach((eachTeacherId: string) => {
+            const convertedTeacher = apiResponseToTeacher(eachTeacherId, contents.teachers);
+            teachers.insertIfNotExists(eachTeacherId, convertedTeacher);
+        });
+
         const convertedCourse = apiResponseToCourse(eachAssignment.courseId, contents.courses, teachers);
         courses.insertIfNotExists(convertedCourse.id, convertedCourse);
 
         const convertedLecture = apiResponseToLecture(eachAssignment.lectureId, contents.lectures);
         lectures.insertIfNotExists(convertedLecture.id, convertedLecture);
-
-        let teacherIds = contents.courses.at(eachAssignment.courseId)?.teacherIds;
-        
-        teacherIds?.forEach((eachTeacherId: string) => {
-            const convertedTeacher = apiResponseToTeacher(eachTeacherId, contents.teachers);
-            teachers.insertIfNotExists(eachTeacherId, convertedTeacher);
-        });
 
         const convertedUser = apiResponseToUser(eachAssignment.registrarId, contents.users);
         users.insertIfNotExists(convertedUser.id, convertedUser);

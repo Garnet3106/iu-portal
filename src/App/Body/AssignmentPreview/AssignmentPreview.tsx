@@ -48,9 +48,10 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
             return;
         }
 
+        console.log(assignment.course)
         return (
             <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
-                <HorizontalSwitcher title={assignment.course.name} description={assignment.course.teachers.map((eachCourse) => eachCourse.name).join('<br>')} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
+                <HorizontalSwitcher title={assignment.course.name} description={assignment.course.teachers.map((eachTeacher) => eachTeacher.name).join('<br>')} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 <div className="preview">
                     <div className="preview-left">
                         <div className="preview-description">
