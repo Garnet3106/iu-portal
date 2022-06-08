@@ -40,7 +40,6 @@ class App extends React.Component<{}> {
             },
             (req: XMLHttpRequest) => {
                 let response;
-                console.log(req.responseText)
 
                 try {
                     response = JSON.parse(req.responseText);
