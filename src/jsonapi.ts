@@ -148,7 +148,7 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
     
     subdataNames.forEach((eachName: string) => {
         if ((response.contents as any)[eachName] === undefined) {
-            console.error(`Assignment Loading Error: Property \`${eachName}\` doesn\'t exist.`);
+            console.error(`Assignment Loading Error: Property \`${eachName}\` doesn't exist.`);
             return result;
         }
     });
@@ -167,7 +167,6 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
 export type ApiResponseAssignment = {
     registrarId: string,
     numberOfCheckers: number,
-    courseId: string,
     lectureId: string,
     assignedFrom: string,
     assignedFromLink: string | null,
@@ -191,6 +190,7 @@ export type ApiResponseCourse = {
 }
 
 export type ApiResponseLecture = {
+    courseId: string,
     numberOfTimes: number,
     date: string,
 }
@@ -220,19 +220,20 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
 
     contents.assignments.forEach((eachAssignment: ApiResponseAssignment, eachAssignmentId: string) => {
         // Add converted subdata in each assignment which doesn't exist before assignment addition.
+        const courseId = contents.lectures.at(eachAssignment.lectureId).courseId;
 
-        let teacherIds = contents.courses.at(eachAssignment.courseId)?.teacherIds;
+        let teacherIds = contents.courses.at(courseId)?.teacherIds;
 
         teacherIds?.forEach((eachTeacherId: string) => {
             const convertedTeacher = apiResponseToTeacher(eachTeacherId, contents.teachers);
             teachers.insertIfNotExists(eachTeacherId, convertedTeacher);
         });
 
-        const convertedCourse = apiResponseToCourse(eachAssignment.courseId, contents.courses, teachers);
-        courses.insertIfNotExists(convertedCourse.id, convertedCourse);
-
         const convertedLecture = apiResponseToLecture(eachAssignment.lectureId, contents.lectures);
         lectures.insertIfNotExists(convertedLecture.id, convertedLecture);
+
+        const convertedCourse = apiResponseToCourse(courseId, contents.courses, teachers);
+        courses.insertIfNotExists(convertedCourse.id, convertedCourse);
 
         const convertedUser = apiResponseToUser(eachAssignment.registrarId, contents.users);
         users.insertIfNotExists(convertedUser.id, convertedUser);
@@ -241,7 +242,7 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
             id: eachAssignmentId,
             registrar: users.at(eachAssignment.registrarId),
             numberOfCheckers: eachAssignment.numberOfCheckers,
-            course: courses.at(eachAssignment.courseId),
+            course: courses.at(courseId),
             lecture: lectures.at(eachAssignment.lectureId),
             assignedFrom: eachAssignment.assignedFrom,
             assignedFromLink: eachAssignment.assignedFromLink,

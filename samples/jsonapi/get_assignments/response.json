@@ -1,13 +1,12 @@
 {
     "status": 200,
     "message": "Request processing finished successfully.",
-    "request": "{\"action\":\"get_assignments\",\"includeCompleted\":true}",
+    "request": "...",
     "contents": {
         "assignments": {
             "3db893b5-d247-11ec-8085-49bfe3345a29": {
                 "registrarId": "3db893b5-d247-11ec-8085-49bfe3345a29",
                 "numberOfCheckers": 2,
-                "courseId": "3db893b5-d247-11ec-8085-49bfe3345a29",
                 "lectureId": "3db893b5-d247-11ec-8085-49bfe3345a29",
                 "assignedFrom": "UNIPA",
                 "assignedFromLink": null,
@@ -35,6 +34,7 @@
         },
         "lectures": {
             "3db893b5-d247-11ec-8085-49bfe3345a29": {
+                "courseId": "3db893b5-d247-11ec-8085-49bfe3345a29",
                 "numberOfTimes": 10,
                 "date": "2022-05-14"
             }
