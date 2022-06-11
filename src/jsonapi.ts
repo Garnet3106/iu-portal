@@ -67,7 +67,7 @@ export class UuidAssoc<Value> {
         const result = this.assoc[uuid];
 
         if (result === undefined) {
-            console.error('UUID Association Error: UUID doesn\'t exist.');
+            console.error(`UUID Association Error: UUID \`${uuid}\` doesn't exist.`);
         }
 
         return result;
