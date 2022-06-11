@@ -1,7 +1,6 @@
 {
     "status": 200,
     "message": "Request processing finished successfully.",
-    "request": "...",
     "contents": {
         "assignments": {
             "3db893b5-d247-11ec-8085-49bfe3345a29": {

@@ -1,0 +1,14 @@
+{
+    "assignment": {
+        "registrarId": "3db893b5-d247-11ec-8085-49bfe3345a29",
+        "assignedAt": "2022-06-10",
+        "lectureId": "e04ec80d-596c-40da-9a68-0bf788c9e52f",
+        "assignmentPlatform": "UNIPA",
+        "assignmentPlatformLink": null,
+        "submissionPlatform": "Classroom",
+        "submissionPlatformLink": null,
+        "deadline": "2022-06-10 23:59:59",
+        "description": "desc",
+        "note": "notes"
+    }
+}
