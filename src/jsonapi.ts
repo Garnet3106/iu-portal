@@ -1,5 +1,5 @@
 import { ReportKind } from "./App/Body/Report/Report";
-import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, User } from "./assignment"
+import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, Admin } from "./assignment"
 
 const apiUrl = 'http://localhost:8000';
 
@@ -11,39 +11,41 @@ export enum JsonApiRequestActionKind {
 export type JsonApiRequest = {
     actionKind: JsonApiRequestActionKind,
     parameters: object,
+    onSucceed: (req: XMLHttpRequest) => void,
+    onBadRequest: () => void,
+    onFailToAuth: () => void,
+    onError: () => void,
 }
 
 export const JsonApi = {
-    request(
-        apiRequest: JsonApiRequest,
-        onLoad: (req: XMLHttpRequest) => void,
-        onError: () => void,
-    ) {
+    request(apiReq: JsonApiRequest) {
         const req = new XMLHttpRequest();
 
         req.addEventListener('load', () => {
-            onLoad(req);
+            switch (req.status) {
+                case 200:
+                apiReq.onSucceed(req);
+                break;
+
+                case 400:
+                apiReq.onBadRequest();
+                break;
+
+                case 401:
+                apiReq.onFailToAuth();
+                break;
+            }
         });
 
-        req.addEventListener('error', onError);
+        req.addEventListener('error', apiReq.onError);
 
-        const jsonReqStr = encodeURIComponent(JSON.stringify(apiRequest.parameters));
-        req.open('GET', `${apiUrl}/${apiRequest.actionKind}?req=${jsonReqStr}`);
+        const jsonReqStr = encodeURIComponent(JSON.stringify(apiReq.parameters));
+        req.open('GET', `${apiUrl}/${apiReq.actionKind}?req=${jsonReqStr}`);
         req.send();
-    },
-
-    getReportRequest: (kind: ReportKind, msg: string) => {
-        return {
-            actionKind: JsonApiRequestActionKind.Report,
-            parameters: {
-                kind: kind,
-                msg: msg,
-            },
-        } as JsonApiRequest;
     },
 };
 
-export const subdataNames = ['assignments', 'courses', 'lectures', 'teachers', 'users'];
+export const subdataNames = ['assignments', 'courses', 'lectures', 'teachers', 'admins'];
 
 // todo: change to type alias
 export class UuidAssoc<Value> {
@@ -112,8 +114,8 @@ export type AssignmentStructureApiResponse = ApiResponse<{
     teachers: {
         [uuid: string]: ApiResponseTeacher,
     },
-    users: {
-        [uuid: string]: ApiResponseUser,
+    admins: {
+        [uuid: string]: ApiResponseAdmin,
     },
 }>;
 
@@ -122,7 +124,7 @@ export type AssociativeAssignmentStructureApiResponse = ApiResponse<{
     courses: UuidAssoc<ApiResponseCourse>,
     lectures: UuidAssoc<ApiResponseLecture>,
     teachers: UuidAssoc<ApiResponseTeacher>,
-    users: UuidAssoc<ApiResponseUser>,
+    admins: UuidAssoc<ApiResponseAdmin>,
 }>;
 
 export function toAssignmentStructureApiResponse(response: AssignmentStructureApiResponse): AssociativeAssignmentStructureApiResponse {
@@ -135,7 +137,7 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
             courses: new UuidAssoc<ApiResponseCourse>({}),
             lectures: new UuidAssoc<ApiResponseLecture>({}),
             teachers: new UuidAssoc<ApiResponseTeacher>({}),
-            users: new UuidAssoc<ApiResponseUser>({}),
+            admins: new UuidAssoc<ApiResponseAdmin>({}),
         },
     };
 
@@ -158,7 +160,7 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
         courses: new UuidAssoc(response.contents.courses),
         lectures: new UuidAssoc(response.contents.lectures),
         teachers: new UuidAssoc(response.contents.teachers),
-        users: new UuidAssoc(response.contents.users),
+        admins: new UuidAssoc(response.contents.admins),
     };
 
     return result;
@@ -199,7 +201,7 @@ export type ApiResponseTeacher = {
     name: string,
 }
 
-export type ApiResponseUser = {
+export type ApiResponseAdmin = {
     nickname: string,
 }
 
@@ -216,7 +218,7 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
     let courses = new UuidAssoc<Course>({});
     let lectures = new UuidAssoc<Lecture>({});
     let teachers = new UuidAssoc<Teacher>({});
-    let users = new UuidAssoc<User>({});
+    let admins = new UuidAssoc<Admin>({});
 
     contents.assignments.forEach((eachAssignment: ApiResponseAssignment, eachAssignmentId: string) => {
         // Add converted subdata in each assignment which doesn't exist before assignment addition.
@@ -235,12 +237,12 @@ export function apiResponseToAssignments(response: AssociativeAssignmentStructur
         const convertedCourse = apiResponseToCourse(courseId, contents.courses, teachers);
         courses.insertIfNotExists(convertedCourse.id, convertedCourse);
 
-        const convertedUser = apiResponseToUser(eachAssignment.registrarId, contents.users);
-        users.insertIfNotExists(convertedUser.id, convertedUser);
+        const convertedAdmin = apiResponseToAdmin(eachAssignment.registrarId, contents.admins);
+        admins.insertIfNotExists(convertedAdmin.firebaseUid, convertedAdmin);
 
         assignments.push({
             id: eachAssignmentId,
-            registrar: users.at(eachAssignment.registrarId),
+            registrar: admins.at(eachAssignment.registrarId),
             numberOfCheckers: eachAssignment.numberOfCheckers,
             course: courses.at(courseId),
             lecture: lectures.at(eachAssignment.lectureId),
@@ -292,11 +294,11 @@ function apiResponseToTeacher(teacherId: string, teachers: UuidAssoc<ApiResponse
     };
 }
 
-function apiResponseToUser(userId: string, users: UuidAssoc<ApiResponseUser>): User {
-    let targetUser = users.at(userId);
+function apiResponseToAdmin(firebaseUid: string, admins: UuidAssoc<ApiResponseAdmin>): Admin {
+    let targetAdmin = admins.at(firebaseUid);
 
     return {
-        id: userId,
-        nickname: targetUser.nickname,
+        firebaseUid: firebaseUid,
+        nickname: targetAdmin.nickname,
     };
 }

@@ -3,7 +3,7 @@ import { BodyProps } from '../Body';
 import { Page } from '../../../flux/UiStore';
 import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
-import { JsonApi } from '../../../jsonapi';
+import { JsonApi, JsonApiRequestActionKind } from '../../../jsonapi';
 import './Report.css';
 
 export enum ReportKind {
@@ -126,9 +126,7 @@ class Report extends Component<BodyProps, ReportState> {
     }
 
     sendToServer(kind: ReportKind, msg: string) {
-        const req = JsonApi.getReportRequest(kind, msg);
-
-        const onLoad = () => {
+        const onSucceed = () => {
             if (this.textAreaRef.current !== null) {
                 this.textAreaRef.current.value = '';
             }
@@ -136,11 +134,22 @@ class Report extends Component<BodyProps, ReportState> {
             alert('ご報告ありがとうございました。後ほど管理者が確認いたします。');
         };
 
-        const onError = () => {
+        const onFailToAuth = () => {
+            alert('このアカウントは利用できません。\n大学用の Google アカウントでログインしてください。');
+        };
+
+        const onFail = () => {
             alert('技術的なトラブルにより送信に失敗しました。再度お試しください。');
         };
 
-        JsonApi.request(req, onLoad, onError);
+        JsonApi.request({
+            actionKind: JsonApiRequestActionKind.Report,
+            parameters: {},
+            onSucceed: onSucceed,
+            onBadRequest: onFail,
+            onFailToAuth: onFailToAuth,
+            onError: onFail,
+        });
     }
 
     static validateMessageLength(msg: string, minLimit: number, maxLimit: number): MessageLengthValidation {

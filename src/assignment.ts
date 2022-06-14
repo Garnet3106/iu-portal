@@ -16,7 +16,7 @@ export function formatDate(date: Date | null, fmt: string, ifDateNull?: string):
 
 export type Assignment = {
     id: string,
-    registrar: User,
+    registrar: Admin,
     numberOfCheckers: number,
     course: Course,
     lecture: Lecture,
@@ -63,7 +63,7 @@ export type Teacher = {
     name: string,
 };
 
-export type User = {
-    id: string,
+export type Admin = {
+    firebaseUid: string,
     nickname: string,
 };

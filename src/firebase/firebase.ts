@@ -12,23 +12,8 @@ setPersistence(firebaseAuth, browserLocalPersistence)
         alert(`${error.code}: ${error.message}`)
     });
 
-export function signInWithGoogle(onSucceed: (credintial: UserCredential) => void, onFail: (error: AuthError) => void) {
+export function signInWithGoogle(onSucceed: (credential: UserCredential) => void, onFail: (error: AuthError) => void) {
     signInWithPopup(firebaseAuth, provider)
         .then(onSucceed)
         .catch(onFail);
-}
-
-export function hashWithSha256(str: string): Promise<string> {
-    return new Promise((resolve: (value: string) => void, reject: (reason: any) => void) => {
-        const encodedStr = new TextEncoder().encode(str);
-
-        crypto.subtle.digest('SHA-256', encodedStr)
-            .then((buff) => {
-                const hash = Array.from(new Uint8Array(buff)).map((v) => v.toString(16).padStart(2, '0')).join('');
-                resolve(hash);
-            })
-            .catch((reason: any) => {
-                reject(reason);
-            });
-    });
 }
