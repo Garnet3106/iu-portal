@@ -135,7 +135,7 @@ class Report extends Component<BodyProps, ReportState> {
         };
 
         const onFailToAuth = () => {
-            alert('このアカウントは利用できません。\n大学用の Google アカウントでログインしてください。');
+            alert('このアカウントは利用できません。\n大学用の Google アカウントでログインし直してください。');
         };
 
         const onFail = () => {

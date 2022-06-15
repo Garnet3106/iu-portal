@@ -1,5 +1,3 @@
-// import logo from './logo.svg';
-
 import React from 'react';
 import Header from './Header/Header';
 import Body from './Body/Body';
@@ -13,23 +11,14 @@ import './App.css';
 AppDispatcher.dispatch(UiActionCreators.getDefault());
 
 export function updateAssignments(onUpdate: () => void) {
-    const onSucceed = (req: XMLHttpRequest) => {
-        let response;
-
-        try {
-            response = JSON.parse(req.responseText);
-        } catch {
-            console.error('Assignment Loading Error: Failed to parse JSON code.');
-            return;
-        }
-
+    const onSucceed = (_req: XMLHttpRequest, response: any) => {
         let assignments = apiResponseToAssignments(toAssignmentStructureApiResponse(response));
         AppDispatcher.dispatch(UiActionCreators.updateAssignments(assignments));
         onUpdate();
     };
 
     const onFailToAuth = () => {
-        alert('このアカウントは利用できません。\n大学用の Google アカウントでログインしてください。');
+        alert('このアカウントは利用できません。\n大学用の Google アカウントでログインし直してください。');
     };
 
     const onFail = () => {

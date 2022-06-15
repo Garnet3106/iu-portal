@@ -1,4 +1,3 @@
-import { ReportKind } from "./App/Body/Report/Report";
 import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, Admin } from "./assignment"
 
 const apiUrl = 'http://localhost:8000';
@@ -11,37 +10,47 @@ export enum JsonApiRequestActionKind {
 export type JsonApiRequest = {
     actionKind: JsonApiRequestActionKind,
     parameters: object,
-    onSucceed: (req: XMLHttpRequest) => void,
+    onSucceed: (req: XMLHttpRequest, response: any) => void,
     onBadRequest: () => void,
     onFailToAuth: () => void,
     onError: () => void,
 }
 
 export const JsonApi = {
-    request(apiReq: JsonApiRequest) {
-        const req = new XMLHttpRequest();
+    request(req: JsonApiRequest) {
+        const xhr = new XMLHttpRequest();
 
-        req.addEventListener('load', () => {
-            switch (req.status) {
+        xhr.addEventListener('load', () => {
+            let response = {
+                status: 200,
+            };
+
+            try {
+                response = JSON.parse(xhr.responseText);
+            } catch {
+                console.error('Assignment Loading Error: Failed to parse JSON code.');
+            }
+
+            switch (response.status) {
                 case 200:
-                apiReq.onSucceed(req);
+                req.onSucceed(xhr, response);
                 break;
 
                 case 400:
-                apiReq.onBadRequest();
+                req.onBadRequest();
                 break;
 
                 case 401:
-                apiReq.onFailToAuth();
+                req.onFailToAuth();
                 break;
             }
         });
 
-        req.addEventListener('error', apiReq.onError);
-
-        const jsonReqStr = encodeURIComponent(JSON.stringify(apiReq.parameters));
-        req.open('GET', `${apiUrl}/${apiReq.actionKind}?req=${jsonReqStr}`);
-        req.send();
+        xhr.addEventListener('error', req.onError);
+        const jsonReqStr = encodeURIComponent(JSON.stringify(req.parameters));
+        xhr.open('GET', `${apiUrl}/${req.actionKind}?req=${jsonReqStr}`);
+        xhr.withCredentials = true;
+        xhr.send();
     },
 };
 

@@ -8,6 +8,8 @@ import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import { updateAssignments } from "../../App";
 import './Login.css';
 
+const googleAccessTokenKey = 'g_token';
+
 class Login extends React.Component<BodyProps> {
     private _isLoggedIn: boolean;
 
@@ -16,8 +18,8 @@ class Login extends React.Component<BodyProps> {
 
         this._isLoggedIn = false;
 
-        firebaseAuth.onAuthStateChanged(() => {
-            if (this._isLoggedIn) {
+        firebaseAuth.onAuthStateChanged((user: User | null) => {
+            if (this._isLoggedIn && user === null) {
                 return;
             }
 
@@ -48,7 +50,7 @@ class Login extends React.Component<BodyProps> {
 
     onSignedIn(googleAccessToken?: string) {
         if (googleAccessToken !== undefined) {
-            document.cookie = `g_token=${encodeURIComponent(googleAccessToken)}`;
+            document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}`;
         }
 
         updateAssignments(() => {
