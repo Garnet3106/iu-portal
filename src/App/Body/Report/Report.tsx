@@ -12,6 +12,19 @@ export enum ReportKind {
     BugOrVulnerability,
 }
 
+export function reportKindToName(kind: ReportKind): string {
+    switch (kind) {
+        case ReportKind.MessageToDeveloper:
+        return 'message_to_developer';
+
+        case ReportKind.IllegalUse:
+        return 'illegal_use';
+
+        case ReportKind.BugOrVulnerability:
+        return 'bug_or_vulnerability';
+    }
+}
+
 export function reportKindToJapanese(kind: ReportKind): string {
     switch (kind) {
         case ReportKind.MessageToDeveloper:
@@ -37,8 +50,8 @@ export type ReportState = {
     msg: string,
 }
 
-const maxMsgLen = 1000;
 const minMsgLen = 5;
+const maxMsgLen = 1000;
 
 class Report extends Component<BodyProps, ReportState> {
     textAreaRef: React.RefObject<HTMLTextAreaElement>;
@@ -143,8 +156,13 @@ class Report extends Component<BodyProps, ReportState> {
         };
 
         JsonApi.request({
-            actionKind: JsonApiRequestActionKind.Report,
-            parameters: {},
+            actionKind: JsonApiRequestActionKind.Register,
+            parameters: {
+                'report': {
+                    'kind': reportKindToName(kind),
+                    'message': msg,
+                }
+            },
             onSucceed: onSucceed,
             onBadRequest: onFail,
             onFailToAuth: onFailToAuth,
@@ -160,11 +178,11 @@ class Report extends Component<BodyProps, ReportState> {
             return MessageLengthValidation.NoMessage;
         }
 
-        if (msgLenWithNoSpaces < minMsgLen) {
+        if (msgLenWithNoSpaces < minLimit) {
             return MessageLengthValidation.LessThanLimit;
         }
 
-        if (msgLen > maxMsgLen) {
+        if (msgLen > maxLimit) {
             return MessageLengthValidation.GreaterThanLimit;
         }
 

@@ -1,0 +1,6 @@
+{
+    "report": {
+        "kind": "message_to_developer",
+        "message": "Test Message"
+    }
+}

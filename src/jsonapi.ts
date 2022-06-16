@@ -4,7 +4,7 @@ const apiUrl = 'http://localhost:8000';
 
 export enum JsonApiRequestActionKind {
     GetAssignments = 'get_assignments',
-    Report = 'report',
+    Register = 'register',
 }
 
 export type JsonApiRequest = {
