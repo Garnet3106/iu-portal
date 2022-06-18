@@ -4,6 +4,7 @@ const apiUrl = 'http://localhost:8000';
 
 export enum JsonApiRequestActionKind {
     GetAssignments = 'get_assignments',
+    UpdateCompletion = 'update_completion',
     Register = 'register',
 }
 

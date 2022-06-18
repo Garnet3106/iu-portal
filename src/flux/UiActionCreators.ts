@@ -90,4 +90,19 @@ export const UiActionCreators = {
         action.data.previewingAssignmentId = assignmentId;
         return action;
     },
+
+    reverseAssignmentCompletion(assignmentId: string): UiActions {
+        let action = this.getCurrent(ActionKind.ReverseAssignmentCompletion);
+
+        action.data.assignments.some((eachAssignment: Assignment) => {
+            if (eachAssignment.id === assignmentId) {
+                eachAssignment.completed = !eachAssignment.completed;
+                return true;
+            }
+
+            return false;
+        });
+
+        return action;
+    },
 };

@@ -25,7 +25,18 @@
 }
 
 .assignment-item-operation {
+    height: 25px;
+    width: 25px;
+}
+
+.assignment-item-operation-make-complete {
     background-color: gray;
+    height: 25px;
+    width: 25px;
+}
+
+.assignment-item-operation-make-incomplete {
+    background-color: indianred;
     height: 25px;
     width: 25px;
 }

@@ -27,9 +27,7 @@ export function updateAssignments(onUpdate: () => void) {
 
     JsonApi.request({
         actionKind: JsonApiRequestActionKind.GetAssignments,
-        parameters: {
-            includeCompleted: true,
-        },
+        parameters: {},
         onSucceed: onSucceed,
         onBadRequest: onFail,
         onFailToAuth: onFailToAuth,

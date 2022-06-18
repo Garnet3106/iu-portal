@@ -1,12 +1,13 @@
 import React from "react";
-import ReactDOM from 'react-dom/client';
 import AssignmentItem from '../AssignmentItem/AssignmentItem';
 import { Assignment } from "../../../../assignment";
+import { AssignmentDisplayOrder } from "../AssignmentList";
 import './AssignmentGroup.css';
 
 type AssignmentGroupProps = {
     title: string,
     assignments: Assignment[],
+    displayOrder: AssignmentDisplayOrder,
 }
 
 class AssignmentGroup extends React.Component<AssignmentGroupProps> {
@@ -18,7 +19,7 @@ class AssignmentGroup extends React.Component<AssignmentGroupProps> {
         let items: JSX.Element[] = [];
 
         this.props.assignments.forEach((eachAssignment) => {
-            items.push((<AssignmentItem key={'assignmentItem_' + eachAssignment.id} assignment={eachAssignment} />));
+            items.push((<AssignmentItem key={'assignmentItem_' + eachAssignment.id} assignment={eachAssignment} displayOrder={this.props.displayOrder} />));
         });
 
         return (
