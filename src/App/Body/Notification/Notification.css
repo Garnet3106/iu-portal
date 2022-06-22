@@ -1,0 +1,8 @@
+.Notification {
+    flex-direction: column;
+    scrollbar-width: none;
+}
+
+.Notification::-webkit-scrollbar {
+    display: none;
+}

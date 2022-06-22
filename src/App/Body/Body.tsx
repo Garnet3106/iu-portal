@@ -2,6 +2,7 @@ import { Component } from 'react';
 import Login from './Login/Login';
 import AssignmentPreview from './AssignmentPreview/AssignmentPreview';
 import AssignmentList from './AssignmentList/AssignmentList';
+import Notification from './Notification/Notification';
 import Statistics from './Statistics/Statistics';
 import Settings from './Settings/Settings';
 import SettingValueList from './SettingValueList/SettingValueList';
@@ -41,7 +42,7 @@ class Body extends Component<{}> {
                         style: newBodyComponentStyle,
                     }
                 } />
-                <Statistics page={new Page(3, 'Notification')} style={newBodyComponentStyle} />
+                <Notification page={new Page(3, 'Notification')} style={newBodyComponentStyle} />
                 <Statistics page={new Page(4, 'Statistics')} style={newBodyComponentStyle} />
                 <Settings page={new Page(5, 'Settings')} style={newBodyComponentStyle} />
                 <SettingValueList page={new Page(6, 'SettingValueList')} style={newBodyComponentStyle} />

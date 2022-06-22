@@ -1,11 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import { AuthError, getAuth, browserLocalPersistence, GoogleAuthProvider, setPersistence, signInWithPopup, UserCredential, signInWithCustomToken } from "firebase/auth";
+import { getMessaging } from 'firebase/messaging/sw';
+import { AuthError, getAuth, browserLocalPersistence, GoogleAuthProvider, setPersistence, signInWithPopup, UserCredential } from "firebase/auth";
 import config from './config';
 
-initializeApp(config);
+const firebaseApp = initializeApp(config);
 
-const provider = new GoogleAuthProvider();
+export const firebaseProvider = new GoogleAuthProvider();
 export const firebaseAuth = getAuth();
+export const firebaseMessaging = getMessaging(firebaseApp);
+export const firebaseVapidKey = 'BGmlnTnVr3Qv0YNMXhg5W2KeBGTUC2I5gQxc_UttlJefYeTBHbdRCamf8haT-O8J8fkGqUEaThvzeicmkZJVCvk';
 
 setPersistence(firebaseAuth, browserLocalPersistence)
     .catch((error) => {
@@ -13,7 +16,9 @@ setPersistence(firebaseAuth, browserLocalPersistence)
     });
 
 export function signInWithGoogle(onSucceed: (credential: UserCredential) => void, onFail: (error: AuthError) => void) {
-    signInWithPopup(firebaseAuth, provider)
+    signInWithPopup(firebaseAuth, firebaseProvider)
         .then(onSucceed)
         .catch(onFail);
 }
+
+export default firebaseApp;
