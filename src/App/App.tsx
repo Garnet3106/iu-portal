@@ -13,9 +13,9 @@ import './App.css';
 // Initialize UI State.
 AppDispatcher.dispatch(UiActionCreators.getDefault());
 // Initialize Service Worker.
-registerServiceWorker();
+initializeCloudMessaging();
 
-export function updateAssignments(onUpdate: () => void) {
+export function updateAssignments(onUpdate: () => void = () => {}) {
     const onSucceed = (_req: XMLHttpRequest, response: any) => {
         let assignments = apiResponseToAssignments(toAssignmentStructureApiResponse(response));
         AppDispatcher.dispatch(UiActionCreators.updateAssignments(assignments));
@@ -40,7 +40,7 @@ export function updateAssignments(onUpdate: () => void) {
     });
 }
 
-function registerServiceWorker() {
+function initializeCloudMessaging() {
     requestNotificationRequest(() => {
         getToken(firebaseMessaging, {
             vapidKey: firebaseVapidKey,

@@ -16,7 +16,7 @@ class Notification extends Component<BodyProps> {
 
     render() {
         return (
-            <div className="Notification body-component" id={this.props.page.toId()} style={this.props.style} onClick={this.onClick.bind(this)}>
+            <div className="Notification body-component" id={this.props.page.toId()} style={this.props.style}>
                 Notification
             </div>
         );
@@ -28,9 +28,6 @@ class Notification extends Component<BodyProps> {
 
     componentWillUnmount() {
         this._isMounted = false;
-    }
-
-    onClick() {
     }
 }
 
