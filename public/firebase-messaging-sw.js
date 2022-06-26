@@ -1,9 +1,13 @@
 'use strict';
 
+const titles = {
+    'assignment_registration': '新しい課題',
+};
+
 self.addEventListener('push', (event) => {
-    const notification = event.data.json().notification;
-    const title = notification.title;
-    const body = notification.body;
+    const data = event.data.json().data;
+    const title = titles[data['kind']];
+    const body = data['course_name'];
 
     self.registration.showNotification(title, {
         body: body,

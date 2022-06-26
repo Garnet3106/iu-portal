@@ -3,6 +3,7 @@ import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teache
 const apiUrl = 'http://localhost:8000';
 
 export enum JsonApiRequestActionKind {
+    Signin = 'signin',
     GetAssignments = 'get_assignments',
     UpdateCompletion = 'update_completion',
     Register = 'register',

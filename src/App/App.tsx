@@ -46,7 +46,22 @@ function initializeCloudMessaging() {
             vapidKey: firebaseVapidKey,
         })
             .then((registrationToken) => {
-                console.log(registrationToken);
+                document.cookie = `fcm_reg_token=${registrationToken}`;
+
+                const req = {
+                    actionKind: JsonApiRequestActionKind.Signin,
+                    parameters: {},
+                    onSucceed: () => {
+                        console.info('Service Worker: Push notification registered.');
+                    },
+                    onBadRequest: () => {},
+                    onFailToAuth: () => {
+                        console.error('User Auth Error: Failed to auth.');
+                    },
+                    onError: () => {},
+                };
+
+                JsonApi.request(req);
             })
             .catch(() => {
                 console.error('Notification Error: Failed to initialize messaging feature.');
