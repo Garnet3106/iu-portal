@@ -4,6 +4,7 @@
     flex-direction: column;
     margin: 0 var(--layout-margin);
     padding: calc(var(--layout-margin) / 2) 0;
+    user-select: none;
 }
 
 .NotificationItem:last-of-type {

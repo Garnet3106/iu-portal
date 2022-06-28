@@ -2,6 +2,7 @@
     background-color: var(--sub-back-color);
     display: flex;
     height: var(--header-height);
+    user-select: none;
     width: 100%;
 }
 

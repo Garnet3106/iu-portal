@@ -23,6 +23,7 @@
     font-weight: bold;
     margin-right: var(--layout-margin);
     padding: 8px 10px;
+    user-select: none;
 }
 
 .top-statistics-item:last-of-type {
@@ -79,6 +80,7 @@
     justify-content: space-between;
     margin-bottom: 8px;
     padding: 0 8px;
+    user-select: none;
 }
 
 .detailed-statistics-item-title {

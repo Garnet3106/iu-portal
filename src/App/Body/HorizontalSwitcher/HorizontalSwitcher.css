@@ -19,8 +19,10 @@
 .switcher-title {
     font-size: 130%;
     margin: 0 30px;
+    user-select: none;
 }
 
 .switcher-description {
     font-size: 90%;
+    user-select: none;
 }
