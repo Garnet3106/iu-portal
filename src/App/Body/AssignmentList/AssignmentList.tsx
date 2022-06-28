@@ -7,8 +7,8 @@ import { ActionKind } from "../../../flux/AppConstants";
 import './AssignmentList.css';
 
 export enum AssignmentDisplayOrder {
-    Completed,
     All,
+    Completed,
     EarlierDeadline,
 }
 
@@ -23,13 +23,14 @@ type AssignmentListState = {
 
 class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
     private _isMounted: boolean;
+    public static defaultDisplayOrder = AssignmentDisplayOrder.EarlierDeadline;
 
     constructor(props: BodyProps) {
         super(props);
 
         this.state = {
             assignments: [],
-            displayOrder: AssignmentDisplayOrder.All,
+            displayOrder: AssignmentList.defaultDisplayOrder,
         };
 
         this._isMounted = false;
@@ -58,17 +59,17 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
         };
 
         switch (this.state.displayOrder) {
+            case AssignmentDisplayOrder.All: {
+                assignmentGroup.push((
+                    <AssignmentGroup assignments={this.state.assignments} title="すべて" key="assignmentGroup_all" displayOrder={this.state.displayOrder} />
+                ));
+            } break;
+
             case AssignmentDisplayOrder.Completed: {
                 const sortedAssignments = this.state.assignments.filter(filterCompletedAssignment);
 
                 assignmentGroup.push((
                     <AssignmentGroup assignments={sortedAssignments} title="完了済" key="assignmentGroup_completed" displayOrder={this.state.displayOrder} />
-                ));
-            } break;
-
-            case AssignmentDisplayOrder.All: {
-                assignmentGroup.push((
-                    <AssignmentGroup assignments={this.state.assignments} title="すべて" key="assignmentGroup_all" displayOrder={this.state.displayOrder} />
                 ));
             } break;
 
@@ -114,15 +115,15 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
         return (
             <div className="AssignmentList body-component" id={this.props.page.toId()} style={this.props.style}>
                 <div className="display-order">
-                    <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.Completed)} onClick={() => {
-                        this.onClickDisplayOrderItem(AssignmentDisplayOrder.Completed)
-                    }}>
-                        完了済
-                    </div>
                     <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.All)} onClick={() => {
                         this.onClickDisplayOrderItem(AssignmentDisplayOrder.All)
                     }}>
                         すべて
+                    </div>
+                    <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.Completed)} onClick={() => {
+                        this.onClickDisplayOrderItem(AssignmentDisplayOrder.Completed)
+                    }}>
+                        完了済
                     </div>
                     <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.EarlierDeadline)} onClick={() => {
                         this.onClickDisplayOrderItem(AssignmentDisplayOrder.EarlierDeadline)
