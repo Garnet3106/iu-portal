@@ -1,7 +1,7 @@
 type Notification = {
     id: string | null,
     title: string,
-    date: string,
+    date: Date | null,
     description: string,
 }
 
@@ -12,7 +12,7 @@ export const notificationConvertors: {
         return {
             id: rawNotification.id,
             title: '新しい課題',
-            date: rawNotification.date,
+            date: new Date(rawNotification.date),
             description: rawNotification.value,
         };
     },

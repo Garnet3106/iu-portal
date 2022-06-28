@@ -56,7 +56,7 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
             const initialNotification: Notification = {
                 id: null,
                 title: '通知画面へようこそ',
-                date: '',
+                date: null,
                 description: '届いた通知はここに表示されます',
             };
 

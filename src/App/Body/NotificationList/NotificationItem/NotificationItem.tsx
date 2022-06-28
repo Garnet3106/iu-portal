@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { formatDate } from '../../../../assignment';
 import Notification from '../../../../notification';
 import './NotificationItem.css';
 
@@ -8,6 +9,9 @@ type NotificationItemProps = {
 
 class NotificationItem extends Component<NotificationItemProps> {
     render() {
+        const date = this.props.notification.date;
+        const dateString = date !== null ? formatDate(date, 'M/d') : '';
+
         return (
             <div className="NotificationItem">
                 <div className="notification-list-item-top">
@@ -15,7 +19,7 @@ class NotificationItem extends Component<NotificationItemProps> {
                         {this.props.notification.title}
                     </div>
                     <div className="notification-list-item-date">
-                        {this.props.notification.date}
+                        {dateString}
                     </div>
                 </div>
                 <div className="notification-list-item-description">
