@@ -21,8 +21,8 @@ export class MightBeUnknown<T extends object | number> {
         return new MightBeUnknown<T>(null);
     }
 
-    toString(): string {
-        return this._value !== null ? this._value.toString() : '?';
+    get(): T | null {
+        return this._value;
     }
 }
 
@@ -68,7 +68,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                         </div>
                         <div className="top-statistics-item-bottom">
                             <div className="top-statistics-item-number">
-                                {this.state.numberOfSubmitted.toString()}
+                                {Statistics.statisticNumberToString(this.state.numberOfSubmitted)}
                             </div>
                             <div className="top-statistics-item-unit">
                                 コ
@@ -86,7 +86,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                         </div>
                         <div className="top-statistics-item-bottom">
                             <div className="top-statistics-item-number">
-                                {this.state.numberOfUnsubmitted.toString()}
+                                {Statistics.statisticNumberToString(this.state.numberOfUnsubmitted)}
                             </div>
                             <div className="top-statistics-item-unit">
                                 コ
@@ -104,7 +104,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                         </div>
                         <div className="top-statistics-item-bottom">
                             <div className="top-statistics-item-number">
-                                {this.state.submissionRate.toString()}
+                                {Statistics.statisticNumberToString(this.state.submissionRate)}
                             </div>
                             <div className="top-statistics-item-unit">
                                 %
@@ -120,7 +120,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                             </div>
                             <div className="detailed-statistics-item-data">
                                 <div className="detailed-statistics-item-data-number">
-                                    {this.state.submissionRate.toString()}
+                                    {Statistics.statisticNumberToString(this.state.submissionRate)}
                                 </div>
                                 <div className="detailed-statistics-item-data-unit">
                                     %
@@ -174,6 +174,11 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                 };
             }
         }
+    }
+
+    static statisticNumberToString(value: MightBeUnknown<number>): string {
+        const rawValue = value.get();
+        return rawValue !== null ? Math.round(rawValue).toString() : '?';
     }
 }
 
