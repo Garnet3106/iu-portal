@@ -4,7 +4,7 @@
     background-color: var(--back-color);
     /* border space for pinned item */
     border: 2px solid var(--back-color);
-    border-radius: 10px;
+    border-radius: var(--basic-border-radius);
     color: var(--dark-font-color);
     cursor: pointer;
     display: flex;
