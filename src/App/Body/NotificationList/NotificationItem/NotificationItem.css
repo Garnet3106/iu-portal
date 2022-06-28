@@ -1,0 +1,30 @@
+.NotificationItem {
+    border-bottom: 1px solid var(--main-back-color);
+    display: flex;
+    flex-direction: column;
+    margin: 0 var(--layout-margin);
+    padding: calc(var(--layout-margin) / 2) 0;
+}
+
+.NotificationItem:last-of-type {
+    border-bottom: none;
+}
+
+.notification-list-item-top {
+    align-items: baseline;
+    color: var(--dark-font-color-2);
+    display: flex;
+}
+
+.notification-list-item-title {
+    font-weight: bold;
+}
+
+.notification-list-item-date {
+    margin-left: 5px;
+    font-size: 80%;
+}
+
+.notification-list-item-description {
+    font-size: 90%;
+}

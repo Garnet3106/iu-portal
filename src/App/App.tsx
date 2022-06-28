@@ -5,7 +5,7 @@ import BottomMenu from './BottomMenu/BottomMenu';
 import AppDispatcher from '../flux/AppDispatcher';
 import { UiActionCreators } from '../flux/UiActionCreators';
 import { apiResponseToAssignments, JsonApi, JsonApiRequestActionKind, toAssignmentStructureApiResponse } from '../jsonapi';
-import requestNotificationRequest from './Body/Notification/request';
+import requestNotificationRequest from './Body/NotificationList/request';
 import { getToken } from 'firebase/messaging';
 import { firebaseMessaging, firebaseVapidKey } from '../firebase/firebase';
 import './App.css';

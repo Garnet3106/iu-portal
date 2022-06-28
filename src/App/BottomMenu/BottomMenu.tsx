@@ -25,7 +25,7 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
             <div className="BottomMenu">
                 <div className="menu">
                     <div className="menu-item" id="BottomMenuItem_AssignmentList_1" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Notification_3" onClick={this.onMenuItemClick.bind(this)} />
+                    <div className="menu-item" id="BottomMenuItem_NotificationList_3" onClick={this.onMenuItemClick.bind(this)} />
                     <div className="menu-item" id="BottomMenuItem_Statistics_4" onClick={this.onMenuItemClick.bind(this)} />
                     <div className="menu-item" id="BottomMenuItem_Settings_5" onClick={this.onMenuItemClick.bind(this)} />
                     <div className="menu-item" id="BottomMenuItem_Report_7" onClick={this.onMenuItemClick.bind(this)} />

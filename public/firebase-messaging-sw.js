@@ -18,5 +18,5 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
-    clients.openWindow("/");
+    clients.openWindow("/?page=notification");
 }, false);

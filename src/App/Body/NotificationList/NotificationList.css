@@ -1,0 +1,17 @@
+.NotificationList {
+    align-items: center;
+    flex-direction: column;
+    scrollbar-width: none;
+}
+
+.NotificationList::-webkit-scrollbar {
+    display: none;
+}
+
+.notification-list {
+    background-color: var(--light-back-color);
+    border-radius: var(--basic-border-radius);
+    color: var(--dark-font-color);
+    margin-top: calc(var(--layout-margin) * 2);
+    width: calc(100% - calc(var(--layout-margin) * 4));
+}
