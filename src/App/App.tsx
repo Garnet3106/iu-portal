@@ -22,8 +22,12 @@ export function updateAssignments(onUpdate: () => void = () => {}) {
         onUpdate();
     };
 
-    const onFailToAuth = () => {
-        alert('このアカウントは利用できません。\n大学用の Google アカウントでログインし直してください。');
+    const onFailToAuth = (_req: XMLHttpRequest, response: any) => {
+        console.error('User Auth Error: Failed to auth.');
+
+        if (response.message === 'Cannot use external Google account.') {
+            alert('このアカウントは利用できません。\n大学が発行した Google アカウントでログインし直してください。');
+        }
     };
 
     const onFail = () => {

@@ -14,8 +14,8 @@ export type JsonApiRequest = {
     actionKind: JsonApiRequestActionKind,
     parameters: object,
     onSucceed: (req: XMLHttpRequest, response: any) => void,
-    onBadRequest: () => void,
-    onFailToAuth: () => void,
+    onBadRequest: (req: XMLHttpRequest, response: any) => void,
+    onFailToAuth: (req: XMLHttpRequest, response: any) => void,
     onError: () => void,
 }
 
@@ -40,11 +40,11 @@ export const JsonApi = {
                 break;
 
                 case 400:
-                req.onBadRequest();
+                req.onBadRequest(xhr, response);
                 break;
 
                 case 401:
-                req.onFailToAuth();
+                req.onFailToAuth(xhr, response);
                 break;
             }
         });

@@ -91,7 +91,7 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
         });
 
         const onFailToAuth = () => {
-            alert('このアカウントは利用できません。\n大学用の Google アカウントでログインし直してください。');
+            console.error('User Auth Error: Failed to auth.');
         };
 
         const onFail = () => {
