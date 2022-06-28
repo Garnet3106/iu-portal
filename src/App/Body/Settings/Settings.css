@@ -16,11 +16,13 @@
 .settings-group-title {
     display: inline-flex;
     margin: calc(var(--layout-margin) / 2) 0;
+    user-select: none;
 }
 
 .settings-group-items {
     align-items: center;
     display: flex;
     flex-direction: column;
+    user-select: none;
     width: 100%;
 }
