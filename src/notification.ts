@@ -1,5 +1,5 @@
 type Notification = {
-    id: string,
+    id: string | null,
     title: string,
     date: string,
     description: string,

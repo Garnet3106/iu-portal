@@ -47,8 +47,23 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
     }
 
     render() {
-        const notifications = this.state.notifications.map((eachNotification: Notification) => 
-            (<NotificationItem notification={eachNotification} key={`notificationItem_${eachNotification.id}`} />));
+        let notifications: JSX.Element[];
+
+        if (this.state.notifications.length !== 0) {
+            notifications = this.state.notifications.map((eachNotification: Notification) => 
+                (<NotificationItem notification={eachNotification} key={`notificationItem_${eachNotification.id}`} />));
+        } else {
+            const initialNotification: Notification = {
+                id: null,
+                title: '通知画面へようこそ',
+                date: '',
+                description: '届いた通知はここに表示されます',
+            };
+
+            notifications = [
+                (<NotificationItem notification={initialNotification} key="notificationItem_initial" />),
+            ];
+        }
 
         return (
             <div className="NotificationList body-component" id={this.props.page.toId()} style={this.props.style}>
