@@ -48,7 +48,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
     }
 
     render() {
-        let assignmentGroup: JSX.Element[] = [];
+        let assignmentGroups: JSX.Element[] = [];
 
         const filterCompletedAssignment = (eachAssignment: Assignment) => {
             return eachAssignment.completed;
@@ -60,17 +60,14 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
 
         switch (this.state.displayOrder) {
             case AssignmentDisplayOrder.All: {
-                assignmentGroup.push((
-                    <AssignmentGroup assignments={this.state.assignments} title="すべて" key="assignmentGroup_all" displayOrder={this.state.displayOrder} />
-                ));
+                const newGroup = (<AssignmentGroup assignments={this.state.assignments} title="すべて" key="assignmentGroup_all" displayOrder={this.state.displayOrder} />);
+                assignmentGroups.push(newGroup);
             } break;
 
             case AssignmentDisplayOrder.Completed: {
                 const sortedAssignments = this.state.assignments.filter(filterCompletedAssignment);
-
-                assignmentGroup.push((
-                    <AssignmentGroup assignments={sortedAssignments} title="完了済" key="assignmentGroup_completed" displayOrder={this.state.displayOrder} />
-                ));
+                const newGroup = (<AssignmentGroup assignments={sortedAssignments} title="完了済" key="assignmentGroup_completed" displayOrder={this.state.displayOrder} />);
+                assignmentGroups.push(newGroup);
             } break;
 
             case AssignmentDisplayOrder.EarlierDeadline: {
@@ -104,13 +101,14 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
                     sortedAssignmentGroups[deadlineDate].push(eachAssignment);
                 });
 
-                assignmentGroup = Object.keys(sortedAssignmentGroups).map((key: string) => {
-                    return (
-                        <AssignmentGroup assignments={sortedAssignmentGroups[key]} title={key} key={`assignmentGroup_${key}`} displayOrder={this.state.displayOrder} />
-                    );
-                });
+                assignmentGroups = Object.keys(sortedAssignmentGroups).map((key: string) =>
+                    <AssignmentGroup assignments={sortedAssignmentGroups[key]} title={key} key={`assignmentGroup_${key}`} displayOrder={this.state.displayOrder} />);
             } break;
         }
+
+        const listContent = assignmentGroups.length !== 0 ?
+            assignmentGroups :
+            (<div className="assignment-list-message">表示する課題はありません</div>);
 
         return (
             <div className="AssignmentList body-component" id={this.props.page.name} style={this.props.style}>
@@ -133,7 +131,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
                 </div>
                 <hr className="division-line" />
                 <div className="assignment-list" id="assignmentList">
-                    {assignmentGroup}
+                    {listContent}
                 </div>
             </div>
         );

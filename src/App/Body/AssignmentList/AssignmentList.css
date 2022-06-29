@@ -60,3 +60,7 @@
 .assignment-list::-webkit-scrollbar {
     display: none;
 }
+
+.assignment-list-message {
+    margin: var(--layout-margin);
+}
