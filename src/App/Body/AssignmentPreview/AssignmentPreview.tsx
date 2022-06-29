@@ -35,7 +35,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
     render() {
         if (this.state.assignmentId === null) {
             return (
-                <div className="Statistics body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
+                <div className="Statistics body-component" id={this.props.bodyProps.page.name} style={this.props.bodyProps.style}>
                     <HorizontalSwitcher title="課題がロードされていません" description="" onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 </div>
             );
@@ -49,7 +49,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
         }
 
         return (
-            <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.toId()} style={this.props.bodyProps.style}>
+            <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.name} style={this.props.bodyProps.style}>
                 <HorizontalSwitcher title={assignment.course.name} description={assignment.course.teachers.map((eachTeacher) => eachTeacher.name).join('<br>')} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 <div className="preview">
                     <div className="preview-left">

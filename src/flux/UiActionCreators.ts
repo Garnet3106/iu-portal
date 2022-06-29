@@ -1,7 +1,8 @@
 import { ActionKind } from "./AppConstants";
-import UiStore, { Page } from './UiStore';
+import UiStore from './UiStore';
 import { Assignment } from "../assignment";
 import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
+import Page, { defaultPage, pageList } from "../page";
 
 export type UiActionPayload = {
     kind: ActionKind,
@@ -27,7 +28,7 @@ export const UiActionCreators = {
         return {
             kind: ActionKind.InitializeStore,
             data: {
-                currentPage: new Page(0, 'Login'),
+                currentPage: defaultPage,
                 switchPageTo: null,
                 assignments: [],
                 previewingAssignmentId: null,
@@ -86,7 +87,7 @@ export const UiActionCreators = {
 
     previewAssignment(assignmentId: string): UiActions {
         let action = this.getCurrent(ActionKind.UpdatePreviewingAssignment);
-        action.data.switchPageTo = new Page(2, 'AssignmentPreview');
+        action.data.switchPageTo = pageList['AssignmentPreview'];
         action.data.previewingAssignmentId = assignmentId;
         return action;
     },

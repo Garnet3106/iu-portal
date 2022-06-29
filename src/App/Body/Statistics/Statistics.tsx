@@ -54,7 +54,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
 
     render() {
         return (
-            <div className="Statistics body-component" id={this.props.page.toId()} style={this.props.style}>
+            <div className="Statistics body-component" id={this.props.page.name} style={this.props.style}>
                 <HorizontalSwitcher title="統計" description={null} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 <div className="top-statistics">
                     <div className="top-statistics-item">

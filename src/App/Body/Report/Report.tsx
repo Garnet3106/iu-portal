@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BodyProps } from '../Body';
-import { Page } from '../../../flux/UiStore';
 import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
 import { JsonApi, JsonApiRequestActionKind } from '../../../jsonapi';
+import { pageList } from '../../../page';
 import './Report.css';
 
 export enum ReportKind {
@@ -82,7 +82,7 @@ class Report extends Component<BodyProps, ReportState> {
         const textAreaClassName = isMsgLenAppropriate ? 'report-text-count' : 'report-text-count report-text-count-over';
 
         return (
-            <div className="Report body-component" id={this.props.page.toId()} style={this.props.style}>
+            <div className="Report body-component" id={this.props.page.name} style={this.props.style}>
                 <div className="report-wrapper">
                     <select className="report-kind" onChange={this.onChangeReportKind.bind(this)}>
                         {options}
@@ -120,7 +120,7 @@ class Report extends Component<BodyProps, ReportState> {
             case MessageLengthValidation.Appropriate: {
                 if (window.confirm('送信してよろしいですか？\n\n※ アプリの円滑な運営を目的に送信者のアカウント情報を記録しますが、外部には公開いたしません。')) {
                     this.sendToServer(this.state.kind, this.state.msg);
-                    AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(new Page(1, 'AssignmentList')));
+                    AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(pageList['assignmentList']));
                 }
             } break;
 

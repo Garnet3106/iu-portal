@@ -1,34 +1,36 @@
 import React from 'react';
 import AppDispatcher from '../../flux/AppDispatcher';
-import UiStore, { PageSwitch, Page } from '../../flux/UiStore';
+import UiStore from '../../flux/UiStore';
 import { UiActionCreators } from '../../flux/UiActionCreators';
+import Page, { pageList, PageSwitch } from '../../page';
 import './BottomMenu.css';
 
 type BottomMenuProps = {
     defaultPageName: string,
 };
 
-type BottomMenuState = {
-    
-};
-
-class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
+class BottomMenu extends React.Component<BottomMenuProps> {
     constructor(props: BottomMenuProps) {
         super(props);
-
-        this.state = {
-        };
     }
 
     render() {
+        let items: JSX.Element[] = [];
+
+        Object.entries(pageList).forEach((value: [string, Page]) => {
+            const page = value[1];
+
+            if (page.isBodyComponent && page.name !== 'Login') {
+                const id = `BottomMenuItem_${page.name}`;
+                const newItem = (<div className="menu-item" id={id} onClick={this.onMenuItemClick.bind(this)} key={id} />);
+                items.push(newItem);
+            }
+        });
+
         return (
             <div className="BottomMenu">
                 <div className="menu">
-                    <div className="menu-item" id="BottomMenuItem_AssignmentList_1" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_NotificationList_3" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Statistics_4" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Settings_5" onClick={this.onMenuItemClick.bind(this)} />
-                    <div className="menu-item" id="BottomMenuItem_Report_7" onClick={this.onMenuItemClick.bind(this)} />
+                    {items}
                 </div>
                 <div className="menu-bar-area">
                     <div className="menu-bar" />
@@ -43,12 +45,14 @@ class BottomMenu extends React.Component<BottomMenuProps, BottomMenuState> {
         }
 
         const target = event.target as HTMLElement;
-        const id_tokens = target.id.split('_');
+        const nextPageName = target.id.split('_')[1];
 
-        const nextPageName = id_tokens[1];
-        const nextPageIndex = parseInt(id_tokens[2]);
-        const nextPage = new Page(nextPageIndex, nextPageName);
+        if (!(nextPageName in pageList)) {
+            console.error(`Page Switch Error: Page name \`${nextPageName}\` is not found.`);
+            return;
+        }
 
+        const nextPage = pageList[nextPageName];
         const uiState = UiStore.getState();
         const switchPageTo = uiState.currentPage === nextPage ? null : nextPage;
 

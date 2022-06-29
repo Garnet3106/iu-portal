@@ -3,34 +3,7 @@ import AppDispatcher from "./AppDispatcher";
 import { ActionKind, Actions } from "./AppConstants";
 import { Assignment } from "../assignment";
 import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
-
-export class Page {
-    index: number;
-    name: string;
-
-    constructor(index: number, name: string) {
-        this.index = index;
-        this.name = name;
-    }
-
-    toId(): string {
-        return `page_${this.name}_${this.index}`;
-    }
-}
-
-export class PageSwitch {
-    from: Page;
-    to: Page;
-
-    constructor(from: Page, to: Page) {
-        this.from = from;
-        this.to = to;
-    }
-
-    isToRight() {
-        return this.from.index < this.to.index;
-    }
-}
+import Page, { defaultPage } from "../page";
 
 export type UiState = {
     latestKind: ActionKind,
@@ -49,7 +22,7 @@ class UiStore extends ReduceStore<UiState, Actions> {
     getInitialState() {
         return {
             latestKind: ActionKind.InitializeStore,
-            currentPage: new Page(0, 'Login'),
+            currentPage: defaultPage,
             switchPageTo: null,
             assignments: [],
             previewingAssignmentId: null,

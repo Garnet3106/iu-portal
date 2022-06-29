@@ -66,7 +66,7 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
         }
 
         return (
-            <div className="NotificationList body-component" id={this.props.page.toId()} style={this.props.style}>
+            <div className="NotificationList body-component" id={this.props.page.name} style={this.props.style}>
                 <div className="notification-list">
                     {notifications}
                 </div>

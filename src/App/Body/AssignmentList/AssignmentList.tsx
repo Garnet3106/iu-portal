@@ -113,7 +113,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
         }
 
         return (
-            <div className="AssignmentList body-component" id={this.props.page.toId()} style={this.props.style}>
+            <div className="AssignmentList body-component" id={this.props.page.name} style={this.props.style}>
                 <div className="display-order">
                     <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.All)} onClick={() => {
                         this.onClickDisplayOrderItem(AssignmentDisplayOrder.All)

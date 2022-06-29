@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
-import UiStore, { Page } from '../../../flux/UiStore';
+import UiStore from '../../../flux/UiStore';
+import { pageList } from '../../../page';
 import { BodyProps } from '../Body';
 import SettingItem from '../Settings/SettingItem/SettingItem';
 import './SettingValueList.css';
@@ -47,7 +48,7 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
         });
 
         return (
-            <div className="SettingValueList body-component" id={this.props.page.toId()} style={this.props.style}>
+            <div className="SettingValueList body-component" id={this.props.page.name} style={this.props.style}>
                 <div className="settings-group">
                     <div className="settings-group-title">
                         項目を選択してください
@@ -85,7 +86,7 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
     }
 
     static switchToSettingPage() {
-        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(new Page(5, 'Settings')));
+        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(pageList['settings']));
     }
 
     onUpdateUiState() {

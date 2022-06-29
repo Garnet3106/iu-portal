@@ -9,8 +9,9 @@ import SettingValueList from './SettingValueList/SettingValueList';
 import Report from './Report/Report';
 import { EventSubscription } from 'fbemitter';
 import AppDispatcher from '../../flux/AppDispatcher';
-import UiStore, { Page, PageSwitch } from '../../flux/UiStore';
+import UiStore from '../../flux/UiStore';
 import { UiActionCreators } from '../../flux/UiActionCreators';
+import Page, { pageList, PageSwitch } from '../../page';
 import './Body.css';
 
 export type BodyProps = {
@@ -34,19 +35,19 @@ class Body extends Component<{}> {
     render() {
         return (
             <div className="Body">
-                <Login page={new Page(0, 'Login')} style={{}} />
-                <AssignmentList page={new Page(1, 'AssignmentList')} style={newBodyComponentStyle} />
+                <Login page={pageList['Login']} style={{}} />
+                <AssignmentList page={pageList['AssignmentList']} style={newBodyComponentStyle} />
                 <AssignmentPreview bodyProps={
                     {
-                        page: new Page(2, 'AssignmentPreview'),
+                        page: pageList['AssignmentPreview'],
                         style: newBodyComponentStyle,
                     }
                 } />
-                <NotificationList page={new Page(3, 'NotificationList')} style={newBodyComponentStyle} />
-                <Statistics page={new Page(4, 'Statistics')} style={newBodyComponentStyle} />
-                <Settings page={new Page(5, 'Settings')} style={newBodyComponentStyle} />
-                <SettingValueList page={new Page(6, 'SettingValueList')} style={newBodyComponentStyle} />
-                <Report page={new Page(7, 'Report')} style={newBodyComponentStyle} />
+                <NotificationList page={pageList['NotificationList']} style={newBodyComponentStyle} />
+                <Statistics page={pageList['Statistics']} style={newBodyComponentStyle} />
+                <Settings page={pageList['Settings']} style={newBodyComponentStyle} />
+                <SettingValueList page={pageList['SettingValueList']} style={newBodyComponentStyle} />
+                <Report page={pageList['Report']} style={newBodyComponentStyle} />
             </div>
         );
     }
@@ -61,8 +62,8 @@ class Body extends Component<{}> {
     }
 
     switchPage(pageSwitch: PageSwitch) {
-        let currentComponent = document.getElementById(pageSwitch.from.toId());
-        let newComponent = document.getElementById(pageSwitch.to.toId());
+        let currentComponent = document.getElementById(pageSwitch.from.name);
+        let newComponent = document.getElementById(pageSwitch.to.name);
 
         if (currentComponent === null || newComponent === null) {
             console.error('Page Switch Error: Page element is not found.');

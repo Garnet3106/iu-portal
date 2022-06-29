@@ -8,12 +8,28 @@ import { apiResponseToAssignments, JsonApi, JsonApiRequestActionKind, toAssignme
 import requestNotificationRequest from './Body/NotificationList/request';
 import { getToken } from 'firebase/messaging';
 import { firebaseMessaging, firebaseVapidKey } from '../firebase/firebase';
+import { pageList, topPage } from '../page';
 import './App.css';
 
 // Initialize UI State.
 AppDispatcher.dispatch(UiActionCreators.getDefault());
 // Initialize Service Worker.
 initializeCloudMessaging();
+
+export function routePage() {
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+    const specifiedPageId = params.get('page');
+    let targetPage;
+
+    if (specifiedPageId !== null && specifiedPageId in pageList && pageList[specifiedPageId].isBodyComponent) {
+        targetPage = pageList[specifiedPageId];
+    } else {
+        targetPage = topPage;
+    }
+
+    AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(targetPage));
+};
 
 export function updateAssignments(onUpdate: () => void = () => {}) {
     const onSucceed = (_req: XMLHttpRequest, response: any) => {

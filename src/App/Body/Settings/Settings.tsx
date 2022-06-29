@@ -3,8 +3,9 @@ import { BodyProps } from '../Body';
 import SettingItem from './SettingItem/SettingItem';
 import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
-import UiStore, { Page } from '../../../flux/UiStore';
+import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
+import { pageList } from '../../../page';
 import './Settings.css';
 
 const tosUrl = 'https://iu-portal.gant.work/privacypolicy';
@@ -65,7 +66,7 @@ class Settings extends Component<BodyProps> {
         const uiState = UiStore.getState();
 
         return (
-            <div className="Settings body-component" id={this.props.page.toId()} style={this.props.style}>
+            <div className="Settings body-component" id={this.props.page.name} style={this.props.style}>
                 <div className="settings-group">
                     <div className="settings-group-title">
                         表示
@@ -164,7 +165,7 @@ class Settings extends Component<BodyProps> {
     }
 
     static switchToSettingValueListPage() {
-        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(new Page(6, 'SettingValueList')));
+        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(pageList['settingValueList']));
     }
 
     onUpdateUiState() {
