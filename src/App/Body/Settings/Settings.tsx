@@ -165,7 +165,7 @@ class Settings extends Component<BodyProps> {
     }
 
     static switchToSettingValueListPage() {
-        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(pageList['settingValueList']));
+        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(pageList['SettingValueList']));
     }
 
     onUpdateUiState() {
