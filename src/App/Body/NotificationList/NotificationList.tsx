@@ -5,6 +5,7 @@ import NotificationItem from './NotificationItem/NotificationItem';
 import Notification, { notificationConvertors } from '../../../notification';
 import './NotificationList.css';
 
+// Available on https only except on localhost.
 if (!('serviceWorker' in navigator)) {
     alert('お使いのブラウザは通知機能に対応していません。');
 }

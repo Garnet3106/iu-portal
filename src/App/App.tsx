@@ -66,7 +66,7 @@ function initializeCloudMessaging() {
             vapidKey: firebaseVapidKey,
         })
             .then((registrationToken) => {
-                document.cookie = `fcm_reg_token=${registrationToken}`;
+                document.cookie = `fcm_reg_token=${registrationToken}; path=/`;
 
                 const req = {
                     actionKind: JsonApiRequestActionKind.Signin,

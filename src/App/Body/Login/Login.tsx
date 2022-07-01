@@ -47,7 +47,7 @@ class Login extends React.Component<BodyProps> {
 
     onSignedIn(googleAccessToken?: string) {
         if (googleAccessToken !== undefined) {
-            document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}`;
+            document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}; path=/`;
         }
 
         updateAssignments(() => {

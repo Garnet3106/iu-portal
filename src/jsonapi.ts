@@ -1,6 +1,7 @@
+import config from "./config";
 import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, Admin } from "./assignment"
 
-const apiUrl = 'http://localhost:8000';
+const apiUrl = config.dbUrl;
 
 export enum JsonApiRequestActionKind {
     Signin = 'signin',
