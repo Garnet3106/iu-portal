@@ -2,7 +2,6 @@ import React from "react";
 import { BodyProps } from "../Body";
 import { GoogleAuthProvider, User, UserCredential } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
-import { routePage, updateAssignments } from "../../App";
 import './Login.css';
 
 const googleAccessTokenKey = 'g_token';
@@ -20,7 +19,7 @@ class Login extends React.Component<BodyProps> {
                 return;
             }
 
-            this.onSignedIn();
+            this.onSignin();
         });
     }
 
@@ -45,14 +44,10 @@ class Login extends React.Component<BodyProps> {
         );
     }
 
-    onSignedIn(googleAccessToken?: string) {
+    onSignin(googleAccessToken?: string) {
         if (googleAccessToken !== undefined) {
             document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}; path=/`;
         }
-
-        updateAssignments(() => {
-            routePage();
-        });
     }
 
     signInWithGoogle() {
@@ -60,7 +55,7 @@ class Login extends React.Component<BodyProps> {
             const googleCredential = GoogleAuthProvider.credentialFromResult(credential);
             const token = googleCredential!.accessToken;
 
-            this.onSignedIn(token);
+            this.onSignin(token);
         }, () => {
             alert('Google アカウントの認証に失敗しました。');
         });

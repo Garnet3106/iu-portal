@@ -160,7 +160,7 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
         console.error('Assignment Loading Error: Property `contents` doesn\'t exist.');
         return result;
     }
-    
+
     subdataNames.forEach((eachName: string) => {
         if ((response.contents as any)[eachName] === undefined) {
             console.error(`Assignment Loading Error: Property \`${eachName}\` doesn't exist.`);

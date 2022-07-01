@@ -2,12 +2,15 @@ import { Component } from 'react';
 import { JsonApi, JsonApiRequestActionKind } from '../../../jsonapi';
 import { BodyProps } from '../Body';
 import NotificationItem from './NotificationItem/NotificationItem';
-import Notification, { notificationConvertors } from '../../../notification';
+import Notification from '../../../notification';
 import './NotificationList.css';
+import UiStore from '../../../flux/UiStore';
+import { ActionKind } from '../../../flux/AppConstants';
 
 // Available on https only except on localhost.
 if (!('serviceWorker' in navigator)) {
-    alert('お使いのブラウザは通知機能に対応していません。');
+    console.warn('お使いの環境は通知機能に対応していません。');
+    document.cookie = 'fcm_reg_token=; max-age=0';
 }
 
 type NotificationListState = {
@@ -28,23 +31,13 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
             notifications: [],
         };
 
-        const onError = () => {
-            console.error('Notification Error: Failed to load.');
-        }
+        UiStore.addListener(() => {
+            const uiState = UiStore.getState();
 
-        const req = {
-            actionKind: JsonApiRequestActionKind.GetNotifications,
-            parameters: {},
-            onSucceed: (_req: XMLHttpRequest, response: any) => {
-                const notifications = response.contents.notifications.map((eachRawNotification: any) => notificationConvertors[eachRawNotification.kind](eachRawNotification));
-                this.updateNotifications(notifications);
-            },
-            onBadRequest: onError,
-            onFailToAuth: () => onError,
-            onError: () => onError,
-        };
-
-        JsonApi.request(req);
+            if (uiState.latestKind === ActionKind.UpdateNotifications) {
+                this.updateNotifications(uiState.notifications);
+            }
+        });
     }
 
     render() {

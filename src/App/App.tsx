@@ -4,8 +4,9 @@ import Body from './Body/Body';
 import BottomMenu from './BottomMenu/BottomMenu';
 import AppDispatcher from '../flux/AppDispatcher';
 import { UiActionCreators } from '../flux/UiActionCreators';
-import { apiResponseToAssignments, JsonApi, JsonApiRequestActionKind, toAssignmentStructureApiResponse } from '../jsonapi';
+import { apiResponseToAssignments, AssignmentStructureApiResponse, JsonApi, JsonApiRequestActionKind, toAssignmentStructureApiResponse } from '../jsonapi';
 import requestNotificationRequest from './Body/NotificationList/request';
+import { notificationConvertors } from '../notification';
 import { getToken } from 'firebase/messaging';
 import { firebaseMessaging, firebaseVapidKey } from '../firebase/firebase';
 import { pageList, topPage } from '../page';
@@ -13,8 +14,8 @@ import './App.css';
 
 // Initialize UI State.
 AppDispatcher.dispatch(UiActionCreators.getDefault());
-// Initialize Service Worker.
-initializeCloudMessaging();
+// Initialize Service Worker, assignments, notifications, etc.
+signinDatabase();
 
 export function routePage() {
     const url = new URL(window.location.href);
@@ -31,36 +32,7 @@ export function routePage() {
     AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(targetPage));
 };
 
-export function updateAssignments(onUpdate: () => void = () => {}) {
-    const onSucceed = (_req: XMLHttpRequest, response: any) => {
-        let assignments = apiResponseToAssignments(toAssignmentStructureApiResponse(response));
-        AppDispatcher.dispatch(UiActionCreators.updateAssignments(assignments));
-        onUpdate();
-    };
-
-    const onFailToAuth = (_req: XMLHttpRequest, response: any) => {
-        console.error('User Auth Error: Failed to auth.');
-
-        if (response.message === 'Cannot use external Google account.') {
-            alert('このアカウントは利用できません。\n大学が発行した Google アカウントでログインし直してください。');
-        }
-    };
-
-    const onFail = () => {
-        console.error('Assignment Loading Error: Failed to get assignments.');
-    };
-
-    JsonApi.request({
-        actionKind: JsonApiRequestActionKind.GetAssignments,
-        parameters: {},
-        onSucceed: onSucceed,
-        onBadRequest: onFail,
-        onFailToAuth: onFailToAuth,
-        onError: onFail,
-    });
-}
-
-function initializeCloudMessaging() {
+function signinDatabase() {
     requestNotificationRequest(() => {
         getToken(firebaseMessaging, {
             vapidKey: firebaseVapidKey,
@@ -71,8 +43,11 @@ function initializeCloudMessaging() {
                 const req = {
                     actionKind: JsonApiRequestActionKind.Signin,
                     parameters: {},
-                    onSucceed: () => {
+                    onSucceed: (_req: XMLHttpRequest, response: any) => {
                         console.info('Service Worker: Push notification registered.');
+                        updateAssignments(response.contents.getAssignments);
+                        updateNotifications(response.contents.getNotifications);
+                        routePage();
                     },
                     onBadRequest: () => {},
                     onFailToAuth: () => {
@@ -87,6 +62,20 @@ function initializeCloudMessaging() {
                 console.error('Notification Error: Failed to initialize messaging feature.');
             });
     });
+}
+
+function updateAssignments(response: any) {
+    let assignments = apiResponseToAssignments(toAssignmentStructureApiResponse(response as AssignmentStructureApiResponse));
+    AppDispatcher.dispatch(UiActionCreators.updateAssignments(assignments));
+}
+
+function updateNotifications(response: any) {
+    if (response.status !== 200) {
+        console.error('Assignment Loading Error: Failed to get assignments.');
+    }
+
+    const notifications = response.contents.notifications.map((eachRawNotification: any) => notificationConvertors[eachRawNotification.kind](eachRawNotification));
+    AppDispatcher.dispatch(UiActionCreators.updateNotifications(notifications));
 }
 
 class App extends React.Component<{}> {

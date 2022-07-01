@@ -9,5 +9,6 @@ export enum ActionKind {
     UpdatePreviewingAssignment,
     UpdateSettingValues,
     UpdateSettingValueListItems,
+    UpdateNotifications,
     ReverseAssignmentCompletion,
 }

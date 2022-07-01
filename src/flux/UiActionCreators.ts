@@ -3,6 +3,7 @@ import UiStore from './UiStore';
 import { Assignment } from "../assignment";
 import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
 import Page, { defaultPage, pageList } from "../page";
+import Notification from "../notification";
 
 export type UiActionPayload = {
     kind: ActionKind,
@@ -16,6 +17,7 @@ export type UiActionPayload = {
         settingValueListItems: {
             [name: string]: () => void,
         },
+        notifications: Notification[],
     },
 };
 
@@ -38,6 +40,7 @@ export const UiActionCreators = {
                 },
                 focusedListItemIndex: null,
                 settingValueListItems: {},
+                notifications: [],
             },
         };
     },
@@ -104,6 +107,12 @@ export const UiActionCreators = {
             return false;
         });
 
+        return action;
+    },
+
+    updateNotifications(notifications: Notification[]): UiActions {
+        let action = this.getCurrent(ActionKind.UpdateNotifications);
+        action.data.notifications = notifications;
         return action;
     },
 };
