@@ -8,7 +8,7 @@ import { ActionKind } from '../../../flux/AppConstants';
 import { pageList } from '../../../page';
 import { signOut } from 'firebase/auth';
 import { firebaseAuth } from '../../../firebase/firebase';
-import { googleAccessTokenKey } from '../Login/Login';
+import { JsonApi, JsonApiRequestActionKind } from '../../../jsonapi';
 import './Settings.css';
 
 const tosUrl = '/privacypolicy';
@@ -172,12 +172,21 @@ class Settings extends Component<BodyProps> {
 
     onClickSignoutItem() {
         if (window.confirm('サインアウトします。よろしいですか？')) {
-            document.cookie = `${googleAccessTokenKey}=; max-age=0`;
-
             signOut(firebaseAuth)
                 .then(() => {
-                    alert('サインアウトしました。');
-                    window.location.reload();
+                    const req = {
+                        actionKind: JsonApiRequestActionKind.Signout,
+                        parameters: {},
+                        onSucceed: () => {
+                            alert('サインアウトしました。');
+                            window.location.reload();
+                        },
+                        onBadRequest: () => {},
+                        onFailToAuth: () => {},
+                        onError: () => {},
+                    };
+
+                    JsonApi.request(req);
                 });
         }
     }
