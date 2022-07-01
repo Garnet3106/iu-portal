@@ -78,37 +78,21 @@ class AssignmentItem extends React.Component<AssignmentItemProps> {
             AppDispatcher.dispatch(UiActionCreators.reverseAssignmentCompletion(assignmentId));
         }, dispatchTimeout);
 
-        let makeComplete;
+        let completion: boolean | null = null;
         const uiState = UiStore.getState();
 
         uiState.assignments.some((eachAssignment: Assignment) => {
             if (eachAssignment.id === assignmentId) {
-                makeComplete = !eachAssignment.completed;
+                completion = !eachAssignment.completed;
                 return true;
             }
 
             return false;
         });
 
-        const onFailToAuth = () => {
-            console.error('User Auth Error: Failed to auth.');
-        };
-
-        const onFail = () => {
-            console.error('Assignment Update Error: Failed to update assignment completion.');
-        };
-
-        JsonApi.request({
-            actionKind: JsonApiRequestActionKind.UpdateCompletion,
-            parameters: {
-                assignmentId: assignmentId,
-                makeComplete: makeComplete,
-            },
-            onSucceed: () => {},
-            onBadRequest: onFail,
-            onFailToAuth: onFailToAuth,
-            onError: onFail,
-        });
+        if (completion !== null) {
+            document.cookie = `asgncomp_${assignmentId}=${completion ? 'true' : 'false'}`;
+        }
     }
 }
 
