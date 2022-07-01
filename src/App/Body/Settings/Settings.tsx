@@ -6,6 +6,9 @@ import { UiActionCreators } from '../../../flux/UiActionCreators';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import { pageList } from '../../../page';
+import { signOut } from 'firebase/auth';
+import { firebaseAuth } from '../../../firebase/firebase';
+import { googleAccessTokenKey } from '../Login/Login';
 import './Settings.css';
 
 const tosUrl = 'https://iu-portal.gant.work/privacypolicy';
@@ -81,9 +84,18 @@ class Settings extends Component<BodyProps> {
                         規約等
                     </div>
                     <div className="settings-group-items">
-                        <SettingItem itemName="" itemValue={"利用規約"} onClickItem={this.onClickTosItem}/>
+                        <SettingItem itemName="" itemValue="利用規約" onClickItem={this.onClickTosItem}/>
                         <SettingItem itemName="" itemValue="プライバシーポリシー" onClickItem={this.onClickPrivacyPolicyItem}/>
                         <SettingItem itemName="" itemValue="ライセンス表示" onClickItem={this.onClickLicenseItem}/>
+                    </div>
+                </div>
+                <div className="settings-group">
+                    <div className="settings-group-title">
+                        アカウント
+                    </div>
+                    <div className="settings-group-items">
+                        <SettingItem itemName="" itemValue="サインアウト" onClickItem={this.onClickSignoutItem}/>
+                        <SettingItem itemName="" itemValue="利用停止" onClickItem={this.onClickSuspensionItem} isRedColor={true}/>
                     </div>
                 </div>
             </div>
@@ -156,6 +168,22 @@ class Settings extends Component<BodyProps> {
 
     onClickLicenseItem() {
         window.open(licenseUrl, 'iU Portal ライセンス表示');
+    }
+
+    onClickSignoutItem() {
+        if (window.confirm('サインアウトします。よろしいですか？')) {
+            document.cookie = `${googleAccessTokenKey}=; max-age=0`;
+
+            signOut(firebaseAuth)
+                .then(() => {
+                    alert('サインアウトしました。');
+                    window.location.reload();
+                });
+        }
+    }
+
+    onClickSuspensionItem() {
+        alert('unimplemented');
     }
 
     static updateFontSettingTo(font: Font) {

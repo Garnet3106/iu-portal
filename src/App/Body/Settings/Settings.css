@@ -15,7 +15,8 @@
 
 .settings-group-title {
     display: inline-flex;
-    margin: calc(var(--layout-margin) / 2) 0;
+    font-size: 85%;
+    margin: 15px 0 8px;
     user-select: none;
 }
 

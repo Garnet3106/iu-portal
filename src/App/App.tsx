@@ -14,6 +14,7 @@ import './App.css';
 
 // Initialize UI State.
 AppDispatcher.dispatch(UiActionCreators.getDefault());
+
 // Initialize Service Worker and signin database.
 requestNotificationRequest(() => {
     const fcmRegTokenKey = 'fcm_reg_token';

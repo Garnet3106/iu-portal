@@ -4,7 +4,7 @@ import { GoogleAuthProvider, User, UserCredential } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import './Login.css';
 
-const googleAccessTokenKey = 'g_token';
+export const googleAccessTokenKey = 'g_token';
 
 class Login extends React.Component<BodyProps> {
     private _isLoggedIn: boolean;
@@ -47,6 +47,7 @@ class Login extends React.Component<BodyProps> {
     onSignin(googleAccessToken?: string) {
         if (googleAccessToken !== undefined) {
             document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}; path=/`;
+            window.location.reload();
         }
     }
 
@@ -54,7 +55,6 @@ class Login extends React.Component<BodyProps> {
         signInWithGoogle((credential: UserCredential) => {
             const googleCredential = GoogleAuthProvider.credentialFromResult(credential);
             const token = googleCredential!.accessToken;
-
             this.onSignin(token);
         }, () => {
             alert('Google アカウントの認証に失敗しました。');
