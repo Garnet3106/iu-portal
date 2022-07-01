@@ -14,8 +14,23 @@ import './App.css';
 
 // Initialize UI State.
 AppDispatcher.dispatch(UiActionCreators.getDefault());
-// Initialize Service Worker, assignments, notifications, etc.
-signinDatabase();
+// Initialize Service Worker and signin database.
+requestNotificationRequest(() => {
+    const fcmRegTokenKey = 'fcm_reg_token';
+
+    getToken(firebaseMessaging, {
+        vapidKey: firebaseVapidKey,
+    })
+        .then((registrationToken) => {
+            document.cookie = `${fcmRegTokenKey}=${registrationToken}; path=/`;
+            signinDatabase();
+        })
+        .catch(() => {
+            console.warn('Failed to initialize messaging feature.');
+            document.cookie = `${fcmRegTokenKey}=; max-age=0`;
+            signinDatabase();
+        });
+});
 
 export function routePage() {
     const url = new URL(window.location.href);
@@ -33,35 +48,23 @@ export function routePage() {
 };
 
 function signinDatabase() {
-    requestNotificationRequest(() => {
-        getToken(firebaseMessaging, {
-            vapidKey: firebaseVapidKey,
-        })
-            .then((registrationToken) => {
-                document.cookie = `fcm_reg_token=${registrationToken}; path=/`;
+    const req = {
+        actionKind: JsonApiRequestActionKind.Signin,
+        parameters: {},
+        onSucceed: (_req: XMLHttpRequest, response: any) => {
+            console.info('Service Worker: Push notification registered.');
+            updateAssignments(response.contents.getAssignments);
+            updateNotifications(response.contents.getNotifications);
+            routePage();
+        },
+        onBadRequest: () => {},
+        onFailToAuth: () => {
+            console.error('User Auth Error: Failed to auth.');
+        },
+        onError: () => {},
+    };
 
-                const req = {
-                    actionKind: JsonApiRequestActionKind.Signin,
-                    parameters: {},
-                    onSucceed: (_req: XMLHttpRequest, response: any) => {
-                        console.info('Service Worker: Push notification registered.');
-                        updateAssignments(response.contents.getAssignments);
-                        updateNotifications(response.contents.getNotifications);
-                        routePage();
-                    },
-                    onBadRequest: () => {},
-                    onFailToAuth: () => {
-                        console.error('User Auth Error: Failed to auth.');
-                    },
-                    onError: () => {},
-                };
-
-                JsonApi.request(req);
-            })
-            .catch(() => {
-                console.error('Notification Error: Failed to initialize messaging feature.');
-            });
-    });
+    JsonApi.request(req);
 }
 
 function updateAssignments(response: any) {

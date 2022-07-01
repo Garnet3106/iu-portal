@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { JsonApi, JsonApiRequestActionKind } from '../../../jsonapi';
 import { BodyProps } from '../Body';
 import NotificationItem from './NotificationItem/NotificationItem';
 import Notification from '../../../notification';
@@ -10,7 +9,6 @@ import { ActionKind } from '../../../flux/AppConstants';
 // Available on https only except on localhost.
 if (!('serviceWorker' in navigator)) {
     console.warn('お使いの環境は通知機能に対応していません。');
-    document.cookie = 'fcm_reg_token=; max-age=0';
 }
 
 type NotificationListState = {
