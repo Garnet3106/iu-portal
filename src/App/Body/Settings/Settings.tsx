@@ -11,9 +11,9 @@ import { firebaseAuth } from '../../../firebase/firebase';
 import { googleAccessTokenKey } from '../Login/Login';
 import './Settings.css';
 
-const tosUrl = 'https://iu-portal.gant.work/privacypolicy';
-const privacyPolicyUrl = 'https://iu-portal.gant.work/tos';
-const licenseUrl = 'https://iu-portal.gant.work/license';
+const tosUrl = '/privacypolicy';
+const privacyPolicyUrl = '/tos';
+const licenseUrl = '/license';
 
 export enum Language {
     EnglishUs,
