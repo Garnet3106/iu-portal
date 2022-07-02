@@ -9,7 +9,7 @@
 .menu {
     align-items: center;
     display: flex;
-    height: calc(var(--bottom-menu-height) - 2px);
+    height: calc(var(--bottom-menu-height) - 3px);
     justify-content: space-around;
     width: 100%;
 }
@@ -23,9 +23,10 @@
 
 .menu-bar {
     background-color: var(--light-back-color);
-    border-radius: 1px;
-    height: 2px;
+    border-radius: 1.5px;
+    height: 3px;
+    margin-bottom: 3px;
+    position: relative;
     transition: all 200ms var(--basic-transition-cubic-bezier);
     width: 30px;
-    margin-left: 100px;
 }

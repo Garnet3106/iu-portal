@@ -3,6 +3,7 @@ import AppDispatcher from '../../flux/AppDispatcher';
 import UiStore from '../../flux/UiStore';
 import { UiActionCreators } from '../../flux/UiActionCreators';
 import Page, { pageList, PageSwitch } from '../../page';
+import { ActionKind } from '../../flux/AppConstants';
 import './BottomMenu.css';
 
 type BottomMenuProps = {
@@ -10,8 +11,30 @@ type BottomMenuProps = {
 };
 
 class BottomMenu extends React.Component<BottomMenuProps> {
+    menuBar: React.RefObject<HTMLDivElement>;
+
     constructor(props: BottomMenuProps) {
         super(props);
+        this.menuBar = React.createRef();
+
+        UiStore.addListener(() => {
+            const uiState = UiStore.getState();
+
+            if (uiState.latestKind === ActionKind.SwitchPage) {
+                const pageName = uiState.currentPage.name;
+                const bottomItemId = `BottomMenuItem_${pageName}`;
+                const bottomItemElem = document.getElementById(bottomItemId);
+
+                if (bottomItemElem !== null) {
+                    const bottomItemOffset = bottomItemElem.getBoundingClientRect().x;
+                    const currentMenuBar = this.menuBar.current;
+
+                    if (currentMenuBar !== null) {
+                        currentMenuBar.style.left = `${bottomItemOffset}px`;
+                    }
+                }
+            }
+        });
     }
 
     render() {
@@ -33,7 +56,7 @@ class BottomMenu extends React.Component<BottomMenuProps> {
                     {items}
                 </div>
                 <div className="menu-bar-area">
-                    <div className="menu-bar" />
+                    <div className="menu-bar" ref={this.menuBar} />
                 </div>
             </div>
         );
