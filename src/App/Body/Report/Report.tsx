@@ -89,7 +89,7 @@ class Report extends Component<BodyProps, ReportState> {
         const restOfMsgLen = this.state.msg.length - maxMsgLen;
         const isMsgLenAppropriate = Report.validateMessageLength(this.state.msg, minMsgLen, maxMsgLen) === MessageLengthValidation.Appropriate;
         const textAreaClassName = isMsgLenAppropriate ? 'report-text-count' : 'report-text-count report-text-count-over';
-        const placeholderMsg = `${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください\n(例) 〇〇の機能が使いづらいので改善してほしいです`;
+        const placeholderMsg = `${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください\n(例) 〇〇の機能が使いづらいので改善してほしい`;
 
         return (
             <div className="Report body-component" id={this.props.page.name} style={this.props.style}>
