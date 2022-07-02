@@ -95,7 +95,7 @@ class Settings extends Component<BodyProps> {
                     </div>
                     <div className="settings-group-items">
                         <SettingItem itemName="" itemValue="サインアウト" onClickItem={this.onClickSignoutItem}/>
-                        <SettingItem itemName="" itemValue="利用停止" onClickItem={this.onClickSuspensionItem} isRedColor={true}/>
+                        <SettingItem itemName="" itemValue="利用停止" onClickItem={this.onClickSuspensionItem}/>
                     </div>
                 </div>
             </div>

@@ -44,7 +44,7 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
 
             valueItems.push((<SettingItem itemName="" itemValue={itemValue} focuseItem={focuseItem} onClickItem={() => {
                 this.onClickItem(itemValue);
-            }} key={`settingValueListItem_${index}`} />))
+            }} key={`settingValueListItem_${index}`} />));
         });
 
         return (
