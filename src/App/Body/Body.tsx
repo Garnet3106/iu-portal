@@ -102,7 +102,7 @@ class Body extends Component<{}> {
     onUpdateUiState() {
         const uiState = UiStore.getState();
 
-        if (uiState.switchPageTo !== null) {
+        if (uiState.switchPageTo !== undefined && uiState.switchPageTo !== null) {
             const pageSwitch = new PageSwitch(uiState.currentPage, uiState.switchPageTo);
             this.switchPage(pageSwitch);
         }
