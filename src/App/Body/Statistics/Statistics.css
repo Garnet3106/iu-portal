@@ -7,6 +7,12 @@
     display: none;
 }
 
+.statistics {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
 .top-statistics {
     display: flex;
     flex-wrap: wrap;

@@ -1,5 +1,4 @@
 .Settings {
-    flex-direction: column;
     scrollbar-width: none;
 }
 
@@ -7,10 +6,17 @@
     display: none;
 }
 
+.settings {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
 .settings-group {
     align-items: center;
     display: flex;
     flex-direction: column;
+    width: 100vw;
 }
 
 .settings-group-title {
@@ -25,5 +31,5 @@
     display: flex;
     flex-direction: column;
     user-select: none;
-    width: 100%;
+    width: 100vw;
 }

@@ -11,7 +11,7 @@
     background-color: var(--sub-back-color);
     position: relative;
     top: var(--bottom-menu-height);
-    transition: all 200ms var(--basic-transition-cubic-bezier);
+    transition: all var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier);
 }
 
 .bottom-menu-content {

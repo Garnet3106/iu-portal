@@ -2,9 +2,9 @@ import { Component } from 'react';
 import { BodyProps } from '../Body';
 import NotificationItem from './NotificationItem/NotificationItem';
 import Notification from '../../../notification';
-import './NotificationList.css';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
+import './NotificationList.css';
 
 // Available on https only except on localhost.
 if (!('serviceWorker' in navigator)) {

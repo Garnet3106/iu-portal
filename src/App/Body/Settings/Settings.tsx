@@ -70,32 +70,34 @@ class Settings extends Component<BodyProps> {
 
         return (
             <div className="Settings body-component" id={this.props.page.name} style={this.props.style}>
-                <div className="settings-group">
-                    <div className="settings-group-title">
-                        表示
+                <div className="settings">
+                    <div className="settings-group">
+                        <div className="settings-group-title">
+                            表示
+                        </div>
+                        <div className="settings-group-items">
+                            <SettingItem itemName="言語" itemValue={languageNameToJapanese(uiState.settingValues.language)} onClickItem={this.onClickLanguageSettingItem}/>
+                            <SettingItem itemName="フォント" itemValue={fontNameToString(uiState.settingValues.font)} onClickItem={this.onClickFontSettingItem}/>
+                        </div>
                     </div>
-                    <div className="settings-group-items">
-                        <SettingItem itemName="言語" itemValue={languageNameToJapanese(uiState.settingValues.language)} onClickItem={this.onClickLanguageSettingItem}/>
-                        <SettingItem itemName="フォント" itemValue={fontNameToString(uiState.settingValues.font)} onClickItem={this.onClickFontSettingItem}/>
+                    <div className="settings-group">
+                        <div className="settings-group-title">
+                            規約等
+                        </div>
+                        <div className="settings-group-items">
+                            <SettingItem itemName="" itemValue="利用規約" onClickItem={this.onClickTosItem}/>
+                            <SettingItem itemName="" itemValue="プライバシーポリシー" onClickItem={this.onClickPrivacyPolicyItem}/>
+                            <SettingItem itemName="" itemValue="ライセンス表示" onClickItem={this.onClickLicenseItem}/>
+                        </div>
                     </div>
-                </div>
-                <div className="settings-group">
-                    <div className="settings-group-title">
-                        規約等
-                    </div>
-                    <div className="settings-group-items">
-                        <SettingItem itemName="" itemValue="利用規約" onClickItem={this.onClickTosItem}/>
-                        <SettingItem itemName="" itemValue="プライバシーポリシー" onClickItem={this.onClickPrivacyPolicyItem}/>
-                        <SettingItem itemName="" itemValue="ライセンス表示" onClickItem={this.onClickLicenseItem}/>
-                    </div>
-                </div>
-                <div className="settings-group">
-                    <div className="settings-group-title">
-                        アカウント
-                    </div>
-                    <div className="settings-group-items">
-                        <SettingItem itemName="" itemValue="サインアウト" onClickItem={this.onClickSignoutItem}/>
-                        <SettingItem itemName="" itemValue="利用停止" onClickItem={this.onClickSuspensionItem}/>
+                    <div className="settings-group">
+                        <div className="settings-group-title">
+                            アカウント
+                        </div>
+                        <div className="settings-group-items">
+                            <SettingItem itemName="" itemValue="サインアウト" onClickItem={this.onClickSignoutItem}/>
+                            <SettingItem itemName="" itemValue="利用停止" onClickItem={this.onClickSuspensionItem}/>
+                        </div>
                     </div>
                 </div>
             </div>

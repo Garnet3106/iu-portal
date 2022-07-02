@@ -1,12 +1,15 @@
-.HorizontalSwitcher {
+.horizontal-switcher {
     align-items: center;
+    display: flex;
     flex-direction: column;
     margin: var(--horizontal-switcher-margin) 0;
+    width: 100vw;
 }
 
 .switcher-top {
-    align-items: center;
     display: flex;
+    justify-content: center;
+    width: 100vw;
 }
 
 .switcher-button {

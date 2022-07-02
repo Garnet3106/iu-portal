@@ -22,14 +22,16 @@ class HorizontalSwitcher extends Component<HorizontalSwitcherProps> {
 
         return (
             <div className="HorizontalSwitcher body-subcomponent">
-                <div className="switcher-top">
-                    <div className="switcher-button" onClick={this.props.onClickLeftButton} />
-                    <div className="switcher-title">
-                        {this.props.title}
+                <div className="horizontal-switcher">
+                    <div className="switcher-top">
+                        <div className="switcher-button" onClick={this.props.onClickLeftButton} />
+                        <div className="switcher-title">
+                            {this.props.title}
+                        </div>
+                        <div className="switcher-button" onClick={this.props.onClickRightButton} />
                     </div>
-                    <div className="switcher-button" onClick={this.props.onClickRightButton} />
+                    {this.props.description !== null ? description : (<></>)}
                 </div>
-                {this.props.description !== null ? description : (<></>)}
             </div>
         );
     }

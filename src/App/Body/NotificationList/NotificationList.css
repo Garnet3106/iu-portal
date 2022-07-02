@@ -12,6 +12,6 @@
     background-color: var(--light-back-color);
     border-radius: var(--basic-border-radius);
     color: var(--dark-font-color);
-    margin-top: calc(var(--layout-margin) * 2);
-    width: calc(100% - calc(var(--layout-margin) * 4));
+    margin: calc(var(--layout-margin) * 2) 0;
+    width: calc(100vw - calc(var(--layout-margin) * 4));
 }
