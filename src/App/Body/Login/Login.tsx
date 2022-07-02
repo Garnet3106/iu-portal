@@ -2,6 +2,7 @@ import React from "react";
 import { BodyProps } from "../Body";
 import { GoogleAuthProvider, User, UserCredential } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
+import App from "../../App";
 import './Login.css';
 
 export const googleAccessTokenKey = 'g_token';
@@ -15,11 +16,9 @@ class Login extends React.Component<BodyProps> {
         this._isLoggedIn = false;
 
         firebaseAuth.onAuthStateChanged((user: User | null) => {
-            if (this._isLoggedIn && user === null) {
-                return;
+            if (!this._isLoggedIn && user !== null) {
+                this.onSignin(user);
             }
-
-            this.onSignin();
         });
     }
 
@@ -27,13 +26,13 @@ class Login extends React.Component<BodyProps> {
         return (
             <div className="Login body-component" id={this.props.page.name} style={this.props.style}>
                 <div className="login">
-                    <div className="login-item" onClick={this.signInWithGoogle.bind(this)}>
+                    <div className="login-item" onClick={this.signinWithGoogle.bind(this)}>
                         <div className="login-item-icon fab fa-google" />
                         <div className="login-item-title">
                             Google でログイン
                         </div>
                     </div>
-                    <div className="login-item" onClick={this.signInWithEmail.bind(this)}>
+                    <div className="login-item" onClick={this.signinWithEmail.bind(this)}>
                         <div className="login-item-icon fa-regular fa-envelope" />
                         <div className="login-item-title">
                             メールアドレスでログイン
@@ -44,24 +43,24 @@ class Login extends React.Component<BodyProps> {
         );
     }
 
-    onSignin(googleAccessToken?: string) {
+    onSignin(user: User, googleAccessToken?: string) {
         if (googleAccessToken !== undefined) {
             document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}; path=/`;
-            window.location.reload();
+            App.initialize(user);
         }
     }
 
-    signInWithGoogle() {
+    signinWithGoogle() {
         signInWithGoogle((credential: UserCredential) => {
             const googleCredential = GoogleAuthProvider.credentialFromResult(credential);
             const token = googleCredential!.accessToken;
-            this.onSignin(token);
+            this.onSignin(credential.user, token);
         }, () => {
             alert('Google アカウントの認証に失敗しました。');
         });
     }
 
-    signInWithEmail() {
+    signinWithEmail() {
         alert('現在メールアドレスによるログインは対応していません。');
     }
 }

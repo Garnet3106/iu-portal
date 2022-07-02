@@ -172,27 +172,31 @@ class Settings extends Component<BodyProps> {
 
     onClickSignoutItem() {
         if (window.confirm('サインアウトします。よろしいですか？')) {
-            signOut(firebaseAuth)
-                .then(() => {
-                    const req = {
-                        actionKind: JsonApiRequestActionKind.Signout,
-                        parameters: {},
-                        onSucceed: () => {
-                            alert('サインアウトしました。');
-                            window.location.reload();
-                        },
-                        onBadRequest: () => {},
-                        onFailToAuth: () => {},
-                        onError: () => {},
-                    };
-
-                    JsonApi.request(req);
-                });
+            Settings.signout(() => {
+                alert('サインアウトしました。');
+                window.location.reload();
+            });
         }
     }
 
     onClickSuspensionItem() {
         alert('unimplemented');
+    }
+
+    static signout(onSuccess: () => void = () => {}) {
+        signOut(firebaseAuth)
+            .then(() => {
+                const req = {
+                    actionKind: JsonApiRequestActionKind.Signout,
+                    parameters: {},
+                    onSucceed: onSuccess,
+                    onBadRequest: () => {},
+                    onFailToAuth: () => {},
+                    onError: () => {},
+                };
+
+                JsonApi.request(req);
+            });
     }
 
     static updateFontSettingTo(font: Font) {
