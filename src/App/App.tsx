@@ -73,6 +73,7 @@ class App extends React.Component<{}> {
             parameters: {},
             onSucceed: (_req: XMLHttpRequest, response: any) => {
                 console.info('Service Worker: Push notification registered.');
+                AppDispatcher.dispatch(UiActionCreators.signin());
                 App.updateAssignments(response.contents.getAssignments);
                 App.updateNotifications(response.contents.getNotifications);
                 App.routePage();

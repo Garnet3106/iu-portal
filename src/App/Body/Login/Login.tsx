@@ -2,21 +2,20 @@ import React from "react";
 import { BodyProps } from "../Body";
 import { GoogleAuthProvider, User, UserCredential } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
+import UiStore from "../../../flux/UiStore";
 import App from "../../App";
 import './Login.css';
 
 export const googleAccessTokenKey = 'g_token';
 
 class Login extends React.Component<BodyProps> {
-    private _isLoggedIn: boolean;
-
     constructor(props: BodyProps) {
         super(props);
 
-        this._isLoggedIn = false;
-
         firebaseAuth.onAuthStateChanged((user: User | null) => {
-            if (!this._isLoggedIn && user !== null) {
+            const uiState = UiStore.getState();
+
+            if (!uiState.hasSignedIn && user !== null) {
                 this.onSignin(user);
             }
         });

@@ -8,6 +8,7 @@ import Notification from "../notification";
 export type UiActionPayload = {
     kind: ActionKind,
     data: {
+        hasSignedIn: boolean,
         currentPage: Page,
         switchPageTo: Page | null,
         assignments: Assignment[],
@@ -30,6 +31,7 @@ export const UiActionCreators = {
         return {
             kind: ActionKind.InitializeStore,
             data: {
+                hasSignedIn: false,
                 currentPage: defaultPage,
                 switchPageTo: null,
                 assignments: [],
@@ -58,6 +60,18 @@ export const UiActionCreators = {
             kind: kind,
             data: action,
         };
+    },
+
+    signin(): UiActions {
+        let action = this.getCurrent(ActionKind.Signin);
+        action.data.hasSignedIn = true;
+        return action;
+    },
+
+    signout(): UiActions {
+        let action = this.getCurrent(ActionKind.Signout);
+        action.data.hasSignedIn = false;
+        return action;
     },
 
     updateSettingValues(values: SettingValues): UiActions {

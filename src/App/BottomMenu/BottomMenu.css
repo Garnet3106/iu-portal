@@ -1,12 +1,20 @@
 .BottomMenu {
-    background-color: var(--sub-back-color);
+    background-color: var(--main-back-color);
     display: flex;
     flex-direction: column;
     height: var(--bottom-menu-height);
+    overflow: hidden;
     width: 100%;
 }
 
-.menu {
+.bottom-menu {
+    background-color: var(--sub-back-color);
+    position: relative;
+    top: var(--bottom-menu-height);
+    transition: all 200ms var(--basic-transition-cubic-bezier);
+}
+
+.bottom-menu-content {
     align-items: center;
     display: flex;
     height: calc(var(--bottom-menu-height) - 3px);
@@ -14,14 +22,14 @@
     width: 100%;
 }
 
-.menu-item {
+.bottom-menu-content-item {
     background-color: gray;
     cursor: pointer;
     height: 30px;
     width: 30px;
 }
 
-.menu-bar {
+.bottom-menu-content-bar {
     background-color: var(--light-back-color);
     border-radius: 1.5px;
     height: 3px;

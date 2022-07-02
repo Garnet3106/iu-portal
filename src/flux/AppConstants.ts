@@ -4,6 +4,8 @@ export type Actions = UiActions;
 
 export enum ActionKind {
     InitializeStore,
+    Signin,
+    Signout,
     SwitchPage,
     UpdateAssignments,
     UpdatePreviewingAssignment,

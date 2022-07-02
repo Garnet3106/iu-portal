@@ -11,28 +11,48 @@ type BottomMenuProps = {
 };
 
 class BottomMenu extends React.Component<BottomMenuProps> {
-    menuBar: React.RefObject<HTMLDivElement>;
+    bottomMenu: React.RefObject<HTMLDivElement>;
+    bottomMenuBar: React.RefObject<HTMLDivElement>;
 
     constructor(props: BottomMenuProps) {
         super(props);
-        this.menuBar = React.createRef();
+        this.bottomMenu = React.createRef();
+        this.bottomMenuBar = React.createRef();
 
         UiStore.addListener(() => {
             const uiState = UiStore.getState();
 
-            if (uiState.latestKind === ActionKind.SwitchPage) {
-                const pageName = uiState.currentPage.name;
-                const bottomItemId = `BottomMenuItem_${pageName}`;
-                const bottomItemElem = document.getElementById(bottomItemId);
+            switch (uiState.latestKind) {
+                case ActionKind.Signin: {
+                    const currentBottomMenu = this.bottomMenu.current;
 
-                if (bottomItemElem !== null) {
-                    const bottomItemOffset = bottomItemElem.getBoundingClientRect().x;
-                    const currentMenuBar = this.menuBar.current;
-
-                    if (currentMenuBar !== null) {
-                        currentMenuBar.style.left = `${bottomItemOffset}px`;
+                    if (currentBottomMenu !== null) {
+                        currentBottomMenu.style.top = '0';
                     }
-                }
+                } break;
+
+                case ActionKind.Signout: {
+                    const currentBottomMenu = this.bottomMenu.current;
+
+                    if (currentBottomMenu !== null) {
+                        currentBottomMenu.style.top = 'var(--bottom-menu-height)';
+                    }
+                } break;
+
+                case ActionKind.SwitchPage: {
+                    const pageName = uiState.currentPage.name;
+                    const bottomItemId = `BottomMenuItem_${pageName}`;
+                    const bottomItemElem = document.getElementById(bottomItemId);
+
+                    if (bottomItemElem !== null) {
+                        const bottomItemOffset = bottomItemElem.getBoundingClientRect().x;
+                        const currentMenuBar = this.bottomMenuBar.current;
+
+                        if (currentMenuBar !== null) {
+                            currentMenuBar.style.left = `${bottomItemOffset}px`;
+                        }
+                    }
+                } break;
             }
         });
     }
@@ -45,25 +65,29 @@ class BottomMenu extends React.Component<BottomMenuProps> {
 
             if (page.isBodyComponent && page.name !== 'Login') {
                 const id = `BottomMenuItem_${page.name}`;
-                const newItem = (<div className="menu-item" id={id} onClick={this.onMenuItemClick.bind(this)} key={id} />);
+                const newItem = (<div className="bottom-menu-content-item" id={id} onClick={this.onMenuItemClick.bind(this)} key={id} />);
                 items.push(newItem);
             }
         });
 
         return (
             <div className="BottomMenu">
-                <div className="menu">
-                    {items}
-                </div>
-                <div className="menu-bar-area">
-                    <div className="menu-bar" ref={this.menuBar} />
+                <div className="bottom-menu" ref={this.bottomMenu}>
+                    <div className="bottom-menu-content">
+                        {items}
+                    </div>
+                    <div className="bottom-menu-content-bar-area">
+                        <div className="bottom-menu-content-bar" ref={this.bottomMenuBar} />
+                    </div>
                 </div>
             </div>
         );
     }
 
     onMenuItemClick(event: React.MouseEvent<HTMLInputElement>) {
-        if (event.target === null) {
+        const uiState = UiStore.getState();
+
+        if (event.target === null || !uiState.hasSignedIn) {
             return;
         }
 
@@ -76,7 +100,6 @@ class BottomMenu extends React.Component<BottomMenuProps> {
         }
 
         const nextPage = pageList[nextPageName];
-        const uiState = UiStore.getState();
         const switchPageTo = uiState.currentPage === nextPage ? null : nextPage;
 
         // CurrentPage will be updated to the next page at Body.switchPage().
