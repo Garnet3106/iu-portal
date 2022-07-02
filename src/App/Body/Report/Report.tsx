@@ -53,9 +53,11 @@ export type ReportState = {
 const minMsgLen = 5;
 const maxMsgLen = 1000;
 
+let hasBeforeUnloadEventListenerSet = false;
+
 class Report extends Component<BodyProps, ReportState> {
     textAreaRef: React.RefObject<HTMLTextAreaElement>;
-    
+
     constructor(props: BodyProps) {
         super(props);
         this.textAreaRef = React.createRef();
@@ -64,6 +66,13 @@ class Report extends Component<BodyProps, ReportState> {
             kind: 0 as ReportKind,
             msg: '',
         };
+
+        if (hasBeforeUnloadEventListenerSet) {
+            window.removeEventListener('beforeunload', this.onBeforeUnload);
+        }
+
+        window.addEventListener('beforeunload', this.onBeforeUnload.bind(this));
+        hasBeforeUnloadEventListenerSet = true;
     }
 
     render() {
@@ -80,6 +89,7 @@ class Report extends Component<BodyProps, ReportState> {
         const restOfMsgLen = this.state.msg.length - maxMsgLen;
         const isMsgLenAppropriate = Report.validateMessageLength(this.state.msg, minMsgLen, maxMsgLen) === MessageLengthValidation.Appropriate;
         const textAreaClassName = isMsgLenAppropriate ? 'report-text-count' : 'report-text-count report-text-count-over';
+        const placeholderMsg = `${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください\n(例) 〇〇の機能が使いづらいので改善してほしいです`;
 
         return (
             <div className="Report body-component" id={this.props.page.name} style={this.props.style}>
@@ -87,7 +97,7 @@ class Report extends Component<BodyProps, ReportState> {
                     <select className="report-kind" onChange={this.onChangeReportKind.bind(this)}>
                         {options}
                     </select>
-                    <textarea className="report-text" onChange={this.onChangeReportMessage.bind(this)} placeholder={`${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください`} ref={this.textAreaRef} />
+                    <textarea className="report-text" onChange={this.onChangeReportMessage.bind(this)} placeholder={placeholderMsg} ref={this.textAreaRef} />
                     <div className={textAreaClassName}>
                         {restOfMsgLen}
                     </div>
@@ -97,6 +107,14 @@ class Report extends Component<BodyProps, ReportState> {
                 </div>
             </div>
         );
+    }
+
+    onBeforeUnload(event: BeforeUnloadEvent) {
+        const textArea = this.textAreaRef.current;
+
+        if (textArea !== null && textArea.value.length !== 0) {
+            event.returnValue = 'ページを離れるとフォームに入力した内容が破棄されます。よろしいですか？';
+        }
     }
 
     onChangeReportKind(event: React.ChangeEvent<HTMLSelectElement>) {
