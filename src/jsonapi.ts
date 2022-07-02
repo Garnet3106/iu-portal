@@ -6,6 +6,7 @@ const apiUrl = config.dbUrl;
 export enum JsonApiRequestActionKind {
     Signin = 'signin',
     Signout = 'signout',
+    Suspend = 'suspend',
     GetAssignments = 'get_assignments',
     GetNotifications = 'get_notifications',
     UpdateCompletion = 'update_completion',

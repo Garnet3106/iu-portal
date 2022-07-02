@@ -6,9 +6,9 @@ import { UiActionCreators } from '../../../flux/UiActionCreators';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import { pageList } from '../../../page';
-import { signOut } from 'firebase/auth';
+import { deleteUser, signOut, User } from 'firebase/auth';
 import { firebaseAuth } from '../../../firebase/firebase';
-import { JsonApi, JsonApiRequestActionKind } from '../../../jsonapi';
+import { JsonApi, JsonApiRequest, JsonApiRequestActionKind } from '../../../jsonapi';
 import './Settings.css';
 
 const tosUrl = '/privacypolicy';
@@ -180,7 +180,52 @@ class Settings extends Component<BodyProps> {
     }
 
     onClickSuspensionItem() {
-        alert('unimplemented');
+        if (window.confirm('利用停止をすると登録情報や完了状況などのデータが削除されます。続行しますか？')) {
+            const user = firebaseAuth.currentUser;
+            const email = user?.email;
+
+            if (user === null || email === undefined || email === null) {
+                alert('アカウント情報の取得に失敗したため利用停止できませんでした。');
+                return;
+            }
+
+            const studentId = email.split('@')[0];
+            const input = window.prompt(`利用停止を続行するにはあなたの学籍番号 '${studentId}' を入力してください。`);
+
+            if(input === null) {
+                alert('利用停止をキャンセルしました。');
+            } else if (input === studentId) {
+                Settings.suspendAccount(user);
+            } else {
+                alert('入力された学籍番号が異なるため利用停止をキャンセルしました。');
+            }
+        } else {
+            alert('利用停止をキャンセルしました。');
+        }
+    }
+
+    static suspendAccount(user: User) {
+        const onSuccess = () => {
+            deleteUser(user)
+                .then(() => {
+                    alert('利用停止が完了しました。iU Portal のご利用ありがとうございました。');
+                });
+        };
+
+        const onError = () => {
+            alert('サーバエラーにより利用停止に失敗しました。');
+        };
+
+        const req: JsonApiRequest = {
+            actionKind: JsonApiRequestActionKind.Suspend,
+            parameters: {},
+            onSucceed: onSuccess,
+            onBadRequest: onError,
+            onFailToAuth: onError,
+            onError: onError,
+        };
+
+        JsonApi.request(req);
     }
 
     static signout(onSuccess: () => void = () => {}) {
