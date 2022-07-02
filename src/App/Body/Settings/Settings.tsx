@@ -50,9 +50,53 @@ export type SettingValues = {
     font: Font,
 };
 
-export enum SettingKind {
-    Language,
-    Font,
+export enum SettingValueKey {
+    Language = 'language',
+    Font = 'font',
+}
+
+function searchSettingValuesByKey(settingKey: SettingValueKey): number | null {
+    const settingKeyString = `settings_${settingKey}`;
+    const cookiePairs = document.cookie.split('; ');
+    let settingValue: number | null = null;
+
+    cookiePairs.some((eachPair: string) => {
+        const [key, value] = eachPair.split('=');
+
+        if (key === settingKeyString) {
+            const parsingResult = Number(decodeURIComponent(value));
+            settingValue = parsingResult !== NaN ? parsingResult : null;
+            return true;
+        }
+
+        return false;
+    });
+
+    return settingValue;
+}
+
+function loadSettingValuesFromCookie(): SettingValues {
+    const language = searchSettingValuesByKey(SettingValueKey.Language) as Language;
+    const font = searchSettingValuesByKey(SettingValueKey.Font) as Font;
+
+    return {
+        language: language !== null ? language : Language.Japanese,
+        font: font !== null ? font : Font.HpSimplified,
+    }
+}
+
+function saveSettingValuesToCookie(settingValues: SettingValues) {
+    const pairs: {
+        [index: string]: string,
+    } = {
+        'language': `${settingValues.language}`,
+        'font': `${settingValues.font}`,
+    };
+
+    Object.entries(pairs).forEach((eachPair: [string, string]) => {
+        const [key, value] = eachPair;
+        document.cookie = `settings_${key}=${encodeURIComponent(value)}`;
+    });
 }
 
 class Settings extends Component<BodyProps> {
@@ -60,9 +104,9 @@ class Settings extends Component<BodyProps> {
 
     constructor(props: BodyProps) {
         super(props);
-
         this._isMounted = false;
         UiStore.addListener(this.onUpdateUiState.bind(this));
+        AppDispatcher.dispatch(UiActionCreators.updateSettingValues(loadSettingValuesFromCookie()));
     }
 
     render() {
@@ -137,6 +181,10 @@ class Settings extends Component<BodyProps> {
         const values = UiStore.getState().settingValues;
         values.language = language;
         AppDispatcher.dispatch(UiActionCreators.updateSettingValues(values));
+
+        setTimeout(() => {
+            alert('設定を保存しました。ページをリロードすると変更が適用されます。');
+        }, 300);
     }
 
     onClickFontSettingItem() {
@@ -256,6 +304,10 @@ class Settings extends Component<BodyProps> {
         const values = UiStore.getState().settingValues;
         values.font = font;
         AppDispatcher.dispatch(UiActionCreators.updateSettingValues(values));
+
+        setTimeout(() => {
+            alert('設定を保存しました。ページをリロードすると変更が適用されます。');
+        }, 300);
     }
 
     static switchToSettingValueListPage() {
@@ -270,6 +322,7 @@ class Settings extends Component<BodyProps> {
         const uiState = UiStore.getState();
 
         if (uiState.latestKind === ActionKind.UpdateSettingValues) {
+            saveSettingValuesToCookie(uiState.settingValues);
             this.forceUpdate();
         }
     }
