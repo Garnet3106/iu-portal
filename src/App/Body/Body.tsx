@@ -26,6 +26,8 @@ const newBodyComponentStyle = {
 
 class Body extends Component<{}> {
     uiStoreListener: EventSubscription;
+    static _detectDrag: boolean = false;
+    static _touchStartX: number = 0;
 
     constructor(props: {}) {
         super(props);
@@ -34,7 +36,7 @@ class Body extends Component<{}> {
 
     render() {
         return (
-            <div className="Body">
+            <div className="Body" onTouchStart={this.onMouseDown.bind(this)} onTouchEnd={this.onMouseUp.bind(this)} onTouchMove={this.onMouseMove.bind(this)}>
                 <Login page={pageList['Login']} style={{}} />
                 <AssignmentList page={pageList['AssignmentList']} style={newBodyComponentStyle} />
                 <AssignmentPreview bodyProps={
@@ -50,6 +52,51 @@ class Body extends Component<{}> {
                 <Report page={pageList['Report']} style={newBodyComponentStyle} />
             </div>
         );
+    }
+
+    onMouseDown(event: React.TouchEvent) {
+        Body._detectDrag = true;
+        Body._touchStartX = event.touches[0].clientX;
+    }
+
+    onMouseUp() {
+        Body._detectDrag = false;
+    }
+
+    onMouseMove(event: React.TouchEvent) {
+        if (Body._detectDrag) {
+            const diff = event.touches[0].clientX - Body._touchStartX;
+            const diffPivot = 30;
+
+            if (diff > diffPivot) {
+                this.switchPageByDrag(false);
+            } else if (diff * -1 > diffPivot) {
+                this.switchPageByDrag(true);
+            }
+        }
+    }
+
+    switchPageByDrag(isToRight: boolean) {
+        Body._detectDrag = false;
+
+        const uiState = UiStore.getState();
+        const currentPageIndex = uiState.currentPage.index;
+        const pages = Object.entries(pageList);
+        const slicedPages = isToRight ? pages.slice(currentPageIndex + 1) : pages.slice(0, currentPageIndex).reverse();
+        let targetPage: Page | null = null;
+
+        slicedPages.some((value: [string, Page]) => {
+            const page = value[1];
+
+            if (page.isBodyComponent) {
+                targetPage = page;
+                return true;
+            }
+
+            return false;
+        });
+
+        AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(targetPage));
     }
 
     onUpdateUiState() {

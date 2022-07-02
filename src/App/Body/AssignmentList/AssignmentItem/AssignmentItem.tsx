@@ -4,7 +4,6 @@ import { UiActionCreators } from "../../../../flux/UiActionCreators";
 import { Assignment, formatDate } from "../../../../assignment";
 import { AssignmentDisplayOrder } from "../AssignmentList";
 import UiStore from "../../../../flux/UiStore";
-import { JsonApi, JsonApiRequestActionKind } from "../../../../jsonapi";
 import './AssignmentItem.css';
 
 type AssignmentItemProps = {
