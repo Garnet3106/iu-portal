@@ -71,14 +71,32 @@ class Body extends Component<{}> {
         }
 
         if (pageSwitch.isToRight()) {
-            currentComponent.style.left = '-100%';
-            newComponent.style.left = '0';
-            newComponent.style.width = '100%';
+            // Return a new component to left.
+            newComponent.style.transition = 'none';
+            newComponent.style.left = '100%';
+            newComponent.style.width = '0';
+
+            // Prevent from conflicting transition settings.
+            setTimeout(() => {
+                currentComponent!.style.left = '-100%';
+                newComponent!.style.transition = 'left var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier), width var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier)';
+                newComponent!.style.left = '0';
+                newComponent!.style.width = '100%';
+            }, 0);
         } else {
-            currentComponent.style.left = '100%';
-            currentComponent.style.width = '0';
+            // Return a new component to right.
+            newComponent.style.transition = 'none';
             newComponent.style.left = '0';
-            newComponent.style.width = '100%';
+            newComponent.style.width = '0';
+
+            // Prevent from conflicting transition settings.
+            setTimeout(() => {
+                currentComponent!.style.left = '100%';
+                currentComponent!.style.width = '0';
+                newComponent!.style.transition = 'left var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier), width var(--page-switch-transition-duration) var(--basic-transition-cubic-bezier)';
+                newComponent!.style.left = '0';
+                newComponent!.style.width = '100%';
+            }, 0);
         }
 
         AppDispatcher.dispatch(UiActionCreators.updateCurrentPage(pageSwitch.to));
