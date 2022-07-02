@@ -80,7 +80,7 @@ class App extends React.Component<{}> {
             },
             onBadRequest: () => {},
             onFailToAuth: (_req: XMLHttpRequest, response: any) => {
-                if (user !== undefined && response.message == 'Cannot use external Google account.')
+                if (user !== undefined && response.message == 'external_email_address_provided')
                 {
                     deleteUser(user)
                         .then(() => {
