@@ -1,9 +1,9 @@
 import UiStore from "./flux/UiStore";
 
 export type LocalizationMessage = {
-    enUs: string | ((args?: object[]) => string),
-    ja: string | ((args?: object[]) => string),
-    jaKana: string | ((args?: object[]) => string),
+    enUs: string | ((args?: any) => string),
+    ja: string | ((args?: any) => string),
+    jaKana: string | ((args?: any) => string),
 }
 
 export type LocalizationMessageList = {
@@ -45,6 +45,38 @@ const messageList: LocalizationMessageList = {
                 ja: '完了済',
                 jaKana: 'かんりょうずみ',
             },
+        },
+    },
+    'assignment_preview': {
+        'assignment_is_not_loaded': {
+            enUs: 'Assignment is not loaded.',
+            ja: '課題が読み込まれていません',
+            jaKana: 'かだいがよみこまれていません。',
+        },
+        'registrar': {
+            enUs: 'Registrar',
+            ja: '登録者',
+            jaKana: 'とうろくしゃ',
+        },
+        'checked_by_n_admins': {
+            enUs: (checker_num: number) => `checked by ${checker_num} admin${checker_num !== 1 ? 's' : ''}`,
+            ja: (checker_num: number) => `${checker_num} 人が照合`,
+            jaKana: (checker_num: number) => `${checker_num} にんがしょうごう`,
+        },
+        'no_deadline': {
+            enUs: 'No Deadline',
+            ja: '期限なし',
+            jaKana: 'きげんなし',
+        },
+        'assigned_from': {
+            enUs: 'Assigned from',
+            ja: '配布元',
+            jaKana: 'はいふもと',
+        },
+        'submit_to': {
+            enUs: 'Submit to',
+            ja: '提出先',
+            jaKana: 'ていしゅつさき',
         },
     },
     'setting': {
@@ -106,7 +138,7 @@ const messageList: LocalizationMessageList = {
 };
 
 class Localization {
-    public static getMessage(key: string, args?: object[]): string {
+    public static getMessage(key: string, args?: any): string {
         const errorMsg = `[${key}]`;
         const listIds = key.split('.');
         const msgId = listIds.pop()!;

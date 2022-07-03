@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { formatDate } from '../../../assignment';
 import { ActionKind } from '../../../flux/AppConstants';
 import UiStore from '../../../flux/UiStore';
+import Localization from '../../../localization';
 import { BodyProps } from '../Body';
 import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
 import './AssignmentPreview.css';
@@ -36,7 +37,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
         if (this.state.assignmentId === null) {
             return (
                 <div className="Statistics body-component" id={this.props.bodyProps.page.name} style={this.props.bodyProps.style}>
-                    <HorizontalSwitcher title="課題がロードされていません" description="" onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
+                    <HorizontalSwitcher title={Localization.getMessage('assignment_preview.assignment_is_not_loaded')} description="" onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 </div>
             );
         }
@@ -60,17 +61,17 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                             {assignment.note}
                         </div>
                         <div className="preview-management">
-                            登録者 {assignment.registrar.nickname} ({assignment.numberOfCheckers} 人が照合)
+                            {Localization.getMessage('assignment_preview.registrar')} {assignment.registrar.nickname} ({Localization.getMessage('assignment_preview.checked_by_n_admins', assignment.numberOfCheckers)})
                         </div>
                     </div>
                     <div className="preview-detail-wrapper">
                         <div className="preview-detail">
                             <div className="preview-detail-deadline">
-                                {formatDate(assignment.deadline, 'yyyy/M/d', '期限なし')}
+                                {formatDate(assignment.deadline, 'yyyy/M/d', Localization.getMessage('assignment_preview.no_deadline'))}
                             </div>
                             <div className="preview-detail-group">
                                 <div className="preview-detail-title">
-                                    配布元
+                                    {Localization.getMessage('assignment_preview.assigned_from')}
                                 </div>
                                 <div className="preview-detail-content">
                                     {assignment.assignedFrom}
@@ -79,7 +80,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                             <div className="preview-detail-arrow" />
                             <div className="preview-detail-group">
                                 <div className="preview-detail-title">
-                                    提出先
+                                    {Localization.getMessage('assignment_preview.submit_to')}
                                 </div>
                                 <div className="preview-detail-content">
                                     {assignment.submitTo}
