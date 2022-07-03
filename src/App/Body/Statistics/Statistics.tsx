@@ -4,6 +4,7 @@ import HorizontalSwitcher from '../HorizontalSwitcher/HorizontalSwitcher';
 import { Assignment } from '../../../assignment';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
+import Localization from '../../../localization';
 import './Statistics.css';
 
 export class MightBeUnknown<T extends object | number> {
@@ -53,18 +54,22 @@ class Statistics extends Component<BodyProps, StatisticsState> {
     }
 
     render() {
+        const submissionTitle = Localization.getMessage('statistics.top_item.submission_on_month', '|').split('|');
+        const unsubmissionTitle = Localization.getMessage('statistics.top_item.unsubmission_on_month', '|').split('|');
+        const submissionRateTitle = Localization.getMessage('statistics.top_item.submission_rate_on_month', '|').split('|');
+
         return (
             <div className="Statistics body-component" id={this.props.page.name} style={this.props.style}>
-                <HorizontalSwitcher title="統計" description={null} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
+                <HorizontalSwitcher title={Localization.getMessage('statistics.statistics')} description={null} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
                 <div className="statistics">
                     <div className="top-statistics">
                         <div className="top-statistics-item">
                             <div className="top-statistics-item-top">
                                 <div className="top-statistics-item-icon" />
                                 <div className="top-statistics-item-title">
-                                    今月の
+                                    {submissionTitle[0]}
                                     <br />
-                                    提出数
+                                    {submissionTitle[1]}
                                 </div>
                             </div>
                             <div className="top-statistics-item-bottom">
@@ -72,7 +77,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                                     {Statistics.statisticNumberToString(this.state.numberOfSubmitted)}
                                 </div>
                                 <div className="top-statistics-item-unit">
-                                    コ
+                                    {Localization.getMessage('statistics.top_item.assignment_unit')}
                                 </div>
                             </div>
                         </div>
@@ -80,9 +85,9 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                             <div className="top-statistics-item-top">
                                 <div className="top-statistics-item-icon" />
                                 <div className="top-statistics-item-title">
-                                    今月の
+                                    {unsubmissionTitle[0]}
                                     <br />
-                                    未提出数
+                                    {unsubmissionTitle[1]}
                                 </div>
                             </div>
                             <div className="top-statistics-item-bottom">
@@ -90,7 +95,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                                     {Statistics.statisticNumberToString(this.state.numberOfUnsubmitted)}
                                 </div>
                                 <div className="top-statistics-item-unit">
-                                    コ
+                                    {Localization.getMessage('statistics.top_item.assignment_unit')}
                                 </div>
                             </div>
                         </div>
@@ -98,9 +103,9 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                             <div className="top-statistics-item-top">
                                 <div className="top-statistics-item-icon" />
                                 <div className="top-statistics-item-title">
-                                    今月の
+                                    {submissionRateTitle[0]}
                                     <br />
-                                    提出率
+                                    {submissionRateTitle[1]}
                                 </div>
                             </div>
                             <div className="top-statistics-item-bottom">
@@ -117,7 +122,7 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                         <div className="detailed-statistics-side">
                             <div className="detailed-statistics-item">
                                 <div className="detailed-statistics-item-title">
-                                    提出率
+                                    {Localization.getMessage('statistics.detailed_item.submission_rate')}
                                 </div>
                                 <div className="detailed-statistics-item-data">
                                     <div className="detailed-statistics-item-data-number">

@@ -96,6 +96,42 @@ const messageList: LocalizationMessageList = {
             jaKana: 'とどいたつうちはここにひょうじされます。',
         },
     },
+    'statistics': {
+        'statistics': {
+            enUs: 'Statistics',
+            ja: '統計',
+            jaKana: 'とうけい',
+        },
+        'top_item': {
+            'submission_on_month': {
+                enUs: (separator: string) => `Subm.${separator}on Month`,
+                ja: (separator: string) => `今月の${separator}提出数`,
+                jaKana: (separator: string) => `てい${separator}しゅつ`,
+            },
+            'unsubmission_on_month': {
+                enUs: (separator: string) => `Unsubm.${separator}on Month`,
+                ja: (separator: string) => `今月の${separator}未提出数`,
+                jaKana: (separator: string) => `みてい${separator}しゅつ`,
+            },
+            'submission_rate_on_month': {
+                enUs: (separator: string) => `Subm. Rate${separator}on Month`,
+                ja: (separator: string) => `今月の${separator}提出率`,
+                jaKana: (separator: string) => `ていしゅつ${separator}りつ`,
+            },
+            'assignment_unit': {
+                enUs: 'asgn.',
+                ja: 'コ',
+                jaKana: 'こ',
+            },
+        },
+        'detailed_item': {
+            'submission_rate': {
+                enUs: 'Submission Rate',
+                ja: '提出率',
+                jaKana: 'ていしゅつりつ',
+            },
+        },
+    },
     'setting': {
         'group': {
             'display': {

@@ -7,7 +7,10 @@ import { ActionKind } from '../../../flux/AppConstants';
 import './NotificationList.css';
 import Localization from '../../../localization';
 
-// Notification service is available on https only except on localhost.
+// Available on https only except on localhost.
+if (!('serviceWorker' in navigator)) {
+    console.warn('お使いの環境は通知機能に対応していません。');
+}
 
 type NotificationListState = {
     notifications: Notification[],
