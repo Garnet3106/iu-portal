@@ -316,7 +316,6 @@ class Settings extends Component<BodyProps> {
 
         if (uiState.latestKind === ActionKind.UpdateSettingValues) {
             saveSettingValuesToCookie(uiState.settingValues);
-            this.forceUpdate();
         }
     }
 }

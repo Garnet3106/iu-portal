@@ -11,6 +11,42 @@ export type LocalizationMessageList = {
 };
 
 const messageList: LocalizationMessageList = {
+    'assignment_list': {
+        'no_assignments_to_display': {
+            enUs: 'There are no assignments to display.',
+            ja: '表示する課題はありません。',
+            jaKana: 'ひょうじするかだいはありません。',
+        },
+        'display_order': {
+            'all': {
+                enUs: 'All',
+                ja: 'すべて',
+                jaKana: 'すべて',
+            },
+            'completed': {
+                enUs: 'Completed',
+                ja: '完了済',
+                jaKana: 'かんりょう',
+            },
+            'deadline': {
+                enUs: 'Deadline',
+                ja: '提出期限',
+                jaKana: 'きげん',
+            },
+        },
+        'group_title': {
+            'all': {
+                enUs: 'All',
+                ja: 'すべて',
+                jaKana: 'すべて',
+            },
+            'completed': {
+                enUs: 'Completed',
+                ja: '完了済',
+                jaKana: 'かんりょうずみ',
+            },
+        },
+    },
     'setting': {
         'group': {
             'display': {

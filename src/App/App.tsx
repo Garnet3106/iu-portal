@@ -12,11 +12,24 @@ import { firebaseMessaging, firebaseVapidKey } from '../firebase/firebase';
 import { pageList, topPage } from '../page';
 import { deleteUser, User } from 'firebase/auth';
 import Settings from './Body/Settings/Settings';
+import UiStore from '../flux/UiStore';
 import './App.css';
+import { ActionKind } from '../flux/AppConstants';
 
 class App extends React.Component<{}> {
+    _isMounted: boolean;
+
     constructor(props: {}) {
         super(props);
+        this._isMounted = false;
+
+        UiStore.addListener(() => {
+            const uiState = UiStore.getState();
+
+            if (this._isMounted && uiState.latestKind === ActionKind.UpdateSettingValues) {
+                this.forceUpdate();
+            }
+        });
     }
 
     render() {
@@ -27,6 +40,14 @@ class App extends React.Component<{}> {
                 <BottomMenu defaultPageName="AssignmentList" />
             </div>
         );
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     static initialize(user?: User) {

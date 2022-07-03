@@ -4,6 +4,7 @@ import { BodyProps } from '../Body';
 import AssignmentGroup from './AssignmentGroup/AssignmentGroup';
 import { Assignment, formatDate } from "../../../assignment";
 import { ActionKind } from "../../../flux/AppConstants";
+import Localization from "../../../localization";
 import './AssignmentList.css';
 
 export enum AssignmentDisplayOrder {
@@ -60,13 +61,15 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
 
         switch (this.state.displayOrder) {
             case AssignmentDisplayOrder.All: {
-                const newGroup = (<AssignmentGroup assignments={this.state.assignments} title="すべて" key="assignmentGroup_all" displayOrder={this.state.displayOrder} />);
+                const title = Localization.getMessage('assignment_list.group_title.all');
+                const newGroup = (<AssignmentGroup assignments={this.state.assignments} title={title} key="assignmentGroup_all" displayOrder={this.state.displayOrder} />);
                 assignmentGroups.push(newGroup);
             } break;
 
             case AssignmentDisplayOrder.Completed: {
                 const sortedAssignments = this.state.assignments.filter(filterCompletedAssignment);
-                const newGroup = (<AssignmentGroup assignments={sortedAssignments} title="完了済" key="assignmentGroup_completed" displayOrder={this.state.displayOrder} />);
+                const title = Localization.getMessage('assignment_list.group_title.completed');
+                const newGroup = (<AssignmentGroup assignments={sortedAssignments} title={title} key="assignmentGroup_completed" displayOrder={this.state.displayOrder} />);
                 assignmentGroups.push(newGroup);
             } break;
 
@@ -108,7 +111,9 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
 
         const listContent = assignmentGroups.length !== 0 ?
             assignmentGroups :
-            (<div className="assignment-list-message">表示する課題はありません</div>);
+            (<div className="assignment-list-message">
+                {Localization.getMessage('assignment_list.no_assignments_to_display')}
+            </div>);
 
         return (
             <div className="AssignmentList body-component" id={this.props.page.name} style={this.props.style}>
@@ -116,17 +121,17 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
                     <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.All)} onClick={() => {
                         this.onClickDisplayOrderItem(AssignmentDisplayOrder.All)
                     }}>
-                        すべて
+                        {Localization.getMessage('assignment_list.display_order.all')}
                     </div>
                     <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.Completed)} onClick={() => {
                         this.onClickDisplayOrderItem(AssignmentDisplayOrder.Completed)
                     }}>
-                        完了済
+                        {Localization.getMessage('assignment_list.display_order.completed')}
                     </div>
                     <div className={this.getDisplayOrderCssClass(AssignmentDisplayOrder.EarlierDeadline)} onClick={() => {
                         this.onClickDisplayOrderItem(AssignmentDisplayOrder.EarlierDeadline)
                     }}>
-                        期限が早い順
+                        {Localization.getMessage('assignment_list.display_order.deadline')}
                     </div>
                 </div>
                 <hr className="division-line" />
@@ -139,6 +144,10 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
 
     componentDidMount() {
         this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     getDisplayOrderCssClass(targetDisplayOrder: AssignmentDisplayOrder) {
