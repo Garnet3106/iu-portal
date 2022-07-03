@@ -5,11 +5,9 @@ import Notification from '../../../notification';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import './NotificationList.css';
+import Localization from '../../../localization';
 
-// Available on https only except on localhost.
-if (!('serviceWorker' in navigator)) {
-    console.warn('お使いの環境は通知機能に対応していません。');
-}
+// Notification service is available on https only except on localhost.
 
 type NotificationListState = {
     notifications: Notification[],
@@ -47,9 +45,9 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
         } else {
             const initialNotification: Notification = {
                 id: null,
-                title: '通知画面へようこそ',
+                title: Localization.getMessage('notification_list.welcome_to_notification_list'),
                 date: null,
-                description: '届いた通知はここに表示されます',
+                description: Localization.getMessage('notification_list.arrived_notifications_are_displayed_here'),
             };
 
             notifications = [
