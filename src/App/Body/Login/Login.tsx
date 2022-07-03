@@ -5,6 +5,7 @@ import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import UiStore from "../../../flux/UiStore";
 import App from "../../App";
 import './Login.css';
+import Localization from "../../../localization";
 
 export const googleAccessTokenKey = 'g_token';
 
@@ -28,13 +29,13 @@ class Login extends React.Component<BodyProps> {
                     <div className="login-item" onClick={this.signinWithGoogle.bind(this)}>
                         <div className="login-item-icon fab fa-google" />
                         <div className="login-item-title">
-                            Google でログイン
+                            {Localization.getMessage('signin.with.google')}
                         </div>
                     </div>
                     <div className="login-item" onClick={this.signinWithEmail.bind(this)}>
                         <div className="login-item-icon fa-regular fa-envelope" />
                         <div className="login-item-title">
-                            メールアドレスでログイン
+                            {Localization.getMessage('signin.with.email')}
                         </div>
                     </div>
                 </div>
@@ -55,12 +56,12 @@ class Login extends React.Component<BodyProps> {
             const token = googleCredential!.accessToken;
             this.onSignin(credential.user, token);
         }, () => {
-            alert('Google アカウントの認証に失敗しました。');
+            alert(Localization.getMessage('signin.error.failed_to_auth_with_google_account'));
         });
     }
 
     signinWithEmail() {
-        alert('現在メールアドレスによるログインは対応していません。');
+        alert(Localization.getMessage('signin.error.not_support_signin_with_email_temporary'));
     }
 }
 

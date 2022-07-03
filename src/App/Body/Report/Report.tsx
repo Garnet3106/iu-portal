@@ -160,7 +160,7 @@ class Report extends Component<BodyProps, ReportState> {
         };
 
         const onFailToAuth = () => {
-            alert(Localization.getMessage('report.message.cannot_use_this_account'));
+            alert(Localization.getMessage('signin.error.cannot_use_this_account'));
         };
 
         const onFail = () => {

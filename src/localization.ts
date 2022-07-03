@@ -11,6 +11,37 @@ export type LocalizationMessageList = {
 };
 
 const messageList: LocalizationMessageList = {
+    'signin': {
+        'with': {
+            'google': {
+                enUs: 'Signin with Google',
+                ja: 'Google でサインイン',
+                jaKana: 'Google でさいんいん',
+            },
+            'email': {
+                enUs: 'Signin with E-Mail',
+                ja: 'Eメールでサインイン',
+                jaKana: 'いーめーるでさいんいん',
+            },
+        },
+        'error': {
+            'cannot_use_this_account': {
+                enUs: 'You cannot use this account.\nPlease re-signin with your Google account which university registered.',
+                ja: 'このアカウントは利用できません。\n大学が発行した Google アカウントでサインインし直してください。',
+                jaKana: 'このあかうんとはりようできません。\nだいがくがはっこうした Google あかうんとで、さいんいんしなおしてください。',
+            },
+            'failed_to_auth_with_google_account': {
+                enUs: 'Failed to auth with Google account.',
+                ja: 'Google アカウントでの認証に失敗しました。',
+                jaKana: 'Google あかうんとでのにんしょうにしっぱいしました。',
+            },
+            'not_support_signin_with_email_temporary': {
+                enUs: 'We\'re not supporting signin with email temporary.',
+                ja: '現在Eメールによるサインインは対応していません。',
+                jaKana: 'げんざい、いーめーるによるさいんいんはたいおうしていません。',
+            },
+        },
+    },
     'assignment_list': {
         'no_assignments_to_display': {
             enUs: 'There are no assignments to display.',
@@ -241,11 +272,6 @@ const messageList: LocalizationMessageList = {
                 enUs: 'Thank you for your report. We will check your message later.',
                 ja: 'ご報告ありがとうございました。後ほど管理者が確認いたします。',
                 jaKana: 'ごほうこくありがとうございました。のちほどかんりしゃがかくにんいたします。',
-            },
-            'cannot_use_this_account': {
-                enUs: 'You cannot use this account.\nPlease re-signin with your Google account which university registered.',
-                ja: 'このアカウントは利用できません。\n大学が発行した Google アカウントでサインインし直してください。',
-                jaKana: 'このあかうんとはりようできません。\nだいがくがはっこうした Google あかうんとで、さいんいんしなおしてください。',
             },
             'failed_to_send': {
                 enUs: 'Failed to send your message due to technical problem. Please retry later.',

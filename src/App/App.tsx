@@ -15,6 +15,7 @@ import Settings from './Body/Settings/Settings';
 import UiStore from '../flux/UiStore';
 import './App.css';
 import { ActionKind } from '../flux/AppConstants';
+import Localization from '../localization';
 
 class App extends React.Component<{}> {
     _isMounted: boolean;
@@ -106,7 +107,7 @@ class App extends React.Component<{}> {
                     deleteUser(user)
                         .then(() => {
                             Settings.signout(() => {
-                                alert('このアカウントは利用できません。\n大学用の Google アカウントでログインし直してください。');
+                                alert(Localization.getMessage('signin.error.cannot_use_this_account'));
                             });
                         });
                 }
