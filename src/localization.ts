@@ -188,6 +188,77 @@ const messageList: LocalizationMessageList = {
             },
         },
     },
+    'report': {
+        'kind': {
+            'message_to_developer': {
+                enUs: 'Message to the developer (Requests, Feelings, etc)',
+                ja: '開発者へのメッセージ (要望, 感想など)',
+                jaKana: 'かいはつしゃへのめっせーじ (ようぼう, かんそうなど)',
+            },
+            'illegal_use': {
+                enUs: 'Reporting Illegal Use',
+                ja: '不正利用報告',
+                jaKana: 'ふせいりようほうこく',
+            },
+            'bug_or_vulnerability': {
+                enUs: 'Reporting Bugs and Vulnerabilities',
+                ja: 'バグおよび脆弱性報告',
+                jaKana: 'ばぐおよびぜいじゃくせいほうこく',
+            },
+        },
+        'description': {
+            enUs: (msgLenRange: [number, number]) => `Please enter your message at least ${msgLenRange[0]}, up to ${msgLenRange[1]} characters.\nExample: XXX feature is too complicated to use, and I want you to improve the behavior of it.`,
+            ja: (msgLenRange: [number, number]) => `${msgLenRange[0]} 文字以上 ${msgLenRange[1]} 文字以内でご記入ください\n(例) 〇〇の機能が使いづらいので改善してほしい`,
+            jaKana: (msgLenRange: [number, number]) => `${msgLenRange[0]} もじいじょう ${msgLenRange[1]} もじいないで、ごきにゅうください\n(れい) 〇〇のきのうがつかいづらいので、かいぜんしてほしい`,
+        },
+        'message': {
+            'leave_page': {
+                enUs: 'Message you input will be discarded to leave this page. Do you continue?',
+                ja: 'ページを離れるとフォームに入力した内容が破棄されます。よろしいですか？',
+                jaKana: 'ぺーじをはなれると、にゅうりょくされたないようがきえてしまいます。よろしいですか？',
+            },
+            'sending_confirmation': {
+                enUs: 'Do you really send your message?\n\nAttention: This app will collect your account data, but we won\'t publish your account data and message you sent to third parties.',
+                ja: '送信してよろしいですか？\n\n※ アプリの円滑な運営を目的に送信者のアカウント情報が記録されますが、アカウント情報および入力内容が第三者に公開されることはありません。',
+                jaKana: 'そうしんしてよろしいですか？\n\n※ そうしんしゃのあかうんとじょうほうがきろくされますが、あかうんとじょうほうおよびにゅうりょくないようが、だいさんしゃにこうかいされることはありません。',
+            },
+            'enter_your_message': {
+                enUs: 'Please enter your message.',
+                ja: 'メッセージを入力してください。',
+                jaKana: 'めっせーじをにゅうりょくしてください。',
+            },
+            'enter_at_lease_n_characters': {
+                enUs: (minMsgLen: number) => `Please enter at lease ${minMsgLen} characters.`,
+                ja: (minMsgLen: number) => `最低 ${minMsgLen} 文字は入力してください。`,
+                jaKana: (minMsgLen: number) => `さいてい ${minMsgLen} もじはにゅうりょくしてください。`,
+            },
+            'enter_up_to_n_characters': {
+                enUs: (maxMsgLen: number) => `Please enter up to ${maxMsgLen} characters.`,
+                ja: (maxMsgLen: number) => `${maxMsgLen} 文字以内で入力してください。`,
+                jaKana: (maxMsgLen: number) => `${maxMsgLen} もじいないでにゅうりょくしてください。`,
+            },
+            'thank_you_for_your_report': {
+                enUs: 'Thank you for your report. We will check your message later.',
+                ja: 'ご報告ありがとうございました。後ほど管理者が確認いたします。',
+                jaKana: 'ごほうこくありがとうございました。のちほどかんりしゃがかくにんいたします。',
+            },
+            'cannot_use_this_account': {
+                enUs: 'You cannot use this account.\nPlease re-signin with your Google account which university registered.',
+                ja: 'このアカウントは利用できません。\n大学が発行した Google アカウントでサインインし直してください。',
+                jaKana: 'このあかうんとはりようできません。\nだいがくがはっこうした Google あかうんとで、さいんいんしなおしてください。',
+            },
+            'failed_to_send': {
+                enUs: 'Failed to send your message due to technical problem. Please retry later.',
+                ja: '技術的なトラブルにより送信に失敗しました。再度お試しください。',
+                jaKana: 'ぎじゅつてきなとらぶるにより、そうしんにしっぱいしました。さいどおためしください。',
+            },
+        },
+        'send': {
+            enUs: 'Send',
+            ja: '送信',
+            jaKana: 'そうしん',
+        },
+    },
 };
 
 class Localization {

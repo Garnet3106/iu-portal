@@ -4,6 +4,7 @@ import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
 import { JsonApi, JsonApiRequestActionKind } from '../../../jsonapi';
 import { pageList } from '../../../page';
+import Localization from '../../../localization';
 import './Report.css';
 
 export enum ReportKind {
@@ -12,7 +13,7 @@ export enum ReportKind {
     BugOrVulnerability,
 }
 
-export function reportKindToName(kind: ReportKind): string {
+export function reportKindToStringName(kind: ReportKind): string {
     switch (kind) {
         case ReportKind.MessageToDeveloper:
         return 'message_to_developer';
@@ -22,19 +23,6 @@ export function reportKindToName(kind: ReportKind): string {
 
         case ReportKind.BugOrVulnerability:
         return 'bug_or_vulnerability';
-    }
-}
-
-export function reportKindToJapanese(kind: ReportKind): string {
-    switch (kind) {
-        case ReportKind.MessageToDeveloper:
-        return '開発者へのメッセージ (要望, 感想など)';
-
-        case ReportKind.IllegalUse:
-        return '不正利用報告';
-
-        case ReportKind.BugOrVulnerability:
-        return 'バグ / 脆弱性報告';
     }
 }
 
@@ -82,14 +70,18 @@ class Report extends Component<BodyProps, ReportState> {
             const assertedKind = eachKind as ReportKind;
 
             if (typeof assertedKind === 'number') {
-                options.push((<option key={`reportKindOption_${assertedKind}`}>{reportKindToJapanese(assertedKind)}</option>));
+                const newOption = (<option key={`reportKindOption_${assertedKind}`}>
+                    {Localization.getMessage(`report.kind.${reportKindToStringName(assertedKind)}`)}
+                </option>);
+
+                options.push(newOption);
             }
         });
 
         const restOfMsgLen = this.state.msg.length - maxMsgLen;
         const isMsgLenAppropriate = Report.validateMessageLength(this.state.msg, minMsgLen, maxMsgLen) === MessageLengthValidation.Appropriate;
         const textAreaClassName = isMsgLenAppropriate ? 'report-content-text-count' : 'report-content-text-count report-content-text-count-over';
-        const placeholderMsg = `${minMsgLen} 文字以上 ${maxMsgLen} 文字以内でご記入ください\n(例) 〇〇の機能が使いづらいので改善してほしい`;
+        const placeholderMsg = Localization.getMessage('report.description', [minMsgLen, maxMsgLen]);
 
         return (
             <div className="Report body-component" id={this.props.page.name} style={this.props.style}>
@@ -104,7 +96,7 @@ class Report extends Component<BodyProps, ReportState> {
                         </div>
                     </div>
                     <div className="report-send-button" onClick={this.onClickSendButton.bind(this)}>
-                        送信
+                        {Localization.getMessage('report.send')}
                     </div>
                 </div>
             </div>
@@ -115,7 +107,7 @@ class Report extends Component<BodyProps, ReportState> {
         const textArea = this.textAreaRef.current;
 
         if (textArea !== null && textArea.value.length !== 0) {
-            event.returnValue = 'ページを離れるとフォームに入力した内容が破棄されます。よろしいですか？';
+            event.returnValue = Localization.getMessage('report.message.leave_page');
         }
     }
 
@@ -138,22 +130,22 @@ class Report extends Component<BodyProps, ReportState> {
     onClickSendButton() {
         switch (Report.validateMessageLength(this.state.msg, minMsgLen, maxMsgLen)) {
             case MessageLengthValidation.Appropriate: {
-                if (window.confirm('送信してよろしいですか？\n\n※ アプリの円滑な運営を目的に送信者のアカウント情報を記録しますが、外部には公開いたしません。')) {
+                if (window.confirm(Localization.getMessage('report.message.sending_confirmation'))) {
                     this.sendToServer(this.state.kind, this.state.msg);
                     AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(pageList['assignmentList']));
                 }
             } break;
 
             case MessageLengthValidation.NoMessage: {
-                alert('メッセージを入力してください。');
+                alert(Localization.getMessage('report.message.enter_your_message'));
             } break;
 
             case MessageLengthValidation.LessThanLimit: {
-                alert(`最低 ${minMsgLen} 文字は入力してください。`);
+                alert(Localization.getMessage('report.message.enter_at_lease_n_characters', minMsgLen));
             } break;
 
             case MessageLengthValidation.GreaterThanLimit: {
-                alert(`${maxMsgLen} 文字以内で入力してください。`);
+                alert(Localization.getMessage('report.message.enter_up_to_n_characters', maxMsgLen));
             } break;
         }
     }
@@ -164,22 +156,22 @@ class Report extends Component<BodyProps, ReportState> {
                 this.textAreaRef.current.value = '';
             }
 
-            alert('ご報告ありがとうございました。後ほど管理者が確認いたします。');
+            alert(Localization.getMessage('report.message.thank_you_for_your_report'));
         };
 
         const onFailToAuth = () => {
-            alert('このアカウントは利用できません。\n大学用の Google アカウントでログインし直してください。');
+            alert(Localization.getMessage('report.message.cannot_use_this_account'));
         };
 
         const onFail = () => {
-            alert('技術的なトラブルにより送信に失敗しました。再度お試しください。');
+            alert(Localization.getMessage('report.message.failed_to_send'));
         };
 
         JsonApi.request({
             actionKind: JsonApiRequestActionKind.Register,
             parameters: {
                 'report': {
-                    'kind': reportKindToName(kind),
+                    'kind': reportKindToStringName(kind),
                     'message': msg,
                 }
             },
