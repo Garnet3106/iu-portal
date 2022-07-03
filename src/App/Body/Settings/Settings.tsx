@@ -9,6 +9,7 @@ import { pageList } from '../../../page';
 import { deleteUser, signOut, User } from 'firebase/auth';
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import { JsonApi, JsonApiRequest, JsonApiRequestActionKind } from '../../../jsonapi';
+import Localization from '../../../localization';
 import './Settings.css';
 
 const tosUrl = '/privacypolicy';
@@ -21,16 +22,16 @@ export enum Language {
     JapaneseKana,
 }
 
-export function languageNameToJapanese(lang: Language): string {
+export function languageToStringName(lang: Language): string {
     switch (lang) {
         case Language.EnglishUs:
-        return '英語 (アメリカ)';
+        return 'English (US)';
 
         case Language.Japanese:
         return '日本語';
 
         case Language.JapaneseKana:
-        return '日本語 (かな)';
+        return 'にほんご';
     }
 }
 
@@ -117,30 +118,30 @@ class Settings extends Component<BodyProps> {
                 <div className="settings">
                     <div className="settings-group">
                         <div className="settings-group-title">
-                            表示
+                            {Localization.getMessage('setting.group.display')}
                         </div>
                         <div className="settings-group-items">
-                            <SettingItem itemName="言語" itemValue={languageNameToJapanese(uiState.settingValues.language)} onClickItem={this.onClickLanguageSettingItem}/>
-                            <SettingItem itemName="フォント" itemValue={fontNameToString(uiState.settingValues.font)} onClickItem={this.onClickFontSettingItem}/>
+                            <SettingItem itemName={Localization.getMessage('setting.item.languages')} itemValue={languageToStringName(uiState.settingValues.language)} onClickItem={this.onClickLanguageSettingItem}/>
+                            <SettingItem itemName={Localization.getMessage('setting.item.fonts')} itemValue={fontNameToString(uiState.settingValues.font)} onClickItem={this.onClickFontSettingItem}/>
                         </div>
                     </div>
                     <div className="settings-group">
                         <div className="settings-group-title">
-                            規約等
+                            {Localization.getMessage('setting.group.terms')}
                         </div>
                         <div className="settings-group-items">
-                            <SettingItem itemName="" itemValue="利用規約" onClickItem={this.onClickTosItem}/>
-                            <SettingItem itemName="" itemValue="プライバシーポリシー" onClickItem={this.onClickPrivacyPolicyItem}/>
-                            <SettingItem itemName="" itemValue="ライセンス表示" onClickItem={this.onClickLicenseItem}/>
+                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.tos')} onClickItem={this.onClickTosItem}/>
+                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.privacy_policy')} onClickItem={this.onClickPrivacyPolicyItem}/>
+                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.licenses')} onClickItem={this.onClickLicenseItem}/>
                         </div>
                     </div>
                     <div className="settings-group">
                         <div className="settings-group-title">
-                            アカウント
+                            {Localization.getMessage('setting.group.account')}
                         </div>
                         <div className="settings-group-items">
-                            <SettingItem itemName="" itemValue="サインアウト" onClickItem={this.onClickSignoutItem}/>
-                            <SettingItem itemName="" itemValue="利用停止" onClickItem={this.onClickSuspensionItem}/>
+                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.signout')} onClickItem={this.onClickSignoutItem}/>
+                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.suspension_of_use')} onClickItem={this.onClickSuspensionItem}/>
                         </div>
                     </div>
                 </div>
@@ -167,7 +168,7 @@ class Settings extends Component<BodyProps> {
             const assertedLang = eachLang as Language;
 
             if (typeof assertedLang === 'number') {
-                callbacks[languageNameToJapanese(assertedLang)] = () => {
+                callbacks[languageToStringName(assertedLang)] = () => {
                     Settings.updateLanguageSettingTo(assertedLang);
                 }
             }
@@ -181,10 +182,6 @@ class Settings extends Component<BodyProps> {
         const values = UiStore.getState().settingValues;
         values.language = language;
         AppDispatcher.dispatch(UiActionCreators.updateSettingValues(values));
-
-        setTimeout(() => {
-            alert('設定を保存しました。ページをリロードすると変更が適用されます。');
-        }, 300);
     }
 
     onClickFontSettingItem() {
@@ -304,10 +301,6 @@ class Settings extends Component<BodyProps> {
         const values = UiStore.getState().settingValues;
         values.font = font;
         AppDispatcher.dispatch(UiActionCreators.updateSettingValues(values));
-
-        setTimeout(() => {
-            alert('設定を保存しました。ページをリロードすると変更が適用されます。');
-        }, 300);
     }
 
     static switchToSettingValueListPage() {
