@@ -111,20 +111,24 @@ const messageList: LocalizationMessageList = {
         },
     },
     'notification_list': {
-        'new_assignment': {
-            enUs: 'New Assignment',
-            ja: '新しい課題',
-            jaKana: 'あたらしいかだい',
+        'kind': {
+            'new_assignment': {
+                enUs: 'New Assignment',
+                ja: '新しい課題',
+                jaKana: 'あたらしいかだい',
+            },
+            'welcome_to_notification_list': {
+                enUs: 'Welcome to Notification List',
+                ja: '通知リストにようこそ',
+                jaKana: 'つうちりすとにようこそ',
+            },
         },
-        'welcome_to_notification_list': {
-            enUs: 'Welcome to Notification List',
-            ja: '通知リストにようこそ',
-            jaKana: 'つうちりすとにようこそ',
-        },
-        'arrived_notifications_are_displayed_here': {
-            enUs: 'Arrived notifications are displayed here.',
-            ja: '届いた通知はここに表示されます。',
-            jaKana: 'とどいたつうちはここにひょうじされます。',
+        'message': {
+            'arrived_notifications_are_displayed_here': {
+                enUs: 'Arrived notifications are displayed here.',
+                ja: '届いた通知はここに表示されます。',
+                jaKana: 'とどいたつうちはここにひょうじされます。',
+            },
         },
     },
     'statistics': {

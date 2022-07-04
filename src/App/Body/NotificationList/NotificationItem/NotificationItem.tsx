@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { formatDate } from '../../../../assignment';
+import Localization from '../../../../localization';
 import Notification from '../../../../notification';
 import './NotificationItem.css';
 
@@ -16,7 +17,7 @@ class NotificationItem extends Component<NotificationItemProps> {
             <div className="NotificationItem">
                 <div className="notification-list-item-top">
                     <div className="notification-list-item-title">
-                        {this.props.notification.title}
+                        {Localization.getMessage(`notification_list.kind.${this.props.notification.kind}`)}
                     </div>
                     <div className="notification-list-item-date">
                         {dateString}

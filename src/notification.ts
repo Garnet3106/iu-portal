@@ -2,7 +2,7 @@ import Localization from "./localization";
 
 type Notification = {
     id: string | null,
-    title: string,
+    kind: string,
     date: Date | null,
     description: string,
 }
@@ -13,7 +13,7 @@ export const notificationConvertors: {
     'assignment_registration': (rawNotification: any) => {
         return {
             id: rawNotification.id,
-            title: Localization.getMessage('notification_list.new_assignment'),
+            kind: 'new_assignment',
             date: new Date(rawNotification.date),
             description: rawNotification.value,
         };

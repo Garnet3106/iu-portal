@@ -7,10 +7,7 @@ import { ActionKind } from '../../../flux/AppConstants';
 import './NotificationList.css';
 import Localization from '../../../localization';
 
-// Available on https only except on localhost.
-if (!('serviceWorker' in navigator)) {
-    console.warn('お使いの環境は通知機能に対応していません。');
-}
+// Notification feature is available on https only except on localhost.
 
 type NotificationListState = {
     notifications: Notification[],
@@ -48,9 +45,9 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
         } else {
             const initialNotification: Notification = {
                 id: null,
-                title: Localization.getMessage('notification_list.welcome_to_notification_list'),
+                kind: 'welcome_to_notification_list',
                 date: null,
-                description: Localization.getMessage('notification_list.arrived_notifications_are_displayed_here'),
+                description: Localization.getMessage('notification_list.message.arrived_notifications_are_displayed_here'),
             };
 
             notifications = [
