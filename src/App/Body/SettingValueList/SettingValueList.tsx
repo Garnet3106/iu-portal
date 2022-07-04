@@ -2,6 +2,7 @@ import { Component } from 'react';
 import AppDispatcher from '../../../flux/AppDispatcher';
 import { UiActionCreators } from '../../../flux/UiActionCreators';
 import UiStore from '../../../flux/UiStore';
+import Localization from '../../../localization';
 import { pageList } from '../../../page';
 import { BodyProps } from '../Body';
 import SettingItem from '../Settings/SettingItem/SettingItem';
@@ -51,7 +52,7 @@ class SettingValueList extends Component<BodyProps, SettingValueListState> {
             <div className="SettingValueList body-component" id={this.props.page.name} style={this.props.style}>
                 <div className="settings-group">
                     <div className="settings-group-title">
-                        項目を選択してください
+                        {Localization.getMessage('setting.message.select_an_item')}
                     </div>
                     {valueItems}
                 </div>

@@ -206,21 +206,21 @@ class Settings extends Component<BodyProps> {
     }
 
     onClickTosItem() {
-        window.open(tosUrl, 'iU Portal 利用規約');
+        window.open(tosUrl, Localization.getMessage('setting.window_title.tos'));
     }
 
     onClickPrivacyPolicyItem() {
-        window.open(privacyPolicyUrl, 'iU Portal プライバシーポリシー');
+        window.open(privacyPolicyUrl, Localization.getMessage('setting.window_title.privacy_policy'));
     }
 
     onClickLicenseItem() {
-        window.open(licenseUrl, 'iU Portal ライセンス表示');
+        window.open(licenseUrl, Localization.getMessage('setting.window_title.license'));
     }
 
     onClickSignoutItem() {
-        if (window.confirm('サインアウトします。よろしいですか？')) {
+        if (window.confirm(Localization.getMessage('setting.message.do_you_really_signout'))) {
             Settings.signout(() => {
-                alert('サインアウトしました。');
+                alert(Localization.getMessage('setting.message.successfully_signed_out'));
                 window.location.reload();
             });
         }
@@ -230,27 +230,34 @@ class Settings extends Component<BodyProps> {
         const onSuccess = () => {
             // Prevent from freezing when confirm.
             setTimeout(() => {
-                if (window.confirm('利用停止をすると登録情報や完了状況などのデータが削除されます。続行しますか？')) {
-                    const user = firebaseAuth.currentUser!;
-                    const email = user.email!;
+                const user = firebaseAuth.currentUser!;
+                const email = user.email!;
+                const emailPatt = /\d{2}im\d{4}@i-u\.ac\.jp/;
+
+                if (email.match(emailPatt) === null) {
+                    alert(Localization.getMessage('setting.message.this_google_account_is_incorrect'));
+                    return;
+                }
+
+                if (window.confirm(Localization.getMessage('setting.message.do_you_really_suspend_use'))) {
                     const studentId = email.split('@')[0];
-                    const input = window.prompt(`利用停止を続行するにはあなたの学籍番号 '${studentId}' を入力してください。`);
+                    const input = window.prompt(Localization.getMessage('setting.message.enter_your_student_id', studentId));
 
                     if(input === null) {
-                        alert('利用停止をキャンセルしました。');
+                        alert(Localization.getMessage('setting.message.suspension_of_use_has_been_canceled'));
                     } else if (input === studentId) {
                         Settings.suspendAccount(user);
                     } else {
-                        alert('入力された学籍番号が異なるため利用停止をキャンセルしました。');
+                        alert(Localization.getMessage('setting.message.student_id_is_incorrect'));
                     }
                 } else {
-                    alert('利用停止をキャンセルしました。');
+                    alert(Localization.getMessage('setting.message.suspension_of_use_has_been_canceled'));
                 }
             }, 0);
         };
 
         const onError = () => {
-            alert('アカウント情報の取得に失敗したため利用停止できませんでした。');
+            alert(Localization.getMessage('setting.message.could_not_suspend_use_due_to_failure'));
         };
 
         signInWithGoogle(onSuccess, onError);
@@ -260,13 +267,13 @@ class Settings extends Component<BodyProps> {
         const onSuccess = () => {
             deleteUser(user)
                 .then(() => {
-                    alert('利用停止が完了しました。今後サインインすることで再度アプリをご利用いただけます。iU Portal のご利用ありがとうございました。');
+                    alert(Localization.getMessage('setting.message.suspension_of_use_completed_successfully'));
                     window.location.reload();
                 });
         };
 
         const onError = () => {
-            alert('サーバエラーにより利用停止に失敗しました。');
+            alert(Localization.getMessage('setting.message.could_not_suspend_use_due_to_server_error'));
         };
 
         const req: JsonApiRequest = {

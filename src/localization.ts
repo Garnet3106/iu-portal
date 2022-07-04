@@ -222,6 +222,80 @@ const messageList: LocalizationMessageList = {
                 jaKana: 'りようていし',
             },
         },
+        'window_title': {
+            'tos': {
+                enUs: 'iU Portal - Terms of Use',
+                ja: 'iU Portal - 利用規約',
+                jaKana: 'iU Portal - りようきやく',
+            },
+            'privacy_policy': {
+                enUs: 'iU Portal - Privacy Policy',
+                ja: 'iU Portal - プライバシーポリシー',
+                jaKana: 'iU Portal - ぷらいばしーぽりしー',
+            },
+            'license': {
+                enUs: 'iU Portal - License',
+                ja: 'iU Portal - ライセンス',
+                jaKana: 'iU Portal - らいせんす',
+            },
+        },
+        'message': {
+            'select_an_item': {
+                enUs: 'Please select an item.',
+                ja: '項目を選択してください。',
+                jaKana: 'こうもくをせんたくしてください。',
+            },
+            'do_you_really_signout': {
+                enUs: 'Do you really signout?',
+                ja: 'サインアウトします。よろしいですか？',
+                jaKana: 'さいんあうとします。よろしいですか？',
+            },
+            'successfully_signed_out': {
+                enUs: 'Successfully signed-out.',
+                ja: '正常にサインアウトしました。',
+                jaKana: 'せいじょうにさいんあうとしました。',
+            },
+            'this_google_account_is_incorrect': {
+                enUs: 'This Google account is incorrect. Please retry with another account.',
+                ja: 'この Google アカウントは異なります。他のアカウントで再度お試しください。',
+                jaKana: 'この Google あかうんとはことなります。ほかのあかうんとでまたおためしください。',
+            },
+            'do_you_really_suspend_use': {
+                enUs: 'Suspension of use will delete all information of your account. Do you continue?',
+                ja: '利用停止をすると登録情報や完了状況などのすべての情報が削除されます。続行しますか？',
+                jaKana: 'りようていしをすると、あかうんとのすべてのじょうほうがさくじょされます。つづけますか？',
+            },
+            'enter_your_student_id': {
+                enUs: (studentId: string) => `Please enter your student ID '${studentId}' to continue.`,
+                ja: (studentId: string) => `利用停止を続行するにはあなたの学籍番号 '${studentId}' を入力してください。`,
+                jaKana: (studentId: string) => `りようていしをつづけるには、あなたのがくせきばんごう '${studentId}' をにゅうりょくしてください。`,
+            },
+            'suspension_of_use_has_been_canceled': {
+                enUs: 'Suspension of use has been canceled.',
+                ja: '利用停止をキャンセルしました。',
+                jaKana: 'りようていしをきゃんせるしました。',
+            },
+            'student_id_is_incorrect': {
+                enUs: 'Student ID is incorrect, and suspension of use has been canceled.',
+                ja: '入力された学籍番号が異なるため利用停止をキャンセルしました。',
+                jaKana: 'にゅうりょくされたがくせきばんごうがことなるため、りようていしをきゃんせるしました。',
+            },
+            'could_not_suspend_use_due_to_failure': {
+                enUs: 'We could not suspend use because acquirement of account information failed.',
+                ja: 'アカウント情報の取得に失敗したため利用停止できませんでした。',
+                jaKana: 'あかうんとじょうほうのしゅとくにしっぱいしたため、りようていしできませんでした。',
+            },
+            'suspension_of_use_completed_successfully': {
+                enUs: 'Suspension of use completed successfully. You can use this app again to signin later. Thank you for using iU Portal.',
+                ja: '利用停止が完了しました。今後サインインすることで再度アプリをご利用いただけます。iU Portal のご利用ありがとうございました。',
+                jaKana: 'りようていしがかんりょうしました。またさいんいんすることで、ふたたびあぷりをごりよういただけます。iU Portal のごりようありがとうございました。',
+            },
+            'could_not_suspend_use_due_to_server_error': {
+                enUs: 'We could not suspend use due to server error.',
+                ja: 'サーバエラーにより利用停止に失敗しました。',
+                jaKana: 'さーばえらーにより、りようていしにしっぱいしました。',
+            },
+        },
     },
     'report': {
         'kind': {
