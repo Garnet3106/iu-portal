@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'HP Simplified';
-    src: url('../public/fonts/HP Simplified.ttf');
+    src: url('/public/fonts/HP Simplified.ttf');
 }
 
 @font-face {
     font-family: 'HP Simplified Light';
-    src: url('../public/fonts/HP Simplified Light.ttf');
+    src: url('/public/fonts/HP Simplified Light.ttf');
 }
 
 :root {

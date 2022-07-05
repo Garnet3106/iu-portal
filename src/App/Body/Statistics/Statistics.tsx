@@ -65,7 +65,9 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                     <div className="top-statistics">
                         <div className="top-statistics-item">
                             <div className="top-statistics-item-top">
-                                <div className="top-statistics-item-icon" />
+                                <div className="top-statistics-item-icon" style={{
+                                    backgroundImage: 'url(/lib/statistics/complete.svg)',
+                                }} />
                                 <div className="top-statistics-item-title">
                                     {submissionTitle[0]}
                                     <br />
@@ -83,7 +85,9 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                         </div>
                         <div className="top-statistics-item">
                             <div className="top-statistics-item-top">
-                                <div className="top-statistics-item-icon" />
+                                <div className="top-statistics-item-icon" style={{
+                                    backgroundImage: 'url(/lib/statistics/incomplete.svg)',
+                                }} />
                                 <div className="top-statistics-item-title">
                                     {unsubmissionTitle[0]}
                                     <br />
@@ -101,7 +105,9 @@ class Statistics extends Component<BodyProps, StatisticsState> {
                         </div>
                         <div className="top-statistics-item">
                             <div className="top-statistics-item-top">
-                                <div className="top-statistics-item-icon" />
+                                <div className="top-statistics-item-icon" style={{
+                                    backgroundImage: 'url(/lib/statistics/percentage.svg)',
+                                }} />
                                 <div className="top-statistics-item-title">
                                     {submissionRateTitle[0]}
                                     <br />

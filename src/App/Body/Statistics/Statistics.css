@@ -42,11 +42,13 @@
 }
 
 .top-statistics-item-icon {
-    background-color: #aaaaaa;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     display: flex;
-    height: 18px;
-    margin-right: 5px;
-    width: 18px;
+    height: 15px;
+    margin-right: 8px;
+    width: 15px;
 }
 
 .top-statistics-item-title {
