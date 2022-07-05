@@ -359,9 +359,9 @@ const messageList: LocalizationMessageList = {
                 jaKana: (maxMsgLen: number) => `${maxMsgLen} もじいないでにゅうりょくしてください。`,
             },
             'thank_you_for_your_report': {
-                enUs: 'Thank you for your report. We will check your message later.',
-                ja: 'ご報告ありがとうございました。後ほど管理者が確認いたします。',
-                jaKana: 'ごほうこくありがとうございました。のちほどかんりしゃがかくにんいたします。',
+                enUs: 'Thank you for your report. We will check your message later.\n(We will reply via email if it is needed.)',
+                ja: 'ご報告ありがとうございました。後ほど管理者が確認いたします。\n(必要がある場合は電子メールを通じて返信させていただきます)',
+                jaKana: 'ごほうこくありがとうございました。のちほどかんりしゃがかくにんいたします。\n(ひつようがあるばあいは、でんしめーるをつうじてへんしんさせていただきあます。)',
             },
             'failed_to_send': {
                 enUs: 'Failed to send your message due to technical problem. Please retry later.',
