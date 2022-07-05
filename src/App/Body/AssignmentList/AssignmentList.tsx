@@ -95,7 +95,7 @@ class AssignmentList extends React.Component<BodyProps, AssignmentListState> {
                 let sortedAssignmentGroups: SortedAssignmentGroups = {};
 
                 sortedAssignments.forEach((eachAssignment: Assignment) => {
-                    const deadlineDate = formatDate(eachAssignment.deadline, 'M/d まで', '期限なし');
+                    const deadlineDate = formatDate(eachAssignment.deadline, Localization.getMessage('assignment_list.deadline.until_date', 'M/d'), Localization.getMessage('assignment_list.deadline.no_deadline'));
 
                     if (!(deadlineDate in sortedAssignmentGroups)) {
                         sortedAssignmentGroups[deadlineDate] = [];

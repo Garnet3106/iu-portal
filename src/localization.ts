@@ -77,6 +77,18 @@ const messageList: LocalizationMessageList = {
                 jaKana: 'かんりょうずみ',
             },
         },
+        'deadline': {
+            'no_deadline': {
+                enUs: 'No Deadline',
+                ja: '期限なし',
+                jaKana: 'きげんなし',
+            },
+            'until_date': {
+                enUs: (date: string) => `Until ${date}`,
+                ja: (date: string) => `${date} まで`,
+                jaKana: (date: string) => `${date} まで`,
+            },
+        },
     },
     'assignment_preview': {
         'assignment_is_not_loaded': {
@@ -92,7 +104,7 @@ const messageList: LocalizationMessageList = {
         'checked_by_n_admins': {
             enUs: (checker_num: number) => `checked by ${checker_num} admin${checker_num !== 1 ? 's' : ''}`,
             ja: (checker_num: number) => `${checker_num} 人が照合`,
-            jaKana: (checker_num: number) => `${checker_num} にんがしょうごう`,
+            jaKana: (checker_num: number) => `${checker_num} にんが しょうごう`,
         },
         'no_deadline': {
             enUs: 'No Deadline',
