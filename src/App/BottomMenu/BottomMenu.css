@@ -23,10 +23,12 @@
 }
 
 .bottom-menu-content-item {
-    background-color: gray;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     cursor: pointer;
-    height: 30px;
-    width: 30px;
+    height: var(--bottom-menu-item-size);
+    width: var(--bottom-menu-item-size);
 }
 
 .bottom-menu-content-bar {
@@ -36,5 +38,5 @@
     margin-bottom: 3px;
     position: relative;
     transition: all 200ms var(--basic-transition-cubic-bezier);
-    width: 30px;
+    width: var(--bottom-menu-item-size);
 }

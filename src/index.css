@@ -33,7 +33,8 @@
 
     --header-height: 45px;
     --body-height: calc(100vh - var(--header-height) - var(--bottom-menu-height));
-    --bottom-menu-height: 50px;
+    --bottom-menu-height: 45px;
+    --bottom-menu-item-size: 20px;
 
     --header-logo-width: 100px;
 

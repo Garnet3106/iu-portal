@@ -65,7 +65,9 @@ class BottomMenu extends React.Component<BottomMenuProps> {
 
             if (page.isBodyComponent && page.name !== 'Login') {
                 const id = `BottomMenuItem_${page.name}`;
-                const newItem = (<div className="bottom-menu-content-item" id={id} onClick={this.onMenuItemClick.bind(this)} key={id} />);
+                const newItem = (<div className="bottom-menu-content-item" id={id} style={{
+                    backgroundImage: `url(/lib/bottom_menu/${page.name}.svg)`,
+                }} onClick={this.onMenuItemClick.bind(this)} key={id} />);
                 items.push(newItem);
             }
         });
