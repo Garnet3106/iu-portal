@@ -64,7 +64,7 @@ class Body extends Component<{}> {
     }
 
     onMouseMove(event: React.TouchEvent) {
-        // Does not swipe when operation via multiple fingers such as zooming.
+        // Does not swipe when operation with multiple fingers such as zooming.
         if (Body._detectDrag && event.touches.length === 1) {
             const diff = event.touches[0].clientX - Body._touchStartX;
             const diffPivot = 30;
