@@ -62,6 +62,8 @@
 .assignment-item-button-item {
     background-color: gray;
     border-radius: 11px;
+    /* Hide button element until implementation of assignment button. */
+    display: none;
     height: 22px;
     margin-right: 5px;
     width: 22px;
