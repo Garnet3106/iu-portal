@@ -49,6 +49,9 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
             return;
         }
 
+        const assignedFrom = assignment.assignedFrom !== undefined ? assignment.assignedFrom : '-';
+        const submitTo = assignment.submitTo !== undefined ? assignment.submitTo : '-';
+
         return (
             <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.name} style={this.props.bodyProps.style}>
                 <HorizontalSwitcher title={assignment.course.name} description={assignment.course.teachers.map((eachTeacher) => eachTeacher.name).join('<br>')} onClickLeftButton={this.switchSubpageToBack} onClickRightButton={this.switchSubpageToForward} />
@@ -74,7 +77,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                                     {Localization.getMessage('assignment_preview.assigned_from')}
                                 </div>
                                 <div className="preview-detail-content">
-                                    {assignment.assignedFrom}
+                                    {assignedFrom}
                                 </div>
                             </div>
                             <div className="preview-detail-arrow" />
@@ -83,7 +86,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                                     {Localization.getMessage('assignment_preview.submit_to')}
                                 </div>
                                 <div className="preview-detail-content">
-                                    {assignment.submitTo}
+                                    {submitTo}
                                 </div>
                             </div>
                         </div>
