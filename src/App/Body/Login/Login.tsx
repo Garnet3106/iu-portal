@@ -1,8 +1,7 @@
 import React from "react";
 import { BodyProps } from "../Body";
-import { GoogleAuthProvider, User, UserCredential } from "firebase/auth";
+import { getRedirectResult, GoogleAuthProvider, User, UserCredential } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
-import UiStore from "../../../flux/UiStore";
 import App from "../../App";
 import './Login.css';
 import Localization from "../../../localization";
@@ -13,13 +12,20 @@ class Login extends React.Component<BodyProps> {
     constructor(props: BodyProps) {
         super(props);
 
-        firebaseAuth.onAuthStateChanged((user: User | null) => {
-            const uiState = UiStore.getState();
+        getRedirectResult(firebaseAuth)
+            .then((credential: UserCredential | null) => {
+                if (credential === null) {
+                    console.error('Failed to signin with redirect.');
+                    return;
+                }
 
-            if (!uiState.hasSignedIn && user !== null) {
-                this.onSignin(user);
-            }
-        });
+                const googleCredential = GoogleAuthProvider.credentialFromResult(credential);
+                const token = googleCredential!.accessToken;
+                this.onSignin(credential.user, token);
+            })
+            .catch(() => {
+                console.warn('Trying to signin with cache...');
+            });
     }
 
     render() {
@@ -44,6 +50,7 @@ class Login extends React.Component<BodyProps> {
     }
 
     onSignin(user: User, googleAccessToken?: string) {
+        console.log(googleAccessToken)
         if (googleAccessToken !== undefined) {
             document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}; path=/`;
             App.initialize(user);
@@ -51,11 +58,7 @@ class Login extends React.Component<BodyProps> {
     }
 
     signinWithGoogle() {
-        signInWithGoogle((credential: UserCredential) => {
-            const googleCredential = GoogleAuthProvider.credentialFromResult(credential);
-            const token = googleCredential!.accessToken;
-            this.onSignin(credential.user, token);
-        }, () => {
+        signInWithGoogle(() => {}, () => {
             alert(Localization.getMessage('signin.error.failed_to_auth_with_google_account'));
         });
     }

@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getMessaging } from 'firebase/messaging/sw';
-import { AuthError, getAuth, browserLocalPersistence, GoogleAuthProvider, setPersistence, signInWithPopup, UserCredential } from "firebase/auth";
+import { AuthError, getAuth, browserLocalPersistence, GoogleAuthProvider, setPersistence, UserCredential, signInWithRedirect } from "firebase/auth";
 import config from './config';
 
 const firebaseApp = initializeApp(config);
@@ -15,8 +15,8 @@ setPersistence(firebaseAuth, browserLocalPersistence)
         alert(`${error.code}: ${error.message}`)
     });
 
-export function signInWithGoogle(onSucceed: (credential: UserCredential) => void, onFail: (error: AuthError) => void) {
-    signInWithPopup(firebaseAuth, firebaseProvider)
+export function signInWithGoogle(onSucceed: (credential: UserCredential) => void = () => {}, onFail: (error: AuthError) => void = () => {}) {
+    signInWithRedirect(firebaseAuth, firebaseProvider)
         .then(onSucceed)
         .catch(onFail);
 }

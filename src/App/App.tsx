@@ -13,9 +13,9 @@ import { pageList, topPage } from '../page';
 import { deleteUser, User } from 'firebase/auth';
 import Settings from './Body/Settings/Settings';
 import UiStore from '../flux/UiStore';
-import './App.css';
 import { ActionKind } from '../flux/AppConstants';
 import Localization from '../localization';
+import './App.css';
 
 class App extends React.Component<{}> {
     _isMounted: boolean;
@@ -58,20 +58,22 @@ class App extends React.Component<{}> {
         const fcmRegTokenKey = 'fcm_reg_token';
 
         // Initialize Service Worker and signin database.
-        requestNotificationRequest(() => {
-            getToken(firebaseMessaging, {
-                vapidKey: firebaseVapidKey,
-            })
-                .then((registrationToken) => {
-                    document.cookie = `${fcmRegTokenKey}=${registrationToken}; path=/`;
-                    App.signinDatabase(user);
+        if (typeof Notification !== 'undefined') {
+            requestNotificationRequest(() => {
+                getToken(firebaseMessaging, {
+                    vapidKey: firebaseVapidKey,
                 })
-                .catch(() => {
-                    console.warn('Failed to initialize messaging feature.');
-                    document.cookie = `${fcmRegTokenKey}=; max-age=0`;
-                    App.signinDatabase(user);
-                });
-        });
+                    .then((registrationToken) => {
+                        document.cookie = `${fcmRegTokenKey}=${registrationToken}; path=/`;
+                        App.signinDatabase(user);
+                    })
+                    .catch(() => {
+                        console.warn('Failed to initialize messaging feature.');
+                        document.cookie = `${fcmRegTokenKey}=; max-age=0`;
+                        App.signinDatabase(user);
+                    });
+            });
+        }
     }
 
     static routePage() {
