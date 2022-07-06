@@ -81,6 +81,11 @@ class Body extends Component<{}> {
         Body._detectDrag = false;
 
         const uiState = UiStore.getState();
+
+        if (!uiState.hasSignedIn) {
+            return;
+        }
+
         const currentPageIndex = uiState.currentPage.index;
         const pages = Object.entries(pageList);
         const slicedPages = isToRight ? pages.slice(currentPageIndex + 1) : pages.slice(0, currentPageIndex).reverse();

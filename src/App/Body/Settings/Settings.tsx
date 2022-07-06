@@ -227,40 +227,29 @@ class Settings extends Component<BodyProps> {
     }
 
     onClickSuspensionItem() {
-        const onSuccess = () => {
-            // Prevent from freezing when confirm.
-            setTimeout(() => {
-                const user = firebaseAuth.currentUser!;
-                const email = user.email!;
-                const emailPatt = /\d{2}im\d{4}@i-u\.ac\.jp/;
+        const user = firebaseAuth.currentUser!;
+        const email = user.email!;
+        const emailPatt = /\d{2}im\d{4}@i-u\.ac\.jp/;
 
-                if (email.match(emailPatt) === null) {
-                    alert(Localization.getMessage('setting.message.this_google_account_is_incorrect'));
-                    return;
-                }
+        if (email.match(emailPatt) === null) {
+            alert(Localization.getMessage('setting.message.this_google_account_is_incorrect'));
+            return;
+        }
 
-                if (window.confirm(Localization.getMessage('setting.message.do_you_really_suspend_use'))) {
-                    const studentId = email.split('@')[0];
-                    const input = window.prompt(Localization.getMessage('setting.message.enter_your_student_id', studentId));
+        if (window.confirm(Localization.getMessage('setting.message.do_you_really_suspend_use'))) {
+            const studentId = email.split('@')[0];
+            const input = window.prompt(Localization.getMessage('setting.message.enter_your_student_id', studentId));
 
-                    if(input === null) {
-                        alert(Localization.getMessage('setting.message.suspension_of_use_has_been_canceled'));
-                    } else if (input === studentId) {
-                        Settings.suspendAccount(user);
-                    } else {
-                        alert(Localization.getMessage('setting.message.student_id_is_incorrect'));
-                    }
-                } else {
-                    alert(Localization.getMessage('setting.message.suspension_of_use_has_been_canceled'));
-                }
-            }, 0);
-        };
-
-        const onError = () => {
-            alert(Localization.getMessage('setting.message.could_not_suspend_use_due_to_failure'));
-        };
-
-        signInWithGoogle(onSuccess, onError);
+            if(input === null) {
+                alert(Localization.getMessage('setting.message.suspension_of_use_has_been_canceled'));
+            } else if (input === studentId) {
+                Settings.suspendAccount(user);
+            } else {
+                alert(Localization.getMessage('setting.message.student_id_is_incorrect'));
+            }
+        } else {
+            alert(Localization.getMessage('setting.message.suspension_of_use_has_been_canceled'));
+        }
     }
 
     static suspendAccount(user: User) {

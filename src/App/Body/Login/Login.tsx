@@ -15,7 +15,6 @@ class Login extends React.Component<BodyProps> {
         getRedirectResult(firebaseAuth)
             .then((credential: UserCredential | null) => {
                 if (credential === null) {
-                    console.error('Failed to signin with redirect.');
                     return;
                 }
 
@@ -50,7 +49,6 @@ class Login extends React.Component<BodyProps> {
     }
 
     onSignin(user: User, googleAccessToken?: string) {
-        console.log(googleAccessToken)
         if (googleAccessToken !== undefined) {
             document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}; path=/`;
             App.initialize(user);

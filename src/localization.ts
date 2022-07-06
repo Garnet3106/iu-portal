@@ -292,11 +292,6 @@ const messageList: LocalizationMessageList = {
                 ja: '入力された学籍番号が異なるため利用停止をキャンセルしました。',
                 jaKana: 'にゅうりょくされたがくせきばんごうがことなるため、りようていしをきゃんせるしました。',
             },
-            'could_not_suspend_use_due_to_failure': {
-                enUs: 'We could not suspend use because acquirement of account information failed.',
-                ja: 'アカウント情報の取得に失敗したため利用停止できませんでした。',
-                jaKana: 'あかうんとじょうほうのしゅとくにしっぱいしたため、りようていしできませんでした。',
-            },
             'suspension_of_use_completed_successfully': {
                 enUs: 'Suspension of use completed successfully. You can use this app again to signin later. Thank you for using iU Portal.',
                 ja: '利用停止が完了しました。今後サインインすることで再度アプリをご利用いただけます。iU Portal のご利用ありがとうございました。',
