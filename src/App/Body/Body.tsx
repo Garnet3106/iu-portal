@@ -70,14 +70,14 @@ class Body extends Component<{}> {
             const diffPivot = 30;
 
             if (diff > diffPivot) {
-                this.switchPageByDrag(false);
+                this.swipePage(false);
             } else if (diff * -1 > diffPivot) {
-                this.switchPageByDrag(true);
+                this.swipePage(true);
             }
         }
     }
 
-    switchPageByDrag(isToRight: boolean) {
+    swipePage(isToRight: boolean) {
         Body._detectDrag = false;
 
         const uiState = UiStore.getState();
@@ -94,7 +94,7 @@ class Body extends Component<{}> {
         slicedPages.some((value: [string, Page]) => {
             const page = value[1];
 
-            if (page.isBodyComponent) {
+            if (page.isBodyComponent && page.name !== 'Login') {
                 targetPage = page;
                 return true;
             }
