@@ -73,6 +73,8 @@ class App extends React.Component<{}> {
                         App.signinDatabase(user);
                     });
             });
+        } else {
+            App.signinDatabase(user);
         }
     }
 
