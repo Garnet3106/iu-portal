@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import Header from './Header/Header';
 import Body from './Body/Body';
 import BottomMenu from './BottomMenu/BottomMenu';
@@ -19,6 +19,7 @@ import './App.css';
 
 class App extends React.Component<{}> {
     _isMounted: boolean;
+    static loadingScreen: React.RefObject<HTMLDivElement> = createRef();
 
     constructor(props: {}) {
         super(props);
@@ -36,6 +37,16 @@ class App extends React.Component<{}> {
     render() {
         return (
             <div className="App">
+                <div className="app-loading" ref={App.loadingScreen}>
+                    <div className="app-loading-logo">
+                        iU Portal
+                    </div>
+                    <div className="circles-to-rhombuses-spinner">
+                        <div className="circle" />
+                        <div className="circle" />
+                        <div className="circle" />
+                    </div>
+                </div>
                 <Header />
                 <Body />
                 <BottomMenu defaultPageName="AssignmentList" />
@@ -122,6 +133,18 @@ class App extends React.Component<{}> {
         };
 
         JsonApi.request(req);
+    }
+
+    static hideLoadingScreen() {
+        const loadingScreen = App.loadingScreen.current;
+
+        if (loadingScreen !== null) {
+            loadingScreen.style.opacity = '0';
+
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 300);
+        }
     }
 
     static updateAssignments(response: any) {

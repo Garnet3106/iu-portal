@@ -3,8 +3,8 @@ import { BodyProps } from "../Body";
 import { getRedirectResult, GoogleAuthProvider, User, UserCredential } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import App from "../../App";
-import './Login.css';
 import Localization from "../../../localization";
+import './Login.css';
 
 export const googleAccessTokenKey = 'g_token';
 
@@ -15,6 +15,7 @@ class Login extends React.Component<BodyProps> {
         getRedirectResult(firebaseAuth)
             .then((credential: UserCredential | null) => {
                 if (credential === null) {
+                    App.hideLoadingScreen();
                     return;
                 }
 
