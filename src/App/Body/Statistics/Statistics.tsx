@@ -162,29 +162,32 @@ class Statistics extends Component<BodyProps, StatisticsState> {
     onUpdateUiState() {
         const uiState = UiStore.getState();
 
-        if (uiState.latestKind === ActionKind.UpdateAssignments) {
-            let numberOfSubmitted = 0;
-            let numberOfUnsubmitted = 0;
+        switch (uiState.latestKind) {
+            case ActionKind.UpdateAssignments:
+            case ActionKind.ReverseAssignmentCompletion: {
+                let numberOfSubmitted = 0;
+                let numberOfUnsubmitted = 0;
 
-            uiState.assignments.forEach((eachAssignment: Assignment) => {
-                eachAssignment.completed ? numberOfSubmitted += 1 : numberOfUnsubmitted += 1;
-            });
-
-            const submissionSum = numberOfSubmitted + numberOfUnsubmitted;
-            const submissionRate = submissionSum !== 0 ? (numberOfSubmitted / submissionSum) * 100 : 0;
-
-            if (this._isMounted) {
-                this.setState({
-                    numberOfSubmitted: MightBeUnknown.value(numberOfSubmitted),
-                    numberOfUnsubmitted: MightBeUnknown.value(numberOfUnsubmitted),
-                    submissionRate: MightBeUnknown.value(submissionRate),
+                uiState.assignments.forEach((eachAssignment: Assignment) => {
+                    eachAssignment.completed ? numberOfSubmitted += 1 : numberOfUnsubmitted += 1;
                 });
-            } else {
-                this._initialState = {
-                    numberOfSubmitted: MightBeUnknown.value(numberOfSubmitted),
-                    numberOfUnsubmitted: MightBeUnknown.value(numberOfUnsubmitted),
-                    submissionRate: MightBeUnknown.value(submissionRate),
-                };
+
+                const submissionSum = numberOfSubmitted + numberOfUnsubmitted;
+                const submissionRate = submissionSum !== 0 ? (numberOfSubmitted / submissionSum) * 100 : 0;
+
+                if (this._isMounted) {
+                    this.setState({
+                        numberOfSubmitted: MightBeUnknown.value(numberOfSubmitted),
+                        numberOfUnsubmitted: MightBeUnknown.value(numberOfUnsubmitted),
+                        submissionRate: MightBeUnknown.value(submissionRate),
+                    });
+                } else {
+                    this._initialState = {
+                        numberOfSubmitted: MightBeUnknown.value(numberOfSubmitted),
+                        numberOfUnsubmitted: MightBeUnknown.value(numberOfUnsubmitted),
+                        submissionRate: MightBeUnknown.value(submissionRate),
+                    };
+                }
             }
         }
     }
