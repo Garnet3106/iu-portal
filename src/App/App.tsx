@@ -115,13 +115,15 @@ class App extends React.Component<{}> {
                 App.updateNotifications(response.contents.getNotifications);
                 App.routePage();
             },
-            onBadRequest: () => {},
+            onBadRequest: () => {
+                AppDispatcher.dispatch(UiActionCreators.failToSignin());
+            },
             onFailToAuth: (_req: XMLHttpRequest, response: any) => {
-                if (user !== undefined && response.message === 'external_email_address_provided')
-                {
+                if (user !== undefined && response.message === 'external_email_address_provided') {
                     deleteUser(user)
                         .then(() => {
                             Settings.signout(() => {
+                                AppDispatcher.dispatch(UiActionCreators.failToSignin());
                                 alert(Localization.getMessage('signin.error.cannot_use_this_account'));
                             });
                         });
@@ -129,7 +131,9 @@ class App extends React.Component<{}> {
 
                 console.error('User Auth Error: Failed to auth.');
             },
-            onError: () => {},
+            onError: () => {
+                AppDispatcher.dispatch(UiActionCreators.failToSignin());
+            },
         };
 
         JsonApi.request(req);

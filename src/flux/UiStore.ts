@@ -9,6 +9,7 @@ import Notification from "../notification";
 export type UiState = {
     latestKind: ActionKind,
     hasSignedIn: boolean,
+    hasFailedToSignin: boolean,
     currentPage: Page,
     switchPageTo: Page | null,
     assignments: Assignment[],
@@ -26,6 +27,7 @@ class UiStore extends ReduceStore<UiState, Actions> {
         return {
             latestKind: ActionKind.InitializeStore,
             hasSignedIn: false,
+            hasFailedToSignin: false,
             currentPage: defaultPage,
             switchPageTo: null,
             assignments: [],
@@ -44,6 +46,7 @@ class UiStore extends ReduceStore<UiState, Actions> {
         return {
             latestKind: action.kind,
             hasSignedIn: action.data.hasSignedIn,
+            hasFailedToSignin: action.data.hasFailedToSignin,
             currentPage: action.data.currentPage,
             switchPageTo: action.data.switchPageTo,
             assignments: action.data.assignments,

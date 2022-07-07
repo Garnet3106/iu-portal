@@ -9,6 +9,7 @@ export type UiActionPayload = {
     kind: ActionKind,
     data: {
         hasSignedIn: boolean,
+        hasFailedToSignin: boolean,
         currentPage: Page,
         switchPageTo: Page | null,
         assignments: Assignment[],
@@ -32,6 +33,7 @@ export const UiActionCreators = {
             kind: ActionKind.InitializeStore,
             data: {
                 hasSignedIn: false,
+                hasFailedToSignin: false,
                 currentPage: defaultPage,
                 switchPageTo: null,
                 assignments: [],
@@ -65,6 +67,12 @@ export const UiActionCreators = {
     signin(): UiActions {
         let action = this.getCurrent(ActionKind.Signin);
         action.data.hasSignedIn = true;
+        return action;
+    },
+
+    failToSignin(): UiActions {
+        let action = this.getCurrent(ActionKind.FailToSignin);
+        action.data.hasFailedToSignin = true;
         return action;
     },
 
