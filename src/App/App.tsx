@@ -75,6 +75,7 @@ class App extends React.Component<{}> {
                     vapidKey: firebaseVapidKey,
                 })
                     .then((registrationToken) => {
+                        console.info('Service Worker: Push notification registered.');
                         document.cookie = `${fcmRegTokenKey}=${registrationToken}; path=/`;
                         App.signinDatabase(user);
                     })
@@ -109,8 +110,8 @@ class App extends React.Component<{}> {
             actionKind: JsonApiRequestActionKind.Signin,
             parameters: {},
             onSucceed: (_req: XMLHttpRequest, response: any) => {
-                console.info('Service Worker: Push notification registered.');
                 AppDispatcher.dispatch(UiActionCreators.signin());
+                App.hideLoadingScreen();
                 App.updateAssignments(response.contents.getAssignments);
                 App.updateNotifications(response.contents.getNotifications);
                 App.routePage();
