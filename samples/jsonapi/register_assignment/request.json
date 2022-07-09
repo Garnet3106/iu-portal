@@ -10,5 +10,6 @@
         "deadline": "2022-06-10 23:59:59",
         "description": "desc",
         "note": "notes"
-    }
+    },
+    "sendNotification": true
 }
