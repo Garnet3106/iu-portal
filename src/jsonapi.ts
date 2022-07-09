@@ -27,9 +27,7 @@ export const JsonApi = {
             };
 
             try {
-                
                 response = JSON.parse(xhr.responseText);
-                console.log(response)
             } catch {
                 console.error('Assignment Loading Error: Failed to parse JSON code.');
             }
@@ -333,7 +331,6 @@ export function apiResponseToNotifications(response: AssociativeAssignmentStruct
     return notifications.map((eachNotificationId: string) => {
         // const eachNotification = notifications.at(uuid);
         const eachNotification = notifications.at(eachNotificationId);
-        console.log(eachNotification)
 
         return {
             id: eachNotificationId,
