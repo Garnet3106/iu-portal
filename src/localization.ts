@@ -26,9 +26,9 @@ const messageList: LocalizationMessageList = {
         },
         'error': {
             'cannot_use_this_account': {
-                enUs: 'You cannot use this account.\nPlease re-signin with your Google account which university registered.',
-                ja: 'このアカウントは利用できません。\n大学が発行した Google アカウントでサインインし直してください。',
-                jaKana: 'このあかうんとはりようできません。\nだいがくがはっこうした Google あかうんとで、さいんいんしなおしてください。',
+                enUs: 'You cannot use this account.\nPlease re-signin with an account that you registered.',
+                ja: 'このアカウントは利用できません。\n契約開始時に登録したアカウントでサインインし直してください。',
+                jaKana: 'このあかうんとはりようできません。\nけいやくかいしじにとうろくしたあかうんとで、さいんいんしなおしてください。',
             },
             'failed_to_auth_with_google_account': {
                 enUs: 'Failed to auth with Google account.',
@@ -266,6 +266,11 @@ const messageList: LocalizationMessageList = {
                 enUs: 'Successfully signed-out.',
                 ja: '正常にサインアウトしました。',
                 jaKana: 'せいじょうにさいんあうとしました。',
+            },
+            'signout_failed': {
+                enUs: 'Signout failed.',
+                ja: 'サインアウトに失敗しました。',
+                jaKana: 'さいんあうとにしっぱいしました。',
             },
             'this_google_account_is_incorrect': {
                 enUs: 'This Google account is incorrect. Please retry with another account.',

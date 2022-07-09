@@ -1,16 +1,11 @@
 import config from "./config";
-import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, Admin } from "./assignment"
+import { Assignment, Course, CourseElectionKind, CourseSemester, Lecture, Teacher, Admin, Notification } from "./assignment"
 
 const apiUrl = config.dbUrl;
 
 export enum JsonApiRequestActionKind {
     Signin = 'signin',
-    Signout = 'signout',
-    Suspend = 'suspend',
-    GetAssignments = 'get_assignments',
-    GetNotifications = 'get_notifications',
-    UpdateCompletion = 'update_completion',
-    Register = 'register',
+    Report = 'report',
 }
 
 export type JsonApiRequest = {
@@ -32,7 +27,9 @@ export const JsonApi = {
             };
 
             try {
+                
                 response = JSON.parse(xhr.responseText);
+                console.log(response)
             } catch {
                 console.error('Assignment Loading Error: Failed to parse JSON code.');
             }
@@ -132,6 +129,9 @@ export type AssignmentStructureApiResponse = ApiResponse<{
     admins: {
         [uuid: string]: ApiResponseAdmin,
     },
+    notifications: {
+        [uuid: string]: ApiResponseNotification,
+    },
 }>;
 
 export type AssociativeAssignmentStructureApiResponse = ApiResponse<{
@@ -140,10 +140,11 @@ export type AssociativeAssignmentStructureApiResponse = ApiResponse<{
     lectures: UuidAssoc<ApiResponseLecture>,
     teachers: UuidAssoc<ApiResponseTeacher>,
     admins: UuidAssoc<ApiResponseAdmin>,
+    notifications: UuidAssoc<ApiResponseNotification>,
 }>;
 
 export function toAssignmentStructureApiResponse(response: AssignmentStructureApiResponse): AssociativeAssignmentStructureApiResponse {
-    let result = {
+    const result = {
         status: response.status,
         message: response.message,
         request: response.request,
@@ -153,10 +154,11 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
             lectures: new UuidAssoc<ApiResponseLecture>({}),
             teachers: new UuidAssoc<ApiResponseTeacher>({}),
             admins: new UuidAssoc<ApiResponseAdmin>({}),
+            notifications: new UuidAssoc<ApiResponseNotification>({}),
         },
     };
 
-    let contents = response.contents;
+    const contents = response.contents;
 
     if (contents === undefined) {
         console.error('Assignment Loading Error: Property `contents` doesn\'t exist.');
@@ -164,18 +166,19 @@ export function toAssignmentStructureApiResponse(response: AssignmentStructureAp
     }
 
     subdataNames.forEach((eachName: string) => {
-        if ((response.contents as any)[eachName] === undefined) {
+        if ((contents as any)[eachName] === undefined) {
             console.error(`Assignment Loading Error: Property \`${eachName}\` doesn't exist.`);
             return result;
         }
     });
 
     result.contents = {
-        assignments: new UuidAssoc(response.contents.assignments),
-        courses: new UuidAssoc(response.contents.courses),
-        lectures: new UuidAssoc(response.contents.lectures),
-        teachers: new UuidAssoc(response.contents.teachers),
-        admins: new UuidAssoc(response.contents.admins),
+        assignments: new UuidAssoc(contents.assignments),
+        courses: new UuidAssoc(contents.courses),
+        lectures: new UuidAssoc(contents.lectures),
+        teachers: new UuidAssoc(contents.teachers),
+        admins: new UuidAssoc(contents.admins),
+        notifications: new UuidAssoc(contents.notifications),
     };
 
     return result;
@@ -218,6 +221,12 @@ export type ApiResponseTeacher = {
 
 export type ApiResponseAdmin = {
     nickname: string,
+}
+
+export type ApiResponseNotification = {
+    kind: string,
+    date: string,
+    description: string,
 }
 
 export function apiResponseToAssignments(response: AssociativeAssignmentStructureApiResponse): Assignment[] {
@@ -316,4 +325,20 @@ function apiResponseToAdmin(firebaseUid: string, admins: UuidAssoc<ApiResponseAd
         firebaseUid: firebaseUid,
         nickname: targetAdmin.nickname,
     };
+}
+
+export function apiResponseToNotifications(response: AssociativeAssignmentStructureApiResponse): Notification[] {
+    const notifications = response.contents.notifications;
+
+    return Object.entries(notifications).map((eachPair: [string, Notification]) => {
+        // const eachNotification = notifications.at(uuid);
+        const [eachNotificationId, eachNotification] = eachPair;
+
+        return {
+            id: eachNotificationId,
+            kind: eachNotification.kind,
+            date: eachNotification.date !== null ? new Date(eachNotification.date) : null,
+            description: eachNotification.description,
+        };
+    });
 }

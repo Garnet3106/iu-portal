@@ -6,8 +6,8 @@ import { UiActionCreators } from '../../../flux/UiActionCreators';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import { pageList } from '../../../page';
-import { deleteUser, signOut, User } from 'firebase/auth';
-import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
+import { deleteUser, User } from 'firebase/auth';
+import { firebaseAuth } from '../../../firebase/firebase';
 import { JsonApi, JsonApiRequest, JsonApiRequestActionKind } from '../../../jsonapi';
 import Localization from '../../../localization';
 import './Settings.css';
@@ -219,10 +219,13 @@ class Settings extends Component<BodyProps> {
 
     onClickSignoutItem() {
         if (window.confirm(Localization.getMessage('setting.message.do_you_really_signout'))) {
-            Settings.signout(() => {
-                alert(Localization.getMessage('setting.message.successfully_signed_out'));
-                window.location.reload();
-            });
+            window.location.href = '/?page=Login';
+            // Settings.signout(() => {
+            //     alert(Localization.getMessage('setting.message.successfully_signed_out'));
+            //     window.location.reload();
+            // }, () => {
+            //     alert(Localization.getMessage('setting.message.signout_failed'));
+            // });
         }
     }
 
@@ -243,7 +246,7 @@ class Settings extends Component<BodyProps> {
             if(input === null) {
                 alert(Localization.getMessage('setting.message.suspension_of_use_has_been_canceled'));
             } else if (input === studentId) {
-                Settings.suspendAccount(user);
+                // Settings.suspendAccount(user);
             } else {
                 alert(Localization.getMessage('setting.message.student_id_is_incorrect'));
             }
@@ -252,45 +255,10 @@ class Settings extends Component<BodyProps> {
         }
     }
 
-    static suspendAccount(user: User) {
-        const onSuccess = () => {
-            deleteUser(user)
-                .then(() => {
-                    alert(Localization.getMessage('setting.message.suspension_of_use_completed_successfully'));
-                    window.location.reload();
-                });
-        };
-
-        const onError = () => {
-            alert(Localization.getMessage('setting.message.could_not_suspend_use_due_to_server_error'));
-        };
-
-        const req: JsonApiRequest = {
-            actionKind: JsonApiRequestActionKind.Suspend,
-            parameters: {},
-            onSucceed: onSuccess,
-            onBadRequest: onError,
-            onFailToAuth: onError,
-            onError: onError,
-        };
-
-        JsonApi.request(req);
-    }
-
-    static signout(onSuccess: () => void = () => {}) {
-        signOut(firebaseAuth)
-            .then(() => {
-                const req = {
-                    actionKind: JsonApiRequestActionKind.Signout,
-                    parameters: {},
-                    onSucceed: onSuccess,
-                    onBadRequest: () => {},
-                    onFailToAuth: () => {},
-                    onError: () => {},
-                };
-
-                JsonApi.request(req);
-            });
+    static signout(onSuccess: () => void = () => {}, onError: () => void = () => {}) {
+        firebaseAuth.signOut()
+            .then(onSuccess)
+            .catch(onError);
     }
 
     static updateFontSettingTo(font: Font) {

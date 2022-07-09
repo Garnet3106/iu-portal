@@ -4,28 +4,41 @@ import { getRedirectResult, GoogleAuthProvider, User, UserCredential } from "fir
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import App from "../../App";
 import Localization from "../../../localization";
+import UiStore from "../../../flux/UiStore";
+import { ActionKind } from "../../../flux/AppConstants";
+import AppDispatcher from "../../../flux/AppDispatcher";
+import { UiActionCreators } from "../../../flux/UiActionCreators";
 import './Login.css';
 
-export const googleAccessTokenKey = 'g_token';
+initializeLoginPage();
+
+function initializeLoginPage() {
+    firebaseAuth.onAuthStateChanged((user: User | null) => {
+        console.log(user)
+
+        if (user === null) {
+            AppDispatcher.dispatch(UiActionCreators.failToSignin());
+            return;
+        }
+
+        App.initialize(user);
+    });
+
+    UiStore.addListener(() => {
+        const uiState = UiStore.getState();
+
+        switch (uiState.latestKind) {
+            case ActionKind.Signin:
+            case ActionKind.FailToSignin: {
+                App.hideLoadingScreen();
+            } break;
+        }
+    });
+}
 
 class Login extends React.Component<BodyProps> {
     constructor(props: BodyProps) {
         super(props);
-
-        getRedirectResult(firebaseAuth)
-            .then((credential: UserCredential | null) => {
-                if (credential === null) {
-                    App.hideLoadingScreen();
-                    return;
-                }
-
-                const googleCredential = GoogleAuthProvider.credentialFromResult(credential);
-                const token = googleCredential!.accessToken;
-                this.onSignin(credential.user, token);
-            })
-            .catch(() => {
-                console.warn('Trying to signin with cache...');
-            });
     }
 
     render() {
@@ -47,13 +60,6 @@ class Login extends React.Component<BodyProps> {
                 </div>
             </div>
         );
-    }
-
-    onSignin(user: User, googleAccessToken?: string) {
-        if (googleAccessToken !== undefined) {
-            document.cookie = `${googleAccessTokenKey}=${encodeURIComponent(googleAccessToken)}; path=/`;
-            App.initialize(user);
-        }
     }
 
     signinWithGoogle() {

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { BodyProps } from '../Body';
 import NotificationItem from './NotificationItem/NotificationItem';
-import Notification from '../../../notification';
+import { Notification } from "../../../assignment";
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import './NotificationList.css';

@@ -1,9 +1,8 @@
 import { ActionKind } from "./AppConstants";
 import UiStore from './UiStore';
-import { Assignment } from "../assignment";
+import { Assignment, Notification } from "../assignment";
 import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
 import Page, { defaultPage, pageList } from "../page";
-import Notification from "../notification";
 
 export type UiActionPayload = {
     kind: ActionKind,

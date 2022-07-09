@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { formatDate } from '../../../../assignment';
 import Localization from '../../../../localization';
-import Notification from '../../../../notification';
+import { Notification } from "../../../../assignment";
 import './NotificationItem.css';
 
 type NotificationItemProps = {

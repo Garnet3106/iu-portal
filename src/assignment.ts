@@ -67,3 +67,10 @@ export type Admin = {
     firebaseUid: string,
     nickname: string,
 };
+
+export type Notification = {
+    id: string | null,
+    kind: string,
+    date: Date | null,
+    description: string,
+}

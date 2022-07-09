@@ -4,13 +4,12 @@ import Body from './Body/Body';
 import BottomMenu from './BottomMenu/BottomMenu';
 import AppDispatcher from '../flux/AppDispatcher';
 import { UiActionCreators } from '../flux/UiActionCreators';
-import { apiResponseToAssignments, AssignmentStructureApiResponse, JsonApi, JsonApiRequestActionKind, toAssignmentStructureApiResponse } from '../jsonapi';
+import { apiResponseToAssignments, apiResponseToNotifications, AssignmentStructureApiResponse, JsonApi, JsonApiRequestActionKind, toAssignmentStructureApiResponse } from '../jsonapi';
 import requestNotificationRequest from './Body/NotificationList/request';
-import { notificationConvertors } from '../notification';
 import { getToken } from 'firebase/messaging';
 import { firebaseMessaging, firebaseVapidKey } from '../firebase/firebase';
 import { pageList, topPage } from '../page';
-import { deleteUser, User } from 'firebase/auth';
+import { User } from 'firebase/auth';
 import Settings from './Body/Settings/Settings';
 import UiStore from '../flux/UiStore';
 import { ActionKind } from '../flux/AppConstants';
@@ -62,7 +61,7 @@ class App extends React.Component<{}> {
         this._isMounted = false;
     }
 
-    static initialize(user?: User) {
+    static initialize(user: User) {
         // Initialize UI State.
         AppDispatcher.dispatch(UiActionCreators.getDefault());
 
@@ -75,12 +74,12 @@ class App extends React.Component<{}> {
                     vapidKey: firebaseVapidKey,
                 })
                     .then((registrationToken) => {
-                        console.info('Service Worker: Push notification registered.');
+                        console.info('Push notification is ready.');
                         document.cookie = `${fcmRegTokenKey}=${registrationToken}; path=/`;
                         App.signinDatabase(user);
                     })
                     .catch(() => {
-                        console.warn('Failed to initialize messaging feature.');
+                        console.error('Failed to initialize messaging feature.');
                         document.cookie = `${fcmRegTokenKey}=; max-age=0`;
                         App.signinDatabase(user);
                     });
@@ -105,39 +104,51 @@ class App extends React.Component<{}> {
         AppDispatcher.dispatch(UiActionCreators.updateSwitchTargetPage(targetPage));
     };
 
-    static signinDatabase(user?: User) {
+    static signinDatabase(user: User) {
+        const onFailToSignin = () => {
+            AppDispatcher.dispatch(UiActionCreators.failToSignin());
+        };
+
         const req = {
             actionKind: JsonApiRequestActionKind.Signin,
             parameters: {},
             onSucceed: (_req: XMLHttpRequest, response: any) => {
                 AppDispatcher.dispatch(UiActionCreators.signin());
-                App.hideLoadingScreen();
-                App.updateAssignments(response.contents.getAssignments);
-                App.updateNotifications(response.contents.getNotifications);
+                App.updateResponseData(response);
                 App.routePage();
             },
-            onBadRequest: () => {
-                AppDispatcher.dispatch(UiActionCreators.failToSignin());
-            },
+            onBadRequest: onFailToSignin,
             onFailToAuth: (_req: XMLHttpRequest, response: any) => {
-                if (user !== undefined && response.message === 'external_email_address_provided') {
-                    deleteUser(user)
-                        .then(() => {
-                            Settings.signout(() => {
-                                AppDispatcher.dispatch(UiActionCreators.failToSignin());
-                                alert(Localization.getMessage('signin.error.cannot_use_this_account'));
-                            });
-                        });
+                if (response.message === 'user_not_found') {
+                    const onAccountError = () => {
+                        alert(Localization.getMessage('signin.error.cannot_use_this_account'));
+                        onFailToSignin();
+                    };
+
+                    Settings.signout(onAccountError, () => {
+                        console.error('Failed to signout.');
+                        onAccountError();
+                    });
+                } else {
+                    onFailToSignin();
                 }
 
-                console.error('User Auth Error: Failed to auth.');
+                console.error('Failed to auth user.');
             },
-            onError: () => {
-                AppDispatcher.dispatch(UiActionCreators.failToSignin());
-            },
+            onError: onFailToSignin,
         };
 
-        JsonApi.request(req);
+        user.getIdToken()
+            .then((idToken: string) => {
+                const firebaseIdTokenKey = 'id_token';
+                // todo: encryption
+                document.cookie = `${firebaseIdTokenKey}=${encodeURIComponent(idToken)}; path=/`;
+                JsonApi.request(req);
+            })
+            .catch(() => {
+                console.error('Failed to get auth information.');
+                AppDispatcher.dispatch(UiActionCreators.failToSignin());
+            });
     }
 
     static hideLoadingScreen() {
@@ -149,24 +160,18 @@ class App extends React.Component<{}> {
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
             }, 300);
+        } else {
+            console.error('Couldn\'t hide loading screen.');
         }
     }
 
-    static updateAssignments(response: any) {
-        let assignments = apiResponseToAssignments(toAssignmentStructureApiResponse(response as AssignmentStructureApiResponse));
+    static updateResponseData(response: any) {
+        const apiResponse = toAssignmentStructureApiResponse(response as AssignmentStructureApiResponse);
+        const assignments = apiResponseToAssignments(apiResponse);
+        const notifications = apiResponseToNotifications(apiResponse);
         AppDispatcher.dispatch(UiActionCreators.updateAssignments(assignments));
-    }
-
-    static updateNotifications(response: any) {
-        if (response.status !== 200) {
-            console.error('Assignment Loading Error: Failed to get assignments.');
-        }
-
-        const notifications = response.contents.notifications.map((eachRawNotification: any) => notificationConvertors[eachRawNotification.kind](eachRawNotification));
         AppDispatcher.dispatch(UiActionCreators.updateNotifications(notifications));
     }
 }
-
-App.initialize();
 
 export default App;

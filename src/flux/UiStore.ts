@@ -4,7 +4,7 @@ import { ActionKind, Actions } from "./AppConstants";
 import { Assignment } from "../assignment";
 import { Font, Language, SettingValues } from "../App/Body/Settings/Settings";
 import Page, { defaultPage } from "../page";
-import Notification from "../notification";
+import { Notification } from "../assignment";
 
 export type UiState = {
     latestKind: ActionKind,

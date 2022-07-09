@@ -10,6 +10,11 @@ export const firebaseAuth = getAuth();
 export const firebaseMessaging = getMessaging(firebaseApp);
 export const firebaseVapidKey = 'BGmlnTnVr3Qv0YNMXhg5W2KeBGTUC2I5gQxc_UttlJefYeTBHbdRCamf8haT-O8J8fkGqUEaThvzeicmkZJVCvk';
 
+firebaseProvider.setCustomParameters({
+    prompt: 'select_account',
+});
+
+// todo: check
 setPersistence(firebaseAuth, browserLocalPersistence)
     .catch((error) => {
         alert(`${error.code}: ${error.message}`)
