@@ -49,8 +49,9 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
             return;
         }
 
-        const assignedFrom = assignment.assignedFrom !== undefined ? assignment.assignedFrom : '-';
-        const submitTo = assignment.submitTo !== undefined ? assignment.submitTo : '-';
+        console.log(assignment)
+        const assignmentPlatform = assignment.assignmentPlatform !== null ? assignment.assignmentPlatform : '-';
+        const submissionPlatform = assignment.submissionPlatform !== null ? assignment.submissionPlatform : '-';
 
         return (
             <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.name} style={this.props.bodyProps.style}>
@@ -77,7 +78,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                                     {Localization.getMessage('assignment_preview.assigned_from')}
                                 </div>
                                 <div className="preview-detail-content">
-                                    {assignedFrom}
+                                    {assignmentPlatform}
                                 </div>
                             </div>
                             <div className="preview-detail-arrow" />
@@ -86,7 +87,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                                     {Localization.getMessage('assignment_preview.submit_to')}
                                 </div>
                                 <div className="preview-detail-content">
-                                    {submitTo}
+                                    {submissionPlatform}
                                 </div>
                             </div>
                         </div>
