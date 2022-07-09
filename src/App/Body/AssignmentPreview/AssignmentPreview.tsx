@@ -51,7 +51,12 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
 
         console.log(assignment)
         const assignmentPlatform = assignment.assignmentPlatform !== null ? assignment.assignmentPlatform : '-';
+        const assignmentPlatformElement = assignment.assignmentLink === null ? (<>{assignmentPlatform}</>) :
+            (<a href={assignment.assignmentLink} rel="noopener noreferrer" target="_blank">{assignmentPlatform}</a>);
+
         const submissionPlatform = assignment.submissionPlatform !== null ? assignment.submissionPlatform : '-';
+        const submissionPlatformElement = assignment.submissionLink === null ? (<>{submissionPlatform}</>) :
+            (<a href={assignment.submissionLink} rel="noopener noreferrer" target="_blank">{submissionPlatform}</a>);
 
         return (
             <div className="AssignmentPreview body-component" id={this.props.bodyProps.page.name} style={this.props.bodyProps.style}>
@@ -78,7 +83,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                                     {Localization.getMessage('assignment_preview.assigned_from')}
                                 </div>
                                 <div className="preview-detail-content">
-                                    {assignmentPlatform}
+                                    {assignmentPlatformElement}
                                 </div>
                             </div>
                             <div className="preview-detail-arrow" />
@@ -87,7 +92,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                                     {Localization.getMessage('assignment_preview.submit_to')}
                                 </div>
                                 <div className="preview-detail-content">
-                                    {submissionPlatform}
+                                    {submissionPlatformElement}
                                 </div>
                             </div>
                         </div>
