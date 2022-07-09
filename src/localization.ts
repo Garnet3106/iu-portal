@@ -19,7 +19,7 @@ const messageList: LocalizationMessageList = {
                 jaKana: 'Google でさいんいん',
             },
             'email': {
-                enUs: 'Signin with E-Mail',
+                enUs: 'Signin with Email',
                 ja: 'Eメールでサインイン',
                 jaKana: 'いーめーるでさいんいん',
             },
@@ -272,40 +272,10 @@ const messageList: LocalizationMessageList = {
                 ja: 'サインアウトに失敗しました。',
                 jaKana: 'さいんあうとにしっぱいしました。',
             },
-            'this_google_account_is_incorrect': {
-                enUs: 'This Google account is incorrect. Please retry with another account.',
-                ja: 'この Google アカウントは異なります。他のアカウントで再度お試しください。',
-                jaKana: 'この Google あかうんとはことなります。ほかのあかうんとでまたおためしください。',
-            },
-            'do_you_really_suspend_use': {
-                enUs: 'Suspension of use will delete all information of your account. Do you continue?',
-                ja: '利用停止をすると登録情報や完了状況などのすべての情報が削除されます。続行しますか？',
-                jaKana: 'りようていしをすると、あかうんとのすべてのじょうほうがさくじょされます。つづけますか？',
-            },
-            'enter_your_student_id': {
-                enUs: (studentId: string) => `Please enter your student ID '${studentId}' to continue.`,
-                ja: (studentId: string) => `利用停止を続行するにはあなたの学籍番号 '${studentId}' を入力してください。`,
-                jaKana: (studentId: string) => `りようていしをつづけるには、あなたのがくせきばんごう '${studentId}' をにゅうりょくしてください。`,
-            },
-            'suspension_of_use_has_been_canceled': {
-                enUs: 'Suspension of use has been canceled.',
-                ja: '利用停止をキャンセルしました。',
-                jaKana: 'りようていしをきゃんせるしました。',
-            },
-            'student_id_is_incorrect': {
-                enUs: 'Student ID is incorrect, and suspension of use has been canceled.',
-                ja: '入力された学籍番号が異なるため利用停止をキャンセルしました。',
-                jaKana: 'にゅうりょくされたがくせきばんごうがことなるため、りようていしをきゃんせるしました。',
-            },
-            'suspension_of_use_completed_successfully': {
-                enUs: 'Suspension of use completed successfully. You can use this app again to signin later. Thank you for using iU Portal.',
-                ja: '利用停止が完了しました。今後サインインすることで再度アプリをご利用いただけます。iU Portal のご利用ありがとうございました。',
-                jaKana: 'りようていしがかんりょうしました。またさいんいんすることで、ふたたびあぷりをごりよういただけます。iU Portal のごりようありがとうございました。',
-            },
-            'could_not_suspend_use_due_to_server_error': {
-                enUs: 'We could not suspend use due to server error.',
-                ja: 'サーバエラーにより利用停止に失敗しました。',
-                jaKana: 'さーばえらーにより、りようていしにしっぱいしました。',
+            'please_contact_us_when_you_want_to_suspend_account': {
+                enUs: 'Please contact us when you want to suspend account. You can send us messages on the report form in app or email `contact@iu-portal.app`.',
+                ja: 'アカウントを停止したい場合は管理者にご連絡ください。アプリ内の報告フォームもしくはEメール `contact@iu-portal.app` にてメッセージを送信することができます。',
+                jaKana: 'あかうんとをていししたいときは、かんりしゃにごれんらくください。あぷりないのほうこくふぉーむもしくはいーめーる `contact@iu-portal.app` にてめっせーじをそうしんすることができます。',
             },
         },
     },
