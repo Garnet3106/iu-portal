@@ -7,9 +7,9 @@ import { UiActionCreators } from '../flux/UiActionCreators';
 import { apiResponseToAssignments, apiResponseToNotifications, AssignmentStructureApiResponse, JsonApi, JsonApiRequestActionKind, toAssignmentStructureApiResponse } from '../jsonapi';
 import requestNotificationRequest from './Body/NotificationList/request';
 import { getToken } from 'firebase/messaging';
-import { firebaseMessaging, firebaseVapidKey } from '../firebase/firebase';
+import { firebaseAuth, firebaseMessaging, firebaseVapidKey } from '../firebase/firebase';
 import { pageList, topPage } from '../page';
-import { User } from 'firebase/auth';
+import { getRedirectResult, User } from 'firebase/auth';
 import Settings from './Body/Settings/Settings';
 import UiStore from '../flux/UiStore';
 import { ActionKind } from '../flux/AppConstants';
@@ -138,16 +138,20 @@ class App extends React.Component<{}> {
             onError: onFailToSignin,
         };
 
-        user.getIdToken()
-            .then((idToken: string) => {
-                const firebaseIdTokenKey = 'id_token';
-                // todo: encryption
-                document.cookie = `${firebaseIdTokenKey}=${encodeURIComponent(idToken)}; path=/`;
-                JsonApi.request(req);
-            })
-            .catch(() => {
-                console.error('Failed to get auth information.');
-                AppDispatcher.dispatch(UiActionCreators.failToSignin());
+        // Wait for ID token update.
+        getRedirectResult(firebaseAuth)
+            .then(() => {
+                user.getIdToken()
+                    .then((idToken: string) => {
+                        const firebaseIdTokenKey = 'id_token';
+                        // todo: encryption
+                        document.cookie = `${firebaseIdTokenKey}=${encodeURIComponent(idToken)}; path=/`;
+                        JsonApi.request(req);
+                    })
+                    .catch(() => {
+                        console.error('Failed to get auth information.');
+                        AppDispatcher.dispatch(UiActionCreators.failToSignin());
+                    });
             });
     }
 

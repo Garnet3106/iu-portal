@@ -219,13 +219,12 @@ class Settings extends Component<BodyProps> {
 
     onClickSignoutItem() {
         if (window.confirm(Localization.getMessage('setting.message.do_you_really_signout'))) {
-            window.location.href = '/?page=Login';
-            // Settings.signout(() => {
-            //     alert(Localization.getMessage('setting.message.successfully_signed_out'));
-            //     window.location.reload();
-            // }, () => {
-            //     alert(Localization.getMessage('setting.message.signout_failed'));
-            // });
+            Settings.signout(() => {
+                alert(Localization.getMessage('setting.message.successfully_signed_out'));
+                window.location.reload();
+            }, () => {
+                alert(Localization.getMessage('setting.message.signout_failed'));
+            });
         }
     }
 

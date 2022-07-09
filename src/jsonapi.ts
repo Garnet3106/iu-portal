@@ -330,9 +330,10 @@ function apiResponseToAdmin(firebaseUid: string, admins: UuidAssoc<ApiResponseAd
 export function apiResponseToNotifications(response: AssociativeAssignmentStructureApiResponse): Notification[] {
     const notifications = response.contents.notifications;
 
-    return Object.entries(notifications).map((eachPair: [string, Notification]) => {
+    return notifications.map((eachNotificationId: string) => {
         // const eachNotification = notifications.at(uuid);
-        const [eachNotificationId, eachNotification] = eachPair;
+        const eachNotification = notifications.at(eachNotificationId);
+        console.log(eachNotification)
 
         return {
             id: eachNotificationId,

@@ -124,7 +124,7 @@ const messageList: LocalizationMessageList = {
     },
     'notification_list': {
         'kind': {
-            'new_assignment': {
+            'assignment_registration': {
                 enUs: 'New Assignment',
                 ja: '新しい課題',
                 jaKana: 'あたらしいかだい',
