@@ -170,10 +170,8 @@ class Report extends Component<BodyProps, ReportState> {
         JsonApi.request({
             actionKind: JsonApiRequestActionKind.Report,
             parameters: {
-                'report': {
-                    'kind': reportKindToStringName(kind),
-                    'message': msg,
-                }
+                'kind': reportKindToStringName(kind),
+                'message': msg,
             },
             onSucceed: onSucceed,
             onBadRequest: onFail,
