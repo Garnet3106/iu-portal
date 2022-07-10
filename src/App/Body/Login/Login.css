@@ -1,12 +1,31 @@
 .Login {
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-service {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 15vh;
+}
+
+.login-service-catchphrase {
+    font-size: 110%;
+    margin-bottom: 2px;
+}
+
+.login-service-name {
+    font-size: 150%;
 }
 
 .login {
     align-items: center;
     display: flex;
     flex-direction: column;
-    padding: calc(var(--layout-margin) * 2);
+    padding: 0 calc(var(--layout-margin) * 2);
     width: 100vw;
 }
 
@@ -22,10 +41,6 @@
     padding: 6px 10px;
     width: calc(85vw - (10px * 2));
 }
-
-/* .login-item:active {
-    background-color: ;
-} */
 
 .login-item:last-of-type {
     margin-bottom: 0;

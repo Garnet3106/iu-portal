@@ -42,6 +42,14 @@ class Login extends React.Component<BodyProps> {
     render() {
         return (
             <div className="Login body-component" id={this.props.page.name} style={this.props.style}>
+                <div className="login-service">
+                    <div className="login-service-catchphrase">
+                        {Localization.getMessage('service.catchphrase')}
+                    </div>
+                    <div className="login-service-name">
+                        {Localization.getMessage('service.name')}
+                    </div>
+                </div>
                 <div className="login">
                     <div className="login-item" onClick={this.signinWithGoogle.bind(this)}>
                         <div className="login-item-icon fab fa-google" />

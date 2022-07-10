@@ -11,6 +11,18 @@ export type LocalizationMessageList = {
 };
 
 const messageList: LocalizationMessageList = {
+    'service': {
+        'name': {
+            enUs: 'iU Portal',
+            ja: 'iU Portal',
+            jaKana: 'iU Portal',
+        },
+        'catchphrase': {
+            enUs: 'タスク帳いらずの提出物管理',
+            ja: 'タスク帳いらずの提出物管理',
+            jaKana: 'タスク帳いらずの提出物管理',
+        },
+    },
     'signin': {
         'with': {
             'google': {
