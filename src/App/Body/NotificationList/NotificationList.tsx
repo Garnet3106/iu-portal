@@ -63,7 +63,6 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
                 return 0;
             });
 
-            console.log(sortedNotifications)
             notifications = sortedNotifications.map((eachNotification: Notification) => 
                 (<NotificationItem notification={eachNotification} key={`notificationItem_${eachNotification.id}`} />));
         } else {

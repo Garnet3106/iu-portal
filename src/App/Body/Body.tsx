@@ -28,6 +28,7 @@ class Body extends Component<{}> {
     uiStoreListener: EventSubscription;
     static _detectDrag: boolean = false;
     static _touchStartX: number = 0;
+    static _touchStartY: number = 0;
 
     constructor(props: {}) {
         super(props);
@@ -57,6 +58,7 @@ class Body extends Component<{}> {
     onMouseDown(event: React.TouchEvent) {
         Body._detectDrag = true;
         Body._touchStartX = event.touches[0].clientX;
+        Body._touchStartY = event.touches[0].clientY;
     }
 
     onMouseUp() {
@@ -64,14 +66,17 @@ class Body extends Component<{}> {
     }
 
     onMouseMove(event: React.TouchEvent) {
-        // Does not swipe when operation with multiple fingers such as zooming.
-        if (Body._detectDrag && event.touches.length === 1) {
-            const diff = event.touches[0].clientX - Body._touchStartX;
-            const diffPivot = 30;
+        const touch = event.touches[0];
+        const diffPivot = 30;
+        const diffY = touch.clientY - Body._touchStartY;
 
-            if (diff > diffPivot) {
+        // No swiping when operation with vertical scroll or with multiple fingers such as zooming.
+        if (Body._detectDrag && event.touches.length === 1 && diffY < diffPivot) {
+            const diffX = touch.clientX - Body._touchStartX;
+
+            if (diffX > diffPivot) {
                 this.swipePage(false);
-            } else if (diff * -1 > diffPivot) {
+            } else if (diffX * -1 > diffPivot) {
                 this.swipePage(true);
             }
         }
