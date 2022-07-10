@@ -6,10 +6,9 @@ import { UiActionCreators } from '../../../flux/UiActionCreators';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import { pageList } from '../../../page';
-import { deleteUser, User } from 'firebase/auth';
 import { firebaseAuth } from '../../../firebase/firebase';
-import { JsonApi, JsonApiRequest, JsonApiRequestActionKind } from '../../../jsonapi';
 import Localization from '../../../localization';
+import { searchCookieValue, switchAccountKey } from '../../App';
 import './Settings.css';
 
 const tosUrl = '/privacypolicy';
@@ -56,29 +55,14 @@ export enum SettingValueKey {
     Font = 'font',
 }
 
-function searchSettingValuesByKey(settingKey: SettingValueKey): number | null {
-    const settingKeyString = `settings_${settingKey}`;
-    const cookiePairs = document.cookie.split('; ');
-    let settingValue: number | null = null;
-
-    cookiePairs.some((eachPair: string) => {
-        const [key, value] = eachPair.split('=');
-
-        if (key === settingKeyString) {
-            const parsingResult = Number(decodeURIComponent(value));
-            settingValue = parsingResult !== NaN ? parsingResult : null;
-            return true;
-        }
-
-        return false;
-    });
-
-    return settingValue;
+function getSettingValueOnCookie(key: SettingValueKey): number | null {
+    const value = Number(searchCookieValue(`settings_${key}`));
+    return value !== NaN ? value : null;
 }
 
 function loadSettingValuesFromCookie(): SettingValues {
-    const language = searchSettingValuesByKey(SettingValueKey.Language) as Language;
-    const font = searchSettingValuesByKey(SettingValueKey.Font) as Font;
+    const language = getSettingValueOnCookie(SettingValueKey.Language) as Language;
+    const font = getSettingValueOnCookie(SettingValueKey.Font) as Font;
 
     return {
         language: language !== null ? language : Language.Japanese,
@@ -218,13 +202,9 @@ class Settings extends Component<BodyProps> {
     }
 
     onClickSignoutItem() {
-        if (window.confirm(Localization.getMessage('setting.message.do_you_really_signout'))) {
-            Settings.signout(() => {
-                alert(Localization.getMessage('setting.message.successfully_signed_out'));
-                window.location.reload();
-            }, () => {
-                alert(Localization.getMessage('setting.message.signout_failed'));
-            });
+        if (window.confirm(Localization.getMessage('setting.message.do_you_really_switch_account'))) {
+            document.cookie = `${switchAccountKey}=true; path=/`;
+            window.location.reload();
         }
     }
 

@@ -16,19 +16,45 @@ import { ActionKind } from '../flux/AppConstants';
 import Localization from '../localization';
 import './App.css';
 
+export const switchAccountKey = 'switch_account';
+
+export function searchCookieValue(searchKey: string): string | null {
+    const cookiePairs = document.cookie.split('; ');
+    let matchedValue: string | null = null;
+
+    cookiePairs.some((eachPair: string) => {
+        const [key, value] = eachPair.split('=');
+
+        if (key === searchKey) {
+            matchedValue = decodeURIComponent(value);
+            return true;
+        }
+
+        return false;
+    });
+
+    return matchedValue;
+}
+
 class App extends React.Component<{}> {
     _isMounted: boolean;
+    _willForceUpdate: boolean;
     static loadingScreen: React.RefObject<HTMLDivElement> = createRef();
 
     constructor(props: {}) {
         super(props);
         this._isMounted = false;
+        this._willForceUpdate = false;
 
         UiStore.addListener(() => {
             const uiState = UiStore.getState();
 
-            if (this._isMounted && uiState.latestKind === ActionKind.UpdateSettingValues) {
-                this.forceUpdate();
+            if (uiState.latestKind === ActionKind.UpdateSettingValues) {
+                if (this._isMounted) {
+                    this.forceUpdate();
+                } else {
+                    this._willForceUpdate = true;
+                }
             }
         });
     }
@@ -55,6 +81,11 @@ class App extends React.Component<{}> {
 
     componentDidMount() {
         this._isMounted = true;
+
+        if (this._willForceUpdate) {
+            this.forceUpdate();
+            this._willForceUpdate = false;
+        }
     }
 
     componentWillUnmount() {
@@ -113,9 +144,15 @@ class App extends React.Component<{}> {
             actionKind: JsonApiRequestActionKind.Signin,
             parameters: {},
             onSucceed: (_req: XMLHttpRequest, response: any) => {
-                AppDispatcher.dispatch(UiActionCreators.signin());
-                App.updateResponseData(response);
-                App.routePage();
+                if (searchCookieValue(switchAccountKey) !== 'true') {
+                    App.updateResponseData(response);
+                    AppDispatcher.dispatch(UiActionCreators.signin());
+                    App.routePage();
+                } else {
+                    // Keep showing login page to let user switch account.
+                    AppDispatcher.dispatch(UiActionCreators.failToSignin());
+                    document.cookie = `${switchAccountKey}=; path=/`;
+                }
             },
             onBadRequest: onFailToSignin,
             onFailToAuth: (_req: XMLHttpRequest, response: any) => {

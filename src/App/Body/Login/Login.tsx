@@ -1,6 +1,6 @@
 import React from "react";
 import { BodyProps } from "../Body";
-import { getRedirectResult, GoogleAuthProvider, User, UserCredential } from "firebase/auth";
+import { User } from "firebase/auth";
 import { firebaseAuth, signInWithGoogle } from '../../../firebase/firebase';
 import App from "../../App";
 import Localization from "../../../localization";
@@ -14,6 +14,7 @@ initializeLoginPage();
 
 function initializeLoginPage() {
     firebaseAuth.onAuthStateChanged((user: User | null) => {
+        console.log(firebaseAuth.currentUser)
         if (user === null) {
             AppDispatcher.dispatch(UiActionCreators.failToSignin());
             return;

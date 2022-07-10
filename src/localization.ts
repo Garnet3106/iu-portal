@@ -257,20 +257,10 @@ const messageList: LocalizationMessageList = {
                 ja: '項目を選択してください。',
                 jaKana: 'こうもくをせんたくしてください。',
             },
-            'do_you_really_signout': {
-                enUs: 'Do you really signout?',
-                ja: 'サインアウトします。よろしいですか？',
-                jaKana: 'さいんあうとします。よろしいですか？',
-            },
-            'successfully_signed_out': {
-                enUs: 'Successfully signed-out.',
-                ja: '正常にサインアウトしました。',
-                jaKana: 'せいじょうにさいんあうとしました。',
-            },
-            'signout_failed': {
-                enUs: 'Signout failed.',
-                ja: 'サインアウトに失敗しました。',
-                jaKana: 'さいんあうとにしっぱいしました。',
+            'do_you_really_switch_account': {
+                enUs: 'Do you really switch account?',
+                ja: 'ログインページに戻ります。よろしいですか？',
+                jaKana: 'ろぐいんぺーじにもどります。よろしいですか？',
             },
             'please_contact_us_when_you_want_to_suspend_account': {
                 enUs: 'Please contact us when you want to suspend account. You can send us messages on the report form in app or email `contact@iu-portal.app`.',

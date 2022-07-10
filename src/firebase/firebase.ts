@@ -3,8 +3,7 @@ import { getMessaging } from 'firebase/messaging/sw';
 import { AuthError, getAuth, browserLocalPersistence, GoogleAuthProvider, setPersistence, UserCredential, signInWithRedirect } from "firebase/auth";
 import config from './config';
 
-const firebaseApp = initializeApp(config);
-
+export const firebaseApp = initializeApp(config);
 export const firebaseProvider = new GoogleAuthProvider();
 export const firebaseAuth = getAuth();
 export const firebaseMessaging = getMessaging(firebaseApp);
