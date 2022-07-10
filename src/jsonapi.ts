@@ -29,7 +29,7 @@ export const JsonApi = {
             try {
                 response = JSON.parse(xhr.responseText);
             } catch {
-                console.error('Assignment Loading Error: Failed to parse JSON code.');
+                console.error('Failed to parse server response as JSON.');
             }
 
             switch (response.status) {

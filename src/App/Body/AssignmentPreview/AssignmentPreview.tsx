@@ -49,7 +49,6 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
             return;
         }
 
-        console.log(assignment)
         const assignmentPlatform = assignment.assignmentPlatform !== null ? assignment.assignmentPlatform : '-';
         const assignmentPlatformElement = assignment.assignmentLink === null ? (<>{assignmentPlatform}</>) :
             (<a href={assignment.assignmentLink} rel="noopener noreferrer" target="_blank">{assignmentPlatform}</a>);
