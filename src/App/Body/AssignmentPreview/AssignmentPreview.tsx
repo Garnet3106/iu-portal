@@ -72,7 +72,7 @@ class AssignmentPreview extends Component<AssignmentPreviewProps, AssignmentPrev
                             {Localization.getMessage('assignment_preview.registrar')} {assignment.registrar.nickname} ({Localization.getMessage('assignment_preview.checked_by_n_admins', assignment.numberOfCheckers)})
                         </div>
                     </div>
-                    <div className="preview-detail-wrapper">
+                    <div>
                         <div className="preview-detail">
                             <div className="preview-detail-deadline">
                                 {formatDate(assignment.deadline, 'yyyy/M/d', Localization.getMessage('assignment_preview.no_deadline'))}

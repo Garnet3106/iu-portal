@@ -1,12 +1,14 @@
 .AssignmentPreview {
     align-items: center;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .preview {
     display: flex;
     justify-content: center;
+    margin-bottom: var(--horizontal-switcher-margin);
     width: 100vw;
 }
 
@@ -17,6 +19,8 @@
 
 .preview-left {
     margin-left: var(--layout-margin);
+    word-break: break-word;
+    width: 100vw;
 }
 
 .preview-description, .preview-note {
@@ -41,10 +45,6 @@
     margin-left: var(--basic-border-radius);
     margin-top: calc(var(--layout-margin) / 2);
     font-size: 80%;
-}
-
-.preview-detail-wrapper {
-    min-width: 35%;
 }
 
 .preview-detail {
@@ -80,6 +80,10 @@
 .preview-detail-content {
     font-size: 130%;
     text-align: center;
+}
+
+.preview-detail-content > a {
+    color: var(--sub-back-color);
 }
 
 .preview-detail-arrow {
