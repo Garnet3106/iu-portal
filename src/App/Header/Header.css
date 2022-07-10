@@ -1,15 +1,15 @@
 .Header {
+    align-items: center;
     background-color: var(--sub-back-color);
     display: flex;
     height: var(--header-height);
+    justify-content: center;
     user-select: none;
     width: 100%;
 }
 
-.logo-area {
-    width: var(--header-logo-width);
-}
-
-.side-area {
-    width: calc((100% - var(--header-logo-width)) / 2);
+.header-text {
+    font-size: 110%;
+    position: relative;
+    top: -.1em;
 }

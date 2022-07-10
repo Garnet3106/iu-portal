@@ -31,12 +31,10 @@
     --horizontal-switcher-margin: 20px;
     --display-order-bottom-margin: 5px;
 
-    --header-height: 45px;
+    --header-height: 40px;
     --body-height: calc(100vh - var(--header-height) - var(--bottom-menu-height));
     --bottom-menu-height: 45px;
     --bottom-menu-item-size: 20px;
-
-    --header-logo-width: 100px;
 
     --basic-border-radius: 10px;
 

@@ -1,14 +1,12 @@
+import Localization from '../../localization';
 import './Header.css';
 
 function Header() {
     return (
         <div className="Header">
-            <div className="side-area">
-            </div>
-            <div className="logo-area">
-                iU Portal
-            </div>
-            <div className="side-area">
+            {/* todo: add service logo */}
+            <div className="header-text">
+                {Localization.getMessage('service.name')}
             </div>
         </div>
     );
