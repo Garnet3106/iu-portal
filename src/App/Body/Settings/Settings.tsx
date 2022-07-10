@@ -6,7 +6,6 @@ import { UiActionCreators } from '../../../flux/UiActionCreators';
 import UiStore from '../../../flux/UiStore';
 import { ActionKind } from '../../../flux/AppConstants';
 import { pageList } from '../../../page';
-import { firebaseAuth } from '../../../firebase/firebase';
 import Localization from '../../../localization';
 import { searchCookieValue, switchAccountKey } from '../../App';
 import './Settings.css';
@@ -124,7 +123,7 @@ class Settings extends Component<BodyProps> {
                             {Localization.getMessage('setting.group.account')}
                         </div>
                         <div className="settings-group-items">
-                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.signout')} onClickItem={this.onClickSignoutItem}/>
+                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.switch_account')} onClickItem={this.onClickSwitchAccountItem}/>
                             <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.suspension_of_use')} onClickItem={this.onClickSuspensionItem}/>
                         </div>
                     </div>
@@ -201,21 +200,16 @@ class Settings extends Component<BodyProps> {
         window.open(licenseUrl, Localization.getMessage('setting.window_title.license'));
     }
 
-    onClickSignoutItem() {
+    onClickSwitchAccountItem() {
         if (window.confirm(Localization.getMessage('setting.message.do_you_really_switch_account'))) {
             document.cookie = `${switchAccountKey}=true; path=/`;
+            AppDispatcher.dispatch(UiActionCreators.signout());
             window.location.reload();
         }
     }
 
     onClickSuspensionItem() {
         alert(Localization.getMessage('setting.message.please_contact_us_when_you_want_to_suspend_account'));
-    }
-
-    static signout(onSuccess: () => void = () => {}, onError: () => void = () => {}) {
-        firebaseAuth.signOut()
-            .then(onSuccess)
-            .catch(onError);
     }
 
     static updateFontSettingTo(font: Font) {

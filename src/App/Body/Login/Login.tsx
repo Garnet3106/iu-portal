@@ -14,7 +14,6 @@ initializeLoginPage();
 
 function initializeLoginPage() {
     firebaseAuth.onAuthStateChanged((user: User | null) => {
-        console.log(firebaseAuth.currentUser)
         if (user === null) {
             AppDispatcher.dispatch(UiActionCreators.failToSignin());
             return;

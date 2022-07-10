@@ -162,10 +162,12 @@ class App extends React.Component<{}> {
                         onFailToSignin();
                     };
 
-                    Settings.signout(onAccountError, () => {
-                        console.error('Failed to signout.');
-                        onAccountError();
-                    });
+                    firebaseAuth.signOut()
+                        .then(onAccountError)
+                        .catch(() => {
+                            console.error('Failed to signout.');
+                            onAccountError();
+                        });
                 } else {
                     onFailToSignin();
                 }

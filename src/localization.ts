@@ -223,10 +223,10 @@ const messageList: LocalizationMessageList = {
                 ja: 'ライセンス',
                 jaKana: 'らいせんす',
             },
-            'signout': {
-                enUs: 'Signout',
-                ja: 'サインアウト',
-                jaKana: 'さいんあうと',
+            'switch_account': {
+                enUs: 'Switch Account',
+                ja: 'アカウント切り替え',
+                jaKana: 'あかうんときりかえ',
             },
             'suspension_of_use': {
                 enUs: 'Suspension of Use',
