@@ -14,6 +14,7 @@
     transition: opacity var(--page-switch-transition-duration);
     height: 100vh;
     justify-content: center;
+    user-select: none;
     width: 100vw;
     z-index: 100;
 }
