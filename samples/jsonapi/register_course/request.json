@@ -1,0 +1,14 @@
+{
+    "course": {
+        "code": "MK11220002",
+        "name": "マーケティング",
+        "electionKind": 0,
+        "numberOfCredits": 2,
+        "academicYear": 2022,
+        "grade": 1,
+        "semester": 0,
+        "teacherIds": [
+            "93732275-70ec-32aa-7161-00aa822d86f4"
+        ]
+    }
+}
