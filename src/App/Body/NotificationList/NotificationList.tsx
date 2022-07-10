@@ -40,7 +40,31 @@ class NotificationList extends Component<BodyProps, NotificationListState> {
         let notifications: JSX.Element[];
 
         if (this.state.notifications.length !== 0) {
-            notifications = this.state.notifications.map((eachNotification: Notification) => 
+            const sortedNotifications = this.state.notifications.sort((a: Notification, b: Notification) => {
+                if (a.date === null) {
+                    return -1;
+                }
+
+                if (b.date === null) {
+                    return 1;
+                }
+
+                const aTime = a.date.getTime();
+                const bTime = b.date.getTime();
+
+                if (aTime < bTime) {
+                    return -1;
+                }
+
+                if (aTime > bTime) {
+                    return 1;
+                }
+
+                return 0;
+            });
+
+            console.log(sortedNotifications)
+            notifications = sortedNotifications.map((eachNotification: Notification) => 
                 (<NotificationItem notification={eachNotification} key={`notificationItem_${eachNotification.id}`} />));
         } else {
             const initialNotification: Notification = {

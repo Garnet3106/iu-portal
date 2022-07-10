@@ -34,7 +34,7 @@
     width: calc((15px + 15px * 1.125) * 3);
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
 }
 
 .circles-to-rhombuses-spinner .circle {

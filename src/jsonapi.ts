@@ -329,7 +329,6 @@ export function apiResponseToNotifications(response: AssociativeAssignmentStruct
     const notifications = response.contents.notifications;
 
     return notifications.map((eachNotificationId: string) => {
-        // const eachNotification = notifications.at(uuid);
         const eachNotification = notifications.at(eachNotificationId);
 
         return {
