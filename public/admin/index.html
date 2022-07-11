@@ -8,39 +8,192 @@
         <title>iU Portal 管理画面</title>
     </head>
     <body>
-        <div className="header">
-            <div className="header-title">
+        <div class="header">
+            <div class="header-title">
             iU Portal 管理画面
             </div>
-            <div className="header-warning">
+            <div class="header-warning">
                 管理者以外の閲覧・操作は禁止されています。
             </div>
         </div>
-        <div className="main">
-            <div className="main-menu">
-                <div className="main-menu-item">
-                    <div className="main-menu-item-text">
+        <div class="main">
+            <div class="main-menu">
+                <div class="main-menu-item">
+                    <div class="main-menu-item-text">
+                        リクエスト送信
+                    </div>
+                </div>
+                <div class="main-menu-item">
+                    <div class="main-menu-item-text">
                         課題
                     </div>
                 </div>
-                <div className="main-menu-item">
-                    <div className="main-menu-item-text">
+                <div class="main-menu-item">
+                    <div class="main-menu-item-text">
                         講義
                     </div>
                 </div>
-                <div className="main-menu-item">
-                    <div className="main-menu-item-text">
+                <div class="main-menu-item">
+                    <div class="main-menu-item-text">
                         科目
                     </div>
                 </div>
-                <div className="main-menu-item">
-                    <div className="main-menu-item-text">
+                <div class="main-menu-item">
+                    <div class="main-menu-item-text">
                         教員
                     </div>
                 </div>
             </div>
-            <div className="main-content">
-                a
+            <div class="main-content">
+                <div class="request">
+                    <textarea id="" class="request-input"></textarea>
+                    <button class="request-send">送信</button>
+                </div>
+                <div class="assignment" style="display: none;">
+                    <input class="assignment-search" type="text">
+                    <div class="assignment-list">
+                        <div class="assignment-list-item">
+                            マーケティング 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            経営学基礎 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            マーケティング 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            経営学基礎 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            マーケティング 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            経営学基礎 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            マーケティング 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            経営学基礎 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            マーケティング 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            経営学基礎 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            マーケティング 第13回
+                        </div>
+                        <div class="assignment-list-item">
+                            経営学基礎 第13回
+                        </div>
+                    </div>
+                </div>
+                <div class="editor" style="display: none;">
+                    <div class="editor-title">
+                        マーケティング 第13回
+                    </div>
+                    <div class="editor-form">
+                        <div class="editor-form-item">
+                            <div class="editor-form-item-name">
+                                科目 / 講義
+                            </div>
+                            <div class="editor-form-item-data">
+                                <select class="editor-form-item-data" id="" style="width: 150px;">
+                                    <option value="">マーケティング</option>
+                                </select>
+                                <select class="editor-form-item-data" id="" style="width: 80px;">
+                                    <option value="">第1回</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="editor-form-item">
+                            <div class="editor-form-item-name">
+                                割り当て日
+                            </div>
+                            <div class="editor-form-item-data">
+                                <select class="editor-form-item-data" id="" style="width: 60px;">
+                                    <option value="2022">2022</option>
+                                </select>
+                                <div>
+                                    年
+                                </div>
+                                <select class="editor-form-item-data" id="" style="width: 40px;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                                <div>
+                                    月
+                                </div>
+                                <select class="editor-form-item-data" id="" style="width: 40px;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                                <div>
+                                    日
+                                </div>
+                            </div>
+                        </div>
+                        <div class="editor-form-item">
+                            <div class="editor-form-item-name">
+                                <div>
+                                    締切日
+                                </div>
+                                <input id="" type="checkbox">
+                            </div>
+                            <div class="editor-form-item-data">
+                                <select class="editor-form-item-data" id="" style="width: 60px;">
+                                    <option value="2022">2022</option>
+                                </select>
+                                <div>
+                                    年
+                                </div>
+                                <select class="editor-form-item-data" id="" style="width: 40px;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                                <div>
+                                    月
+                                </div>
+                                <select class="editor-form-item-data" id="" style="width: 40px;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                                <div>
+                                    日
+                                </div>
+                            </div>
+                        </div>
+                        <div class="editor-form-item">
+                            <div class="editor-form-item-name">
+                                割り当て元
+                            </div>
+                            <div class="editor-form-item-data">
+                                <input class="editor-form-item-data" id="" placeholder="プラフォ名" style="width: 80px;">
+                                <input class="editor-form-item-data" id="" placeholder="リンク" style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="editor-form-item">
+                            <div class="editor-form-item-name">
+                                提出先
+                            </div>
+                            <div class="editor-form-item-data">
+                                <input class="editor-form-item-data" id="" placeholder="プラフォ名" style="width: 80px;">
+                                <input class="editor-form-item-data" id="" placeholder="リンク" style="width: 150px;">
+                            </div>
+                        </div>
+                        <div class="editor-form-item">
+                            <div class="editor-form-item-name">
+                                課題説明
+                            </div>
+                            <div class="editor-form-item-data">
+                                <textarea class="editor-form-item-data" id="" placeholder="プラフォ名" style="width: 80px;">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
