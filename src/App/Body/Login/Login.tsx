@@ -35,10 +35,6 @@ function initializeLoginPage() {
 }
 
 class Login extends React.Component<BodyProps> {
-    constructor(props: BodyProps) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="Login body-component" id={this.props.page.name} style={this.props.style}>

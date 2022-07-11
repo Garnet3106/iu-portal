@@ -12,10 +12,6 @@ type AssignmentItemProps = {
 }
 
 class AssignmentItem extends React.Component<AssignmentItemProps> {
-    constructor(props: AssignmentItemProps) {
-        super(props); 
-    }
-
     render() {
         return (
             <div className="assignment-item" id={'assignmentItem_' + this.props.assignment.id} onClick={this.onClickItem.bind(this)}>

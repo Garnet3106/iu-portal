@@ -56,7 +56,7 @@ export enum SettingValueKey {
 
 function getSettingValueOnCookie(key: SettingValueKey): number | null {
     const value = Number(searchCookieValue(`settings_${key}`));
-    return value !== NaN ? value : null;
+    return !isNaN(value) ? value : null;
 }
 
 function loadSettingValuesFromCookie(): SettingValues {

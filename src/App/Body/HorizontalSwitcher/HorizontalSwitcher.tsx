@@ -9,10 +9,6 @@ export type HorizontalSwitcherProps = {
 };
 
 class HorizontalSwitcher extends Component<HorizontalSwitcherProps> {
-    constructor(props: HorizontalSwitcherProps) {
-        super(props);
-    }
-
     render() {
         const description = (
             <div className="switcher-description">

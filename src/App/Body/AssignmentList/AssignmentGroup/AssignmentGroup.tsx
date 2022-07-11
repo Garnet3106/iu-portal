@@ -11,10 +11,6 @@ type AssignmentGroupProps = {
 }
 
 class AssignmentGroup extends React.Component<AssignmentGroupProps> {
-    constructor(props: AssignmentGroupProps) {
-        super(props); 
-    }
-
     render() {
         let items: JSX.Element[] = [];
 
