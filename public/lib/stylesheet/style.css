@@ -131,3 +131,12 @@ body::-webkit-scrollbar {
 .main-list-item:last-of-type {
     margin-bottom: 0;
 }
+
+.main-caption {
+    font-size: 90%;
+    margin: 0 var(--layout-margin) 5px;
+}
+
+.main-caption:last-of-type {
+    margin-bottom: 0;
+}
