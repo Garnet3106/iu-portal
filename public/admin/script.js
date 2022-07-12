@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:8000/';
+const apiUrl = '/api/index.php';
 let hasInfoLoaded = false;
 
 window.addEventListener('load', () => {
@@ -16,7 +16,7 @@ window.addEventListener('load', () => {
         if (!hasInfoLoaded) {
             hasInfoLoaded = true;
 
-            const assignmentAcquirementUrl = apiUrl + 'get_assignments';
+            const assignmentAcquirementUrl = apiUrl + '/get_assignments';
 
             request(assignmentAcquirementUrl, (event) => {
                 renderInfoGroups(JSON.parse(event.target.responseText));
@@ -36,7 +36,7 @@ window.addEventListener('load', () => {
 function onClickRequestSendButton() {
     const kindElement = document.getElementById('requestKind');
     const bodyElement = document.getElementById('requestBody');
-    const url = `${apiUrl}${kindElement.value}?req=${encodeURIComponent(bodyElement.value)}`;
+    const url = `${apiUrl}/${kindElement.value}?req=${encodeURIComponent(bodyElement.value)}`;
 
     if (kindElement.value === '') {
         alert('種類を入力してください');
