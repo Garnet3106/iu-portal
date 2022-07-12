@@ -23,37 +23,24 @@
         </div>
         <div class="main">
             <div class="main-menu">
-                <div class="main-menu-item">
+                <div class="main-menu-item" id="mainMenu_requestButton">
                     <div class="main-menu-item-text">
-                        リクエスト送信
+                        登録情報
                     </div>
                 </div>
-                <div class="main-menu-item">
+                <div class="main-menu-item" id="mainMenu_infoButton">
                     <div class="main-menu-item-text">
-                        課題
-                    </div>
-                </div>
-                <div class="main-menu-item">
-                    <div class="main-menu-item-text">
-                        講義
-                    </div>
-                </div>
-                <div class="main-menu-item">
-                    <div class="main-menu-item-text">
-                        科目
-                    </div>
-                </div>
-                <div class="main-menu-item">
-                    <div class="main-menu-item-text">
-                        教員
+                        リク送信
                     </div>
                 </div>
             </div>
             <div class="main-content">
-                <div class="request">
+                <div class="request" id="request">
                     <input class="request-kind" id="requestKind"></textarea>
                     <textarea class="request-body" id="requestBody"></textarea>
                     <button class="request-send" id="requestSendButton">送信</button>
+                </div>
+                <div class="info" id="info" style="display: none;">
                 </div>
             </div>
         </div>

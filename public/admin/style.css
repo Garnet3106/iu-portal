@@ -1,4 +1,13 @@
+@font-face {
+    font-family: 'HP Simplified';
+    src: url('/public/fonts/HP Simplified.ttf');
+}
+
 :root {
+    --main-back-color: #60c45e;
+    --main-back-color-2: #d2f3d2;
+    --sub-back-color: #68a353;
+    --light-back-color: #ffffff;
     --border-color: #000000;
 
     --layout-margin: 20px;
@@ -14,7 +23,7 @@
 }
 
 body {
-    /* font-family: ; */
+    font-family: 'HP Simplified', sans-serif;
     margin: 0;
 }
 
@@ -36,6 +45,7 @@ input {
 }
 
 .header-warning {
+    color: #d93939;
     font-size: 90%;
 }
 
@@ -111,4 +121,58 @@ input {
 .request-send {
     height: 25px;
     width: 50px;
+}
+
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    overflow-y: scroll;
+    padding-top: var(--layout-margin);
+    scrollbar-width: 0;
+    width: 100%;
+}
+
+.info::-webkit-scrollbar {
+    display: none;
+}
+
+.info-group {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-group-title {
+    margin-bottom: 5px;
+}
+
+.info-group-list {
+    background-color: #e0f2e7;
+    display: flex;
+    margin: var(--layout-margin) 0;
+    overflow-x: scroll;
+    scrollbar-width: 0;
+    width: calc(100vw - var(--main-menu-width) - (var(--layout-margin) * 2));
+}
+
+.info-group-list::-webkit-scrollbar {
+    display: none;
+}
+
+.info-group-list-item {
+    display: flex;
+    flex-direction: column;
+    margin-right: 25px;
+}
+
+.info-group-list-item:last-of-type {
+    margin-right: 0;
+}
+
+.info-group-list-item-value {
+    height: 25px;
+    max-width: 500px;
+    overflow-x: hidden;
+    white-space: nowrap;
 }
