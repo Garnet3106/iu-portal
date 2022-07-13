@@ -235,6 +235,11 @@ const messageList: LocalizationMessageList = {
                 ja: 'ライセンス',
                 jaKana: 'らいせんす',
             },
+            'contact_form': {
+                enUs: 'Contact Form',
+                ja: 'お問い合わせフォーム',
+                jaKana: 'おといあわせふぉーむ',
+            },
             'switch_account': {
                 enUs: 'Switch Account',
                 ja: 'アカウント切り替え',
@@ -261,6 +266,11 @@ const messageList: LocalizationMessageList = {
                 enUs: 'iU Portal - License',
                 ja: 'iU Portal - ライセンス',
                 jaKana: 'iU Portal - らいせんす',
+            },
+            'contact_form': {
+                enUs: 'iU Portal - Contact Form',
+                ja: 'iU Portal - お問い合わせフォーム',
+                jaKana: 'iU Portal - おといあわせふぉーむ',
             },
         },
         'message': {

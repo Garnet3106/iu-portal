@@ -13,6 +13,7 @@ import './Settings.css';
 const tosUrl = '/tos';
 const privacyPolicyUrl = '/privacy_policy';
 const licenseUrl = '/license';
+const contactFormUrl = 'https://forms.gle/iZt4QhtBJnsVmiTg8';
 
 export enum Language {
     EnglishUs,
@@ -116,6 +117,7 @@ class Settings extends Component<BodyProps> {
                             <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.tos')} onClickItem={this.onClickTosItem}/>
                             <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.privacy_policy')} onClickItem={this.onClickPrivacyPolicyItem}/>
                             <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.licenses')} onClickItem={this.onClickLicenseItem}/>
+                            <SettingItem itemName="" itemValue={Localization.getMessage('setting.item.contact_form')} onClickItem={this.onClickContactFormItem}/>
                         </div>
                     </div>
                     <div className="settings-group">
@@ -198,6 +200,10 @@ class Settings extends Component<BodyProps> {
 
     onClickLicenseItem() {
         window.open(licenseUrl, Localization.getMessage('setting.window_title.license'));
+    }
+
+    onClickContactFormItem() {
+        window.open(contactFormUrl, Localization.getMessage('setting.window_title.contact_form'));
     }
 
     onClickSwitchAccountItem() {
