@@ -109,7 +109,7 @@ input {
     margin-top: 0;
     height: 400px;
     overflow: scroll;
-    scrollbar-width: 0;
+    scrollbar-width: none;
     white-space: nowrap;
     width: calc(100% - (var(--layout-margin) * 2));
 }
@@ -129,7 +129,7 @@ input {
     justify-content: space-around;
     overflow-y: scroll;
     padding-top: var(--layout-margin);
-    scrollbar-width: 0;
+    scrollbar-width: none;
     width: 100%;
 }
 
@@ -152,7 +152,7 @@ input {
     display: flex;
     margin: var(--layout-margin) 0;
     overflow-x: scroll;
-    scrollbar-width: 0;
+    scrollbar-width: none;
     width: calc(100vw - var(--main-menu-width) - (var(--layout-margin) * 2));
 }
 

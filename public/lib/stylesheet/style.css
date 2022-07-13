@@ -49,7 +49,7 @@ body {
     color: var(--light-font-color);
     font-family: var(--font-family);
     margin: 0;
-    scrollbar-width: 0;
+    scrollbar-width: none;
 }
 
 body::-webkit-scrollbar {

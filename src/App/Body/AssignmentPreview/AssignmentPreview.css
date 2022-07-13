@@ -3,7 +3,7 @@
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: scroll;
-    scrollbar-width: 0;
+    scrollbar-width: none;
 }
 
 .AssignmentPreview::-webkit-scrollbar {
