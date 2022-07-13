@@ -10,8 +10,8 @@ import Localization from '../../../localization';
 import { searchCookieValue, switchAccountKey } from '../../App';
 import './Settings.css';
 
-const tosUrl = '/privacypolicy';
-const privacyPolicyUrl = '/tos';
+const tosUrl = '/tos';
+const privacyPolicyUrl = '/privacy_policy';
 const licenseUrl = '/license';
 
 export enum Language {
