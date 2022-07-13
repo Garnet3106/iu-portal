@@ -177,13 +177,11 @@ class App extends React.Component<{}> {
             onError: onFailToSignin,
         };
 
-        // Wait for ID token update.
         getRedirectResult(firebaseAuth)
             .then(() => {
                 user.getIdToken()
                     .then((idToken: string) => {
                         const firebaseIdTokenKey = 'id_token';
-                        // todo: encryption
                         document.cookie = `${firebaseIdTokenKey}=${encodeURIComponent(idToken)}; path=/`;
                         JsonApi.request(req);
                     })

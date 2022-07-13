@@ -57,7 +57,6 @@ export const JsonApi = {
 
 export const subdataNames = ['assignments', 'courses', 'lectures', 'teachers', 'admins'];
 
-// todo: change to type alias
 export class UuidAssoc<Value> {
     private assoc: {
         [uuid: string]: Value,

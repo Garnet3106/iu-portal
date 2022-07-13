@@ -13,7 +13,6 @@ firebaseProvider.setCustomParameters({
     prompt: 'select_account',
 });
 
-// todo: check
 setPersistence(firebaseAuth, browserLocalPersistence)
     .catch((error) => {
         alert(`${error.code}: ${error.message}`)
