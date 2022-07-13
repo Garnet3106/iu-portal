@@ -12,7 +12,7 @@ import './Settings.css';
 
 const tosUrl = '/tos';
 const privacyPolicyUrl = '/privacy_policy';
-const licenseUrl = '/license';
+const licenseUrl = '/licenses';
 const contactFormUrl = 'https://forms.gle/iZt4QhtBJnsVmiTg8';
 
 export enum Language {
