@@ -1,5 +1,5 @@
 const config = {
-    dbUrl: 'http://localhost:8000',
+    dbUrl: '/api/index.php',
 };
 
 export default config;
